@@ -1,0 +1,1217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Ayoub Idel - Backend Engineer & Cloud Architect specializing in Golang, Rust, AWS, and Kubernetes">
+    <meta name="keywords" content="Backend Engineer, Cloud Architect, Golang, Rust, AWS, Kubernetes, Blockchain">
+    <meta name="author" content="Ayoub Idel">
+
+    <title>Ayoub Idel | Backend Engineer & Cloud Architect</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/animations.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+</head>
+<body>
+    <div class="cursor-follower"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="#home" class="nav-logo">
+                <span class="logo-bracket">{</span>
+                <span class="logo-text">Ayoub</span>
+                <span class="logo-bracket">}</span>
+            </a>
+
+            <button class="nav-toggle" aria-label="Toggle navigation">
+                <span class="hamburger"></span>
+            </button>
+
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link active">Home</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#experience" class="nav-link">Experience</a></li>
+                <li><a href="#education" class="nav-link">Education</a></li>
+                <li><a href="#skills" class="nav-link">Skills</a></li>
+                <li><a href="#projects" class="nav-link">Projects</a></li>
+                <li><a href="#blog" class="nav-link">Blog</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+
+            <div class="nav-actions">
+                <a href="assets/cv.pdf" download class="btn btn-primary btn-download">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"></path>
+                    </svg>
+                    Download CV
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-bg">
+            <div class="grid-pattern"></div>
+            <div class="gradient-orb gradient-orb-1"></div>
+            <div class="gradient-orb gradient-orb-2"></div>
+        </div>
+
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1 class="hero-name">Ayoub Idel</h1>
+
+                <div class="hero-title">
+                    <span class="title-static">Backend Engineer & Cloud Architect</span>
+                </div>
+
+                <p class="hero-description">
+                    Building high-performance distributed systems with Golang and Rust.
+                    Designing scalable cloud architectures on AWS and Kubernetes.
+                    Passionate about blockchain technology and system optimization.
+                </p>
+
+                <div class="hero-cta">
+                    <a href="#contact" class="btn btn-primary">
+                        <span>Get in Touch</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"></path>
+                        </svg>
+                    </a>
+                    <a href="#projects" class="btn btn-secondary">
+                        <span>View Projects</span>
+                    </a>
+                </div>
+
+                <div class="hero-social">
+                    <a href="https://github.com/pskshksh" target="_blank" rel="noopener" class="social-link" aria-label="GitHub">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                        </svg>
+                    </a>
+                    <a href="https://linkedin.com/in/ayoubidel/" target="_blank" rel="noopener" class="social-link" aria-label="LinkedIn">
+                        <svg viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                        </svg>
+                    </a>
+                    <a href="mailto:ayoubidel64@gmail.com" class="social-link" aria-label="Email">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                            <polyline points="22,6 12,13 2,6"></polyline>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
+            <div class="hero-visual">
+                <div class="code-window">
+                    <div class="window-header">
+                        <div class="window-dots">
+                            <span class="dot red"></span>
+                            <span class="dot yellow"></span>
+                            <span class="dot green"></span>
+                        </div>
+                        <span class="window-title">profile.go</span>
+                    </div>
+                    <div class="window-content">
+                        <pre><code><span class="code-keyword">package</span> <span class="code-variable">main</span>
+
+<span class="code-keyword">type</span> <span class="code-variable">Engineer</span> <span class="code-keyword">struct</span> {
+    <span class="code-property">Name</span>     <span class="code-string">string</span>
+    <span class="code-property">Role</span>     <span class="code-string">string</span>
+    <span class="code-property">Location</span> <span class="code-string">string</span>
+    <span class="code-property">Skills</span>   []<span class="code-string">string</span>
+}
+
+<span class="code-keyword">var</span> <span class="code-variable">me</span> = <span class="code-variable">Engineer</span>{
+    <span class="code-property">Name</span>:     <span class="code-string">"Ayoub Idel"</span>,
+    <span class="code-property">Role</span>:     <span class="code-string">"Backend & Cloud"</span>,
+    <span class="code-property">Location</span>: <span class="code-string">"Paris, France"</span>,
+    <span class="code-property">Skills</span>:   []<span class="code-string">string</span>{
+        <span class="code-string">"Golang"</span>, <span class="code-string">"Rust"</span>,
+        <span class="code-string">"AWS"</span>, <span class="code-string">"Kubernetes"</span>,
+    },
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="scroll-indicator">
+            <span>Scroll to explore</span>
+            <div class="scroll-arrow">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 5v14M5 12l7 7 7-7"></path>
+                </svg>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="section about">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">&lt;about&gt;</span>
+                <h2 class="section-title">About Me</h2>
+            </div>
+
+            <div class="about-content">
+                <div class="about-image">
+                    <div class="image-frame">
+                        <img src="assets/profile/luffy.png" alt="Ayoub Idel" class="profile-photo" onerror="this.parentElement.innerHTML='<div class=\'image-placeholder\'><svg viewBox=\'0 0 24 24\' fill=\'none\' stroke=\'currentColor\' stroke-width=\'1.5\'><path d=\'M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2\'></path><circle cx=\'12\' cy=\'7\' r=\'4\'></circle></svg><span>Your Photo</span></div>'">
+                    </div>
+                    <div class="image-decoration"></div>
+                </div>
+
+                <div class="about-text">
+                    <h3 class="about-headline">
+                        <span class="highlight">Backend Engineer & Cloud Architect</span> based in Paris, France.
+                    </h3>
+
+                    <p>
+                        I specialize in designing scalable cloud architectures and building high-performance
+                        backend services. With strong expertise in Golang, AWS, and Kubernetes, I focus on
+                        delivering robust systems that handle real-world challenges at scale. I love Rust
+                        and enjoy developing with it for systems programming and blockchain projects.
+                    </p>
+
+                    <p>
+                        Educated at CPGE in Le Havre and graduated from an engineering school in Tours.
+                        I'm passionate about blockchain technology and always exploring new ways to build
+                        efficient distributed systems. Outside of coding, I love playing football and padel,
+                        and I'm an avid traveler having explored 37 countries across Europe, Africa, and Asia.
+                    </p>
+
+                    <blockquote class="about-quote">
+                        "First, solve the problem. Then, write the code." — John Johnson
+                    </blockquote>
+
+                    <div class="about-stats">
+                        <div class="stat">
+                            <span class="stat-number" data-count="6">0</span>
+                            <span class="stat-label">Years Experience</span>
+                        </div>
+                        <div class="stat">
+                            <span class="stat-number" data-count="37">0</span>
+                            <span class="stat-label">Countries Visited</span>
+                        </div>
+                    </div>
+
+                    <div class="about-cta">
+                        <a href="#contact" class="btn btn-primary">Let's Work Together</a>
+                        <a href="assets/cv.pdf" download class="btn btn-outline">Download Resume</a>
+                    </div>
+                </div>
+            </div>
+
+            <span class="section-tag section-tag-close">&lt;/about&gt;</span>
+        </div>
+    </section>
+
+    <!-- Experience Section -->
+    <section id="experience" class="section experience">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">&lt;experience&gt;</span>
+                <h2 class="section-title">Work Experience</h2>
+            </div>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-marker">
+                        <img src="assets/companies/imagino.svg" alt="Imagino" class="company-logo">
+                    </div>
+                    <div class="timeline-content">
+                        <div class="timeline-header">
+                            <h3 class="timeline-title">Software Engineer</h3>
+                            <span class="timeline-company">Imagino</span>
+                        </div>
+                        <span class="timeline-date">Apr 2024 - Present</span>
+                        <p class="timeline-description">
+                            Building a next-gen Customer Data Platform (CDP/CEP) enabling enterprises to unify data
+                            and activate it across channels in real time. Designing microservices in Go, maintaining
+                            Kubernetes clusters on Azure, and leading a multi-person team.
+                        </p>
+                        <div class="timeline-tags">
+                            <span class="tag">Golang</span>
+                            <span class="tag">Kubernetes</span>
+                            <span class="tag">Azure</span>
+                            <span class="tag">PostgreSQL</span>
+                            <span class="tag">ClickHouse</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker">
+                        <img src="assets/companies/addict-mobile.png" alt="Addict Mobile" class="company-logo">
+                    </div>
+                    <div class="timeline-content">
+                        <div class="timeline-header">
+                            <h3 class="timeline-title">Cloud Architect & Software Engineer</h3>
+                            <span class="timeline-company">Addict Mobile Technology</span>
+                        </div>
+                        <span class="timeline-date">Feb 2020 - Apr 2024</span>
+                        <p class="timeline-description">
+                            Designed scalable backend architectures on AWS with focus on high availability
+                            and serverless solutions. Built infrastructure as code projects using AWS CDK
+                            and implemented robust CI/CD pipelines for automated deployments.
+                        </p>
+                        <div class="timeline-tags">
+                            <span class="tag">AWS</span>
+                            <span class="tag">Golang</span>
+                            <span class="tag">AWS CDK</span>
+                            <span class="tag">Serverless</span>
+                            <span class="tag">Docker</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker">
+                        <img src="assets/companies/astek.png" alt="Astek" class="company-logo">
+                    </div>
+                    <div class="timeline-content">
+                        <div class="timeline-header">
+                            <h3 class="timeline-title">Backend Developer</h3>
+                            <span class="timeline-company">Astek</span>
+                        </div>
+                        <span class="timeline-date">Aug 2019 - Feb 2020</span>
+                        <p class="timeline-description">
+                            Participated in migrating internal microservices from REST to gRPC to enhance
+                            performance and scalability. Implemented gRPC communication layer in Golang,
+                            improving latency and throughput under high load.
+                        </p>
+                        <div class="timeline-tags">
+                            <span class="tag">Golang</span>
+                            <span class="tag">gRPC</span>
+                            <span class="tag">Docker</span>
+                            <span class="tag">Microservices</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker">
+                        <img src="assets/companies/edf.svg" alt="EDF" class="company-logo">
+                    </div>
+                    <div class="timeline-content">
+                        <div class="timeline-header">
+                            <h3 class="timeline-title">Backend Developer (Internship)</h3>
+                            <span class="timeline-company">EDF - Corsica Project</span>
+                        </div>
+                        <span class="timeline-date">Feb 2018 - Aug 2018</span>
+                        <p class="timeline-description">
+                            Improved issue reporting processes for hydroelectric and wind power plants.
+                            Developed backend features with Java Spring MVC and Oracle DB.
+                        </p>
+                        <div class="timeline-tags">
+                            <span class="tag">Java</span>
+                            <span class="tag">Spring MVC</span>
+                            <span class="tag">Oracle</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Certification -->
+            <div class="education-section">
+                <h3 class="subsection-title">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                    </svg>
+                    Certification (In Progress)
+                </h3>
+
+                <div class="education-cards">
+                    <div class="education-card">
+                        <div class="education-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                            </svg>
+                        </div>
+                        <div class="education-info">
+                            <h4>AWS Certified Solutions Architect - Professional</h4>
+                            <span class="education-school">Amazon Web Services</span>
+                            <span class="education-year">Preparing</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <span class="section-tag section-tag-close">&lt;/experience&gt;</span>
+        </div>
+    </section>
+
+    <!-- Education Section -->
+    <section id="education" class="section education">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">&lt;education&gt;</span>
+                <h2 class="section-title">Education</h2>
+            </div>
+
+            <div class="timeline education-timeline-styled">
+                <div class="timeline-item">
+                    <div class="timeline-marker">
+                        <img src="assets/companies/polytech-tours.svg" alt="Polytech Tours" class="company-logo">
+                    </div>
+                    <div class="timeline-content">
+                        <div class="timeline-header">
+                            <h3 class="timeline-title">Engineering Degree in Computer Science</h3>
+                            <span class="timeline-company">Polytech Tours</span>
+                        </div>
+                        <span class="timeline-date">2016 - 2019 · Tours, France</span>
+                        <p class="timeline-description">
+                            Specialized in software engineering and distributed systems.
+                            Focused on backend development, algorithms, and system architecture.
+                        </p>
+                        <div class="timeline-tags">
+                            <span class="tag">Software Engineering</span>
+                            <span class="tag">Distributed Systems</span>
+                            <span class="tag">Algorithms</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker">
+                        <img src="assets/companies/lycee-francois1er.svg" alt="Lycée François 1er" class="company-logo">
+                    </div>
+                    <div class="timeline-content">
+                        <div class="timeline-header">
+                            <h3 class="timeline-title">CPGE - Classes Préparatoires</h3>
+                            <span class="timeline-company">Lycée François 1er</span>
+                        </div>
+                        <span class="timeline-date">2014 - 2016 · Le Havre, France</span>
+                        <p class="timeline-description">
+                            Intensive two-year preparatory program in Mathematics, Physics, and Engineering Sciences.
+                            Rigorous training developing strong analytical and problem-solving skills.
+                        </p>
+                        <div class="timeline-tags">
+                            <span class="tag">Mathematics</span>
+                            <span class="tag">Physics</span>
+                            <span class="tag">Engineering Sciences</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <span class="section-tag section-tag-close">&lt;/education&gt;</span>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="section skills">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">&lt;skills&gt;</span>
+                <h2 class="section-title">Technical Skills</h2>
+            </div>
+
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <h3 class="category-title">
+                        <span class="category-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="16 18 22 12 16 6"></polyline>
+                                <polyline points="8 6 2 12 8 18"></polyline>
+                            </svg>
+                        </span>
+                        Languages
+                    </h3>
+                    <div class="skill-items">
+                        <div class="skill-item" data-skill="Golang">
+                            <div class="skill-icon">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/go/go-original-wordmark.svg" alt="Golang">
+                            </div>
+                            <span class="skill-name">Golang</span>
+                        </div>
+                        <div class="skill-item" data-skill="Rust">
+                            <div class="skill-icon">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/rust/rust-original.svg" alt="Rust">
+                            </div>
+                            <span class="skill-name">Rust</span>
+                        </div>
+                        <div class="skill-item" data-skill="Java">
+                            <div class="skill-icon">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" alt="Java">
+                            </div>
+                            <span class="skill-name">Java</span>
+                        </div>
+                        <div class="skill-item" data-skill="C/C++">
+                            <div class="skill-icon">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/cplusplus/cplusplus-original.svg" alt="C++">
+                            </div>
+                            <span class="skill-name">C/C++</span>
+                        </div>
+                        <div class="skill-item" data-skill="Python">
+                            <div class="skill-icon">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" alt="Python">
+                            </div>
+                            <span class="skill-name">Python</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <h3 class="category-title">
+                        <span class="category-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path>
+                            </svg>
+                        </span>
+                        Cloud & Infrastructure
+                    </h3>
+                    <div class="skill-items">
+                        <div class="skill-item" data-skill="AWS">
+                            <div class="skill-icon">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-plain-wordmark.svg" alt="AWS">
+                            </div>
+                            <span class="skill-name">AWS</span>
+                        </div>
+                        <div class="skill-item" data-skill="Azure">
+                            <div class="skill-icon">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/azure/azure-original.svg" alt="Azure">
+                            </div>
+                            <span class="skill-name">Azure</span>
+                        </div>
+                        <div class="skill-item" data-skill="GCP">
+                            <div class="skill-icon">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/googlecloud/googlecloud-original.svg" alt="GCP">
+                            </div>
+                            <span class="skill-name">GCP</span>
+                        </div>
+                        <div class="skill-item" data-skill="Terraform">
+                            <div class="skill-icon">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/terraform/terraform-original.svg" alt="Terraform">
+                            </div>
+                            <span class="skill-name">Terraform</span>
+                        </div>
+                        <div class="skill-item" data-skill="AWS CDK">
+                            <div class="skill-icon">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/amazonwebservices/amazonwebservices-plain-wordmark.svg" alt="AWS CDK">
+                            </div>
+                            <span class="skill-name">AWS CDK</span>
+                        </div>
+                        <div class="skill-item" data-skill="Serverless">
+                            <div class="skill-icon">
+                                <svg viewBox="0 0 24 24" fill="currentColor" style="width: 24px; height: 24px; color: var(--accent-primary);">
+                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                </svg>
+                            </div>
+                            <span class="skill-name">Serverless</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <h3 class="category-title">
+                        <span class="category-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                                <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                                <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                            </svg>
+                        </span>
+                        Containers & Orchestration
+                    </h3>
+                    <div class="skill-items">
+                        <div class="skill-item" data-skill="Kubernetes">
+                            <div class="skill-icon">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/kubernetes/kubernetes-plain.svg" alt="Kubernetes">
+                            </div>
+                            <span class="skill-name">Kubernetes</span>
+                        </div>
+                        <div class="skill-item" data-skill="Docker">
+                            <div class="skill-icon">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" alt="Docker">
+                            </div>
+                            <span class="skill-name">Docker</span>
+                        </div>
+                        <div class="skill-item" data-skill="Helm">
+                            <div class="skill-icon">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/helm/helm-original.svg" alt="Helm">
+                            </div>
+                            <span class="skill-name">Helm</span>
+                        </div>
+                        <div class="skill-item" data-skill="ArgoCD">
+                            <div class="skill-icon">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/argocd/argocd-original.svg" alt="ArgoCD">
+                            </div>
+                            <span class="skill-name">ArgoCD</span>
+                        </div>
+                        <div class="skill-item" data-skill="Linux">
+                            <div class="skill-icon">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linux/linux-original.svg" alt="Linux">
+                            </div>
+                            <span class="skill-name">Linux</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <h3 class="category-title">
+                        <span class="category-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
+                                <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
+                                <line x1="6" y1="6" x2="6.01" y2="6"></line>
+                                <line x1="6" y1="18" x2="6.01" y2="18"></line>
+                            </svg>
+                        </span>
+                        Databases & Messaging
+                    </h3>
+                    <div class="skill-items">
+                        <div class="skill-item" data-skill="PostgreSQL">
+                            <div class="skill-icon">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" alt="PostgreSQL">
+                            </div>
+                            <span class="skill-name">PostgreSQL</span>
+                        </div>
+                        <div class="skill-item" data-skill="MongoDB">
+                            <div class="skill-icon">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/mongodb/mongodb-original.svg" alt="MongoDB">
+                            </div>
+                            <span class="skill-name">MongoDB</span>
+                        </div>
+                        <div class="skill-item" data-skill="Redis">
+                            <div class="skill-icon">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/redis/redis-original.svg" alt="Redis">
+                            </div>
+                            <span class="skill-name">Redis</span>
+                        </div>
+                        <div class="skill-item" data-skill="Kafka">
+                            <div class="skill-icon">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/apachekafka/apachekafka-original.svg" alt="Kafka">
+                            </div>
+                            <span class="skill-name">Kafka</span>
+                        </div>
+                        <div class="skill-item" data-skill="ClickHouse">
+                            <div class="skill-icon">
+                                <svg viewBox="0 0 24 24" fill="currentColor" style="width: 24px; height: 24px; color: var(--accent-primary);">
+                                    <rect x="3" y="3" width="4" height="18" rx="1"/>
+                                    <rect x="10" y="3" width="4" height="18" rx="1"/>
+                                    <rect x="17" y="3" width="4" height="10" rx="1"/>
+                                </svg>
+                            </div>
+                            <span class="skill-name">ClickHouse</span>
+                        </div>
+                        <div class="skill-item" data-skill="Elasticsearch">
+                            <div class="skill-icon">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/elasticsearch/elasticsearch-original.svg" alt="Elasticsearch">
+                            </div>
+                            <span class="skill-name">Elasticsearch</span>
+                        </div>
+                        <div class="skill-item" data-skill="DuckDB">
+                            <div class="skill-icon">
+                                <svg viewBox="0 0 24 24" fill="currentColor" style="width: 24px; height: 24px; color: var(--accent-primary);">
+                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 15v-4H8l4-6v4h3l-4 6z"/>
+                                </svg>
+                            </div>
+                            <span class="skill-name">DuckDB</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <h3 class="category-title">
+                        <span class="category-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <line x1="2" y1="12" x2="22" y2="12"></line>
+                                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                            </svg>
+                        </span>
+                        APIs & Protocols
+                    </h3>
+                    <div class="skill-items">
+                        <div class="skill-item" data-skill="gRPC">
+                            <div class="skill-icon">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/grpc/grpc-original.svg" alt="gRPC">
+                            </div>
+                            <span class="skill-name">gRPC</span>
+                        </div>
+                        <div class="skill-item" data-skill="GraphQL">
+                            <div class="skill-icon">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/graphql/graphql-plain.svg" alt="GraphQL">
+                            </div>
+                            <span class="skill-name">GraphQL</span>
+                        </div>
+                        <div class="skill-item" data-skill="REST">
+                            <div class="skill-icon">
+                                <svg viewBox="0 0 24 24" fill="currentColor" style="width: 24px; height: 24px; color: var(--accent-primary);">
+                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+                                </svg>
+                            </div>
+                            <span class="skill-name">REST APIs</span>
+                        </div>
+                        <div class="skill-item" data-skill="WebSockets">
+                            <div class="skill-icon">
+                                <svg viewBox="0 0 24 24" fill="currentColor" style="width: 24px; height: 24px; color: var(--accent-primary);">
+                                    <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V8l8 5 8-5v10zm-8-7L4 6h16l-8 5z"/>
+                                </svg>
+                            </div>
+                            <span class="skill-name">WebSockets</span>
+                        </div>
+                        <div class="skill-item" data-skill="Protobuf">
+                            <div class="skill-icon">
+                                <svg viewBox="0 0 24 24" fill="currentColor" style="width: 24px; height: 24px; color: var(--accent-primary);">
+                                    <path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm-1 7V3.5L18.5 9H13z"/>
+                                </svg>
+                            </div>
+                            <span class="skill-name">Protobuf</span>
+                        </div>
+                        <div class="skill-item" data-skill="OpenAPI">
+                            <div class="skill-icon">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/openapi/openapi-original.svg" alt="OpenAPI">
+                            </div>
+                            <span class="skill-name">OpenAPI</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="skill-category">
+                    <h3 class="category-title">
+                        <span class="category-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+                                <path d="M2 17l10 5 10-5"></path>
+                                <path d="M2 12l10 5 10-5"></path>
+                            </svg>
+                        </span>
+                        Monitoring & Observability
+                    </h3>
+                    <div class="skill-items">
+                        <div class="skill-item" data-skill="Grafana">
+                            <div class="skill-icon">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/grafana/grafana-original.svg" alt="Grafana">
+                            </div>
+                            <span class="skill-name">Grafana</span>
+                        </div>
+                        <div class="skill-item" data-skill="Prometheus">
+                            <div class="skill-icon">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/prometheus/prometheus-original.svg" alt="Prometheus">
+                            </div>
+                            <span class="skill-name">Prometheus</span>
+                        </div>
+                        <div class="skill-item" data-skill="Datadog">
+                            <div class="skill-icon">
+                                <svg viewBox="0 0 24 24" fill="currentColor" style="width: 24px; height: 24px; color: var(--accent-primary);">
+                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                                </svg>
+                            </div>
+                            <span class="skill-name">Datadog</span>
+                        </div>
+                        <div class="skill-item" data-skill="Jaeger">
+                            <div class="skill-icon">
+                                <svg viewBox="0 0 24 24" fill="currentColor" style="width: 24px; height: 24px; color: var(--accent-primary);">
+                                    <path d="M12 2L4 5v6.09c0 5.05 3.41 9.76 8 10.91 4.59-1.15 8-5.86 8-10.91V5l-8-3z"/>
+                                </svg>
+                            </div>
+                            <span class="skill-name">Jaeger</span>
+                        </div>
+                        <div class="skill-item" data-skill="ELK Stack">
+                            <div class="skill-icon">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/elasticsearch/elasticsearch-original.svg" alt="ELK">
+                            </div>
+                            <span class="skill-name">ELK Stack</span>
+                        </div>
+                        <div class="skill-item" data-skill="OpenTelemetry">
+                            <div class="skill-icon">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/opentelemetry/opentelemetry-original.svg" alt="OpenTelemetry">
+                            </div>
+                            <span class="skill-name">OpenTelemetry</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="skill-category blockchain-category">
+                    <h3 class="category-title">
+                        <span class="category-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="3" width="7" height="7" rx="1"></rect>
+                                <rect x="14" y="3" width="7" height="7" rx="1"></rect>
+                                <rect x="3" y="14" width="7" height="7" rx="1"></rect>
+                                <rect x="14" y="14" width="7" height="7" rx="1"></rect>
+                                <line x1="10" y1="6.5" x2="14" y2="6.5"></line>
+                                <line x1="10" y1="17.5" x2="14" y2="17.5"></line>
+                                <line x1="6.5" y1="10" x2="6.5" y2="14"></line>
+                                <line x1="17.5" y1="10" x2="17.5" y2="14"></line>
+                            </svg>
+                        </span>
+                        Blockchain & Web3
+                    </h3>
+                    <div class="skill-items">
+                        <div class="skill-item" data-skill="Hyperledger Fabric">
+                            <div class="skill-icon">
+                                <svg viewBox="0 0 24 24" fill="currentColor" style="width: 24px; height: 24px; color: var(--accent-primary);">
+                                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                                </svg>
+                            </div>
+                            <span class="skill-name">Hyperledger</span>
+                        </div>
+                        <div class="skill-item" data-skill="Ethereum">
+                            <div class="skill-icon">
+                                <svg viewBox="0 0 24 24" fill="currentColor" style="width: 24px; height: 24px; color: var(--accent-primary);">
+                                    <path d="M12 1.5l-9 15 9 5.25 9-5.25-9-15zm0 2.4l6.6 11.1-6.6 3.85-6.6-3.85L12 3.9z"/>
+                                </svg>
+                            </div>
+                            <span class="skill-name">Ethereum</span>
+                        </div>
+                        <div class="skill-item" data-skill="Solidity">
+                            <div class="skill-icon">
+                                <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/solidity/solidity-original.svg" alt="Solidity">
+                            </div>
+                            <span class="skill-name">Solidity</span>
+                        </div>
+                        <div class="skill-item" data-skill="Smart Contracts">
+                            <div class="skill-icon">
+                                <svg viewBox="0 0 24 24" fill="currentColor" style="width: 24px; height: 24px; color: var(--accent-primary);">
+                                    <path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm-1 7V3.5L18.5 9H13z"/>
+                                </svg>
+                            </div>
+                            <span class="skill-name">Smart Contracts</span>
+                        </div>
+                        <div class="skill-item" data-skill="Web3">
+                            <div class="skill-icon">
+                                <svg viewBox="0 0 24 24" fill="currentColor" style="width: 24px; height: 24px; color: var(--accent-primary);">
+                                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93z"/>
+                                </svg>
+                            </div>
+                            <span class="skill-name">Web3.js</span>
+                        </div>
+                        <div class="skill-item" data-skill="IPFS">
+                            <div class="skill-icon">
+                                <svg viewBox="0 0 24 24" fill="currentColor" style="width: 24px; height: 24px; color: var(--accent-primary);">
+                                    <path d="M12 2L2 7v10l10 5 10-5V7L12 2z"/>
+                                </svg>
+                            </div>
+                            <span class="skill-name">IPFS</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Values Section -->
+            <div class="values-section">
+                <h3 class="subsection-title">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                    </svg>
+                    Values I Care About
+                </h3>
+                <div class="values-grid">
+                    <div class="value-card">
+                        <div class="value-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                            </svg>
+                        </div>
+                        <h4>Ownership</h4>
+                        <p>Taking full responsibility for projects and delivering quality results</p>
+                    </div>
+                    <div class="value-card">
+                        <div class="value-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                                <circle cx="9" cy="7" r="4"></circle>
+                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                            </svg>
+                        </div>
+                        <h4>Mutual Growth</h4>
+                        <p>Growing together with teammates through knowledge sharing and collaboration</p>
+                    </div>
+                    <div class="value-card">
+                        <div class="value-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"></path>
+                                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
+                            </svg>
+                        </div>
+                        <h4>Continuous Learning</h4>
+                        <p>Always curious, always learning new technologies and best practices</p>
+                    </div>
+                    <div class="value-card">
+                        <div class="value-icon">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"></circle>
+                                <polyline points="12 6 12 12 16 14"></polyline>
+                            </svg>
+                        </div>
+                        <h4>Reliability</h4>
+                        <p>Being dependable and consistent in delivering commitments on time</p>
+                    </div>
+                </div>
+            </div>
+
+            <span class="section-tag section-tag-close">&lt;/skills&gt;</span>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="section projects">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">&lt;projects&gt;</span>
+                <h2 class="section-title">Featured Projects</h2>
+            </div>
+
+            <div class="projects-grid">
+                <article class="project-card featured">
+                    <div class="project-image">
+                        <img src="assets/projects/project-twize.png" alt="Twize - AI-Powered Enterprise Trip Management">
+                    </div>
+                    <div class="project-content">
+                        <div class="project-header">
+                            <span class="project-label">B2B SaaS Platform</span>
+                            <div class="project-links">
+                                <a href="https://twize.app/" target="_blank" rel="noopener" class="project-link" aria-label="Live Demo">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                        <polyline points="15 3 21 3 21 9"></polyline>
+                                        <line x1="10" y1="14" x2="21" y2="3"></line>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                        <h3 class="project-title">Twize</h3>
+                        <p class="project-description">
+                            Enterprise-grade B2B SaaS platform revolutionizing trip management for travel agencies.
+                            Features AI-powered itinerary generation, automated multi-currency billing systems,
+                            and fully customizable white-label solutions for seamless corporate travel experiences.
+                        </p>
+                        <div class="project-tech">
+                            <span>Golang</span>
+                            <span>AI/ML</span>
+                            <span>Microservices</span>
+                            <span>AWS</span>
+                            <span>PostgreSQL</span>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="project-card">
+                    <div class="project-image">
+                        <img src="assets/projects/project-poneglyph.jpeg" alt="Poneglyph - Enterprise Fleet Management">
+                    </div>
+                    <div class="project-content">
+                        <div class="project-header">
+                            <span class="project-label">Enterprise Solution</span>
+                            <div class="project-links">
+                            </div>
+                        </div>
+                        <h3 class="project-title">Poneglyph</h3>
+                        <p class="project-description">
+                            Comprehensive enterprise fleet management platform built for scale.
+                            Unified cross-platform experience (Web, iOS, Android) with real-time GPS tracking,
+                            intelligent route optimization, and advanced operational analytics dashboard.
+                        </p>
+                        <div class="project-tech">
+                            <span>Golang</span>
+                            <span>iOS</span>
+                            <span>Android</span>
+                            <span>Real-time</span>
+                            <span>Kubernetes</span>
+                        </div>
+                    </div>
+                </article>
+
+                <article class="project-card">
+                    <div class="project-image rust-logo-bg">
+                        <svg viewBox="0 0 512 512" class="rust-logo">
+                            <path fill="#f74c00" d="M256 0C114.62 0 0 114.62 0 256s114.62 256 256 256 256-114.62 256-256S397.38 0 256 0zm0 482C131.38 482 30 380.62 30 256S131.38 30 256 30s226 101.38 226 226-101.38 226-226 226z"/>
+                            <path fill="#f74c00" d="M256 60c-108.25 0-196 87.75-196 196s87.75 196 196 196 196-87.75 196-196S364.25 60 256 60zm127.67 211.75h-26.42c-1.86 15.15-5.89 29.47-11.88 42.67l22.89 13.22-20 34.64-22.89-13.22c-9.54 12.47-21.16 23.08-34.33 31.47l13.22 22.89-34.64 20-13.22-22.89c-13.2 5.99-27.52 10.02-42.67 11.88v26.42h-40v-26.42c-15.15-1.86-29.47-5.89-42.67-11.88l-13.22 22.89-34.64-20 13.22-22.89c-13.17-8.39-24.79-19-34.33-31.47l-22.89 13.22-20-34.64 22.89-13.22c-5.99-13.2-10.02-27.52-11.88-42.67H68.33v-40h26.42c1.86-15.15 5.89-29.47 11.88-42.67l-22.89-13.22 20-34.64 22.89 13.22c9.54-12.47 21.16-23.08 34.33-31.47l-13.22-22.89 34.64-20 13.22 22.89c13.2-5.99 27.52-10.02 42.67-11.88V68.33h40v26.42c15.15 1.86 29.47 5.89 42.67 11.88l13.22-22.89 34.64 20-13.22 22.89c13.17 8.39 24.79 19 34.33 31.47l22.89-13.22 20 34.64-22.89 13.22c5.99 13.2 10.02 27.52 11.88 42.67h26.42v40z"/>
+                            <circle fill="#f74c00" cx="256" cy="256" r="60"/>
+                        </svg>
+                    </div>
+                    <div class="project-content">
+                        <div class="project-header">
+                            <span class="project-label">Open Source Library</span>
+                            <div class="project-links">
+                                <a href="https://github.com/pskshksh" target="_blank" rel="noopener" class="project-link" aria-label="GitHub">
+                                    <svg viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
+                        <h3 class="project-title">Rust Core Library</h3>
+                        <p class="project-description">
+                            Generic Rust library providing essential building blocks for backend services.
+                            Includes data types, OAuth2/authentication, authorization, push notifications,
+                            email handling, and HTTP server utilities. Designed for reuse and portability across projects.
+                        </p>
+                        <div class="project-tech">
+                            <span>Rust</span>
+                            <span>OAuth2</span>
+                            <span>Auth</span>
+                            <span>HTTP</span>
+                            <span>Notifications</span>
+                        </div>
+                    </div>
+                </article>
+            </div>
+
+            <div class="projects-cta">
+                <a href="https://github.com/pskshksh" target="_blank" rel="noopener" class="btn btn-outline">
+                    View GitHub Profile
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"></path>
+                    </svg>
+                </a>
+            </div>
+
+            <span class="section-tag section-tag-close">&lt;/projects&gt;</span>
+        </div>
+    </section>
+
+    <!-- Blog Section -->
+    <section id="blog" class="section blog">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">&lt;blog&gt;</span>
+                <h2 class="section-title">Articles on Medium</h2>
+                <p class="section-subtitle">Deep dives into Golang, streaming, and software engineering</p>
+            </div>
+
+            <div class="blog-grid">
+                <article class="blog-card">
+                    <div class="blog-content">
+                        <div class="blog-meta">
+                            <span class="blog-category">Golang</span>
+                            <span class="blog-date">Feb 2024</span>
+                            <span class="blog-reads">282 reads</span>
+                        </div>
+                        <h3 class="blog-title">
+                            <a href="https://medium.com/@0xgotznit/mastering-io-pipe-in-go-ca8686150b5e" target="_blank" rel="noopener">Mastering io.Pipe in Go</a>
+                        </h3>
+                        <p class="blog-excerpt">
+                            Discover the power of io.Pipe for seamless data streaming. Learn how to bridge data producers and consumers without temporary storage or manual buffer management.
+                        </p>
+                        <a href="https://medium.com/@0xgotznit/mastering-io-pipe-in-go-ca8686150b5e" target="_blank" rel="noopener" class="blog-link">
+                            Read on Medium
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                <polyline points="15 3 21 3 21 9"></polyline>
+                                <line x1="10" y1="14" x2="21" y2="3"></line>
+                            </svg>
+                        </a>
+                    </div>
+                </article>
+
+                <article class="blog-card">
+                    <div class="blog-content">
+                        <div class="blog-meta">
+                            <span class="blog-category">Golang</span>
+                            <span class="blog-date">Feb 2024</span>
+                            <span class="blog-reads">69 reads</span>
+                        </div>
+                        <h3 class="blog-title">
+                            <a href="https://medium.com/@0xgotznit/efficient-data-duplication-in-go-simultaneous-reading-and-multiple-writing-d7afe0e7727a" target="_blank" rel="noopener">Efficient Data Duplication in Go</a>
+                        </h3>
+                        <p class="blog-excerpt">
+                            Learn how to use io.TeeReader and io.MultiWriter for simultaneous reading and multiple writing. Efficient data routing and duplication mechanisms.
+                        </p>
+                        <a href="https://medium.com/@0xgotznit/efficient-data-duplication-in-go-simultaneous-reading-and-multiple-writing-d7afe0e7727a" target="_blank" rel="noopener" class="blog-link">
+                            Read on Medium
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                <polyline points="15 3 21 3 21 9"></polyline>
+                                <line x1="10" y1="14" x2="21" y2="3"></line>
+                            </svg>
+                        </a>
+                    </div>
+                </article>
+
+                <article class="blog-card">
+                    <div class="blog-content">
+                        <div class="blog-meta">
+                            <span class="blog-category">Golang</span>
+                            <span class="blog-date">Feb 2024</span>
+                            <span class="blog-reads">28 reads</span>
+                        </div>
+                        <h3 class="blog-title">
+                            <a href="https://medium.com/@0xgotznit/banishing-the-ghosts-in-your-go-code-a-friendly-guide-to-eliminating-dead-code-bfd8f3b0984f" target="_blank" rel="noopener">Banishing the Ghosts in Your Go Code</a>
+                        </h3>
+                        <p class="blog-excerpt">
+                            A friendly guide to eliminating dead code. Learn how to identify and remove unused functions with the deadcode tool for cleaner, maintainable codebases.
+                        </p>
+                        <a href="https://medium.com/@0xgotznit/banishing-the-ghosts-in-your-go-code-a-friendly-guide-to-eliminating-dead-code-bfd8f3b0984f" target="_blank" rel="noopener" class="blog-link">
+                            Read on Medium
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                <polyline points="15 3 21 3 21 9"></polyline>
+                                <line x1="10" y1="14" x2="21" y2="3"></line>
+                            </svg>
+                        </a>
+                    </div>
+                </article>
+            </div>
+
+            <div class="blog-cta">
+                <a href="https://medium.com/@0xgotznit" target="_blank" rel="noopener" class="btn btn-outline">
+                    View All Articles on Medium
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                        <polyline points="15 3 21 3 21 9"></polyline>
+                        <line x1="10" y1="14" x2="21" y2="3"></line>
+                    </svg>
+                </a>
+            </div>
+
+            <span class="section-tag section-tag-close">&lt;/blog&gt;</span>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="section contact">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-tag">&lt;contact&gt;</span>
+                <h2 class="section-title">Get In Touch</h2>
+            </div>
+
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h3>Let's discuss your project</h3>
+                    <p>
+                        I'm open to discussing new opportunities, interesting projects,
+                        or collaborations. Feel free to reach out if you have questions
+                        about backend development, cloud architecture, or just want to connect.
+                    </p>
+
+                    <div class="contact-methods">
+                        <a href="mailto:ayoubidel64@gmail.com" class="contact-method">
+                            <div class="method-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                    <polyline points="22,6 12,13 2,6"></polyline>
+                                </svg>
+                            </div>
+                            <div class="method-info">
+                                <span class="method-label">Email</span>
+                                <span class="method-value">ayoubidel64@gmail.com</span>
+                            </div>
+                        </a>
+
+                        <a href="https://github.com/pskshksh" target="_blank" rel="noopener" class="contact-method">
+                            <div class="method-icon">
+                                <svg viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                                </svg>
+                            </div>
+                            <div class="method-info">
+                                <span class="method-label">GitHub</span>
+                                <span class="method-value">@pskshksh</span>
+                            </div>
+                        </a>
+
+                        <a href="https://linkedin.com/in/ayoubidel/" target="_blank" rel="noopener" class="contact-method">
+                            <div class="method-icon">
+                                <svg viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+                                </svg>
+                            </div>
+                            <div class="method-info">
+                                <span class="method-label">LinkedIn</span>
+                                <span class="method-value">Connect with me</span>
+                            </div>
+                        </a>
+
+                        <div class="contact-method" style="cursor: default;">
+                            <div class="method-icon">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                    <circle cx="12" cy="10" r="3"></circle>
+                                </svg>
+                            </div>
+                            <div class="method-info">
+                                <span class="method-label">Location</span>
+                                <span class="method-value">Paris, France</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact-cta-box">
+                    <div class="cta-content">
+                        <h4>Ready to collaborate?</h4>
+                        <p>Drop me an email and let's discuss how we can work together on your next project.</p>
+                        <a href="mailto:ayoubidel64@gmail.com?subject=Project%20Inquiry&body=Hi%20Ayoub%2C%0A%0AI%20would%20like%20to%20discuss..." class="btn btn-primary btn-large">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                <polyline points="22,6 12,13 2,6"></polyline>
+                            </svg>
+                            <span>Send me an Email</span>
+                        </a>
+                    </div>
+                    <div class="cta-decoration">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+                            <path d="M22 12h-4l-3 9L9 3l-3 9H2"></path>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <span class="section-tag section-tag-close">&lt;/contact&gt;</span>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-brand">
+                    <a href="#home" class="footer-logo">
+                        <span class="logo-bracket">{</span>
+                        <span class="logo-text">Ayoub</span>
+                        <span class="logo-bracket">}</span>
+                    </a>
+                    <p>Backend Engineer & Cloud Architect</p>
+                </div>
+
+                <div class="footer-links">
+                    <div class="footer-section">
+                        <h4>Navigation</h4>
+                        <ul>
+                            <li><a href="#home">Home</a></li>
+                            <li><a href="#about">About</a></li>
+                            <li><a href="#experience">Experience</a></li>
+                            <li><a href="#projects">Projects</a></li>
+                            <li><a href="#blog">Blog</a></li>
+                            <li><a href="#contact">Contact</a></li>
+                        </ul>
+                    </div>
+
+                    <div class="footer-section">
+                        <h4>Connect</h4>
+                        <ul>
+                            <li><a href="https://github.com/pskshksh" target="_blank" rel="noopener">GitHub</a></li>
+                            <li><a href="https://linkedin.com/in/ayoubidel/" target="_blank" rel="noopener">LinkedIn</a></li>
+                            <li><a href="mailto:ayoubidel64@gmail.com">Email</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; <span id="current-year">2026</span> Ayoub Idel. All rights reserved.</p>
+                <p class="footer-tech">Built with HTML, CSS & JavaScript</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+</body>
+</html>

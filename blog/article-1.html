@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A comprehensive guide to starting your journey in web development with the latest tools and frameworks">
+    <title>Getting Started with Modern Web Development | Pskshksh</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/animations.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+
+    <style>
+        .article-header {
+            padding: calc(80px + var(--space-4xl)) 0 var(--space-2xl);
+            background: var(--bg-secondary);
+        }
+
+        .article-meta {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: var(--space-md);
+            margin-bottom: var(--space-lg);
+        }
+
+        .article-category {
+            padding: 0.25rem 0.75rem;
+            font-size: 0.75rem;
+            font-family: var(--font-mono);
+            background: var(--accent-gradient);
+            color: white;
+            border-radius: var(--radius-full);
+        }
+
+        .article-date, .article-read-time {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .article-title {
+            font-size: clamp(2rem, 5vw, 3rem);
+            line-height: 1.2;
+            margin-bottom: var(--space-lg);
+        }
+
+        .article-excerpt {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            max-width: 700px;
+        }
+
+        .article-content {
+            padding: var(--space-3xl) 0;
+        }
+
+        .article-body {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .article-body h2 {
+            font-size: 1.75rem;
+            margin-top: var(--space-3xl);
+            margin-bottom: var(--space-lg);
+            padding-top: var(--space-xl);
+            border-top: 1px solid var(--border-color);
+        }
+
+        .article-body h2:first-child {
+            margin-top: 0;
+            padding-top: 0;
+            border-top: none;
+        }
+
+        .article-body h3 {
+            font-size: 1.25rem;
+            margin-top: var(--space-2xl);
+            margin-bottom: var(--space-md);
+        }
+
+        .article-body p {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: var(--space-lg);
+        }
+
+        .article-body ul, .article-body ol {
+            margin-bottom: var(--space-lg);
+            padding-left: var(--space-xl);
+        }
+
+        .article-body li {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: var(--space-sm);
+        }
+
+        .article-body code {
+            font-family: var(--font-mono);
+            font-size: 0.9em;
+            background: var(--bg-tertiary);
+            padding: 0.2em 0.4em;
+            border-radius: var(--radius-sm);
+            color: var(--accent-primary);
+        }
+
+        .article-body pre {
+            background: var(--code-bg);
+            border-radius: var(--radius-md);
+            padding: var(--space-lg);
+            overflow-x: auto;
+            margin-bottom: var(--space-lg);
+            border: 1px solid var(--border-color);
+        }
+
+        .article-body pre code {
+            background: none;
+            padding: 0;
+            color: var(--text-secondary);
+        }
+
+        .article-body blockquote {
+            border-left: 4px solid var(--accent-primary);
+            padding-left: var(--space-lg);
+            margin: var(--space-xl) 0;
+            font-style: italic;
+            color: var(--text-secondary);
+        }
+
+        .article-body a {
+            color: var(--accent-primary);
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+
+        .article-body a:hover {
+            color: var(--accent-secondary);
+        }
+
+        .article-footer {
+            max-width: 700px;
+            margin: var(--space-3xl) auto 0;
+            padding-top: var(--space-2xl);
+            border-top: 1px solid var(--border-color);
+        }
+
+        .author-card {
+            display: flex;
+            align-items: center;
+            gap: var(--space-lg);
+            background: var(--bg-card);
+            padding: var(--space-xl);
+            border-radius: var(--radius-lg);
+            border: 1px solid var(--border-color);
+        }
+
+        .author-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: var(--bg-tertiary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .author-avatar svg {
+            width: 40px;
+            height: 40px;
+            color: var(--text-muted);
+        }
+
+        .author-info h4 {
+            font-size: 1.1rem;
+            margin-bottom: var(--space-xs);
+        }
+
+        .author-info p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: var(--space-sm);
+        }
+
+        .author-links {
+            display: flex;
+            gap: var(--space-sm);
+        }
+
+        .author-links a {
+            color: var(--text-muted);
+            transition: var(--transition-fast);
+        }
+
+        .author-links a:hover {
+            color: var(--accent-primary);
+        }
+
+        .author-links svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: var(--space-sm);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: var(--space-xl);
+            transition: var(--transition-fast);
+        }
+
+        .back-link:hover {
+            color: var(--accent-primary);
+        }
+
+        .back-link svg {
+            width: 18px;
+            height: 18px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar scrolled">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">
+                <span class="logo-bracket">{</span>
+                <span class="logo-text">pskshksh</span>
+                <span class="logo-bracket">}</span>
+            </a>
+
+            <button class="nav-toggle" aria-label="Toggle navigation">
+                <span class="hamburger"></span>
+            </button>
+
+            <ul class="nav-menu">
+                <li><a href="../index.html#home" class="nav-link">Home</a></li>
+                <li><a href="../index.html#about" class="nav-link">About</a></li>
+                <li><a href="../index.html#experience" class="nav-link">Experience</a></li>
+                <li><a href="../index.html#skills" class="nav-link">Skills</a></li>
+                <li><a href="../index.html#projects" class="nav-link">Projects</a></li>
+                <li><a href="index.html" class="nav-link active">Blog</a></li>
+                <li><a href="../index.html#contact" class="nav-link">Contact</a></li>
+            </ul>
+
+            <div class="nav-actions">
+                <button class="theme-toggle" aria-label="Toggle theme">
+                    <svg class="sun-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="5"></circle>
+                        <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path>
+                    </svg>
+                    <svg class="moon-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Article Header -->
+    <header class="article-header">
+        <div class="container">
+            <a href="index.html" class="back-link">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M19 12H5M12 19l-7-7 7-7"></path>
+                </svg>
+                Back to Blog
+            </a>
+
+            <div class="article-meta">
+                <span class="article-category">Tutorial</span>
+                <span class="article-date">January 2, 2026</span>
+                <span class="article-read-time">5 min read</span>
+            </div>
+
+            <h1 class="article-title">Getting Started with Modern Web Development</h1>
+
+            <p class="article-excerpt">
+                A comprehensive guide to starting your journey in web development
+                with the latest tools, frameworks, and best practices for 2026.
+            </p>
+        </div>
+    </header>
+
+    <!-- Article Content -->
+    <article class="article-content">
+        <div class="container">
+            <div class="article-body">
+                <h2>Introduction</h2>
+                <p>
+                    Web development has evolved significantly over the past decade. What once required
+                    simple HTML and CSS now involves complex build systems, frameworks, and deployment
+                    pipelines. In this guide, we'll explore the essential tools and concepts you need
+                    to get started with modern web development.
+                </p>
+
+                <h2>The Foundation: HTML, CSS, and JavaScript</h2>
+                <p>
+                    Before diving into frameworks and libraries, it's crucial to have a solid
+                    understanding of the fundamentals. These three technologies form the backbone
+                    of every web application:
+                </p>
+
+                <ul>
+                    <li><strong>HTML</strong> - The structure and content of your web pages</li>
+                    <li><strong>CSS</strong> - The styling and visual presentation</li>
+                    <li><strong>JavaScript</strong> - The interactivity and dynamic behavior</li>
+                </ul>
+
+                <p>
+                    Spend time mastering these before moving on to more advanced topics. A strong
+                    foundation will make learning frameworks much easier.
+                </p>
+
+                <h2>Choosing a Framework</h2>
+                <p>
+                    Modern web development often involves using a JavaScript framework. The most
+                    popular options include:
+                </p>
+
+                <h3>React</h3>
+                <p>
+                    Developed by Meta, React is the most widely used frontend library. It uses a
+                    component-based architecture and virtual DOM for efficient rendering.
+                </p>
+
+                <pre><code>// A simple React component
+function Welcome({ name }) {
+    return &lt;h1&gt;Hello, {name}!&lt;/h1&gt;;
+}</code></pre>
+
+                <h3>Vue.js</h3>
+                <p>
+                    Vue offers a gentler learning curve while still being powerful enough for
+                    production applications. It's known for its excellent documentation.
+                </p>
+
+                <h3>Angular</h3>
+                <p>
+                    A full-featured framework by Google, Angular is popular in enterprise
+                    applications that require a complete solution out of the box.
+                </p>
+
+                <h2>Development Tools</h2>
+                <p>
+                    Having the right tools can significantly improve your productivity:
+                </p>
+
+                <ul>
+                    <li><strong>VS Code</strong> - The most popular code editor with excellent extensions</li>
+                    <li><strong>Git</strong> - Version control is essential for any project</li>
+                    <li><strong>npm/yarn</strong> - Package managers for JavaScript dependencies</li>
+                    <li><strong>Browser DevTools</strong> - Debug and inspect your applications</li>
+                </ul>
+
+                <blockquote>
+                    "The best tool is the one you know well. Don't chase the newest thing just because
+                    it's new. Master what you have first."
+                </blockquote>
+
+                <h2>Next Steps</h2>
+                <p>
+                    Once you're comfortable with the basics, consider exploring:
+                </p>
+
+                <ul>
+                    <li>TypeScript for type-safe JavaScript</li>
+                    <li>Testing frameworks like Jest or Vitest</li>
+                    <li>State management solutions</li>
+                    <li>Server-side rendering and static site generation</li>
+                </ul>
+
+                <p>
+                    Remember, becoming a skilled developer takes time and practice. Build projects,
+                    contribute to open source, and never stop learning. The web development landscape
+                    is always evolving, and staying curious is the key to success.
+                </p>
+            </div>
+
+            <!-- Author Card -->
+            <div class="article-footer">
+                <div class="author-card">
+                    <div class="author-avatar">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                    </div>
+                    <div class="author-info">
+                        <h4>Pskshksh</h4>
+                        <p>Software Engineer passionate about building great products and sharing knowledge.</p>
+                        <div class="author-links">
+                            <a href="https://github.com/pskshksh" target="_blank" rel="noopener" aria-label="GitHub">
+                                <svg viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                                </svg>
+                            </a>
+                            <a href="https://twitter.com/pskshksh" target="_blank" rel="noopener" aria-label="Twitter">
+                                <svg viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+                                </svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </article>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom" style="border-top: none; padding-top: 0;">
+                <p>&copy; <span id="current-year">2026</span> Pskshksh. All rights reserved.</p>
+                <a href="../index.html" class="btn btn-outline" style="padding: 0.5rem 1rem; font-size: 0.85rem;">
+                    Back to Home
+                </a>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+</body>
+</html>

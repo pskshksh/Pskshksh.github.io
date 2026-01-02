@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Page Not Found | Pskshksh</title>
+
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+
+    <style>
+        .error-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: var(--space-xl);
+        }
+
+        .error-content {
+            max-width: 500px;
+        }
+
+        .error-code {
+            font-family: var(--font-mono);
+            font-size: clamp(6rem, 20vw, 12rem);
+            font-weight: 700;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+            margin-bottom: var(--space-lg);
+        }
+
+        .error-title {
+            font-size: 1.5rem;
+            margin-bottom: var(--space-md);
+        }
+
+        .error-message {
+            color: var(--text-secondary);
+            margin-bottom: var(--space-2xl);
+            line-height: 1.7;
+        }
+
+        .error-terminal {
+            background: var(--code-bg);
+            border-radius: var(--radius-md);
+            padding: var(--space-lg);
+            text-align: left;
+            margin-bottom: var(--space-2xl);
+            border: 1px solid var(--border-color);
+        }
+
+        .terminal-line {
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: var(--space-sm);
+        }
+
+        .terminal-line:last-child {
+            margin-bottom: 0;
+        }
+
+        .terminal-prompt {
+            color: var(--accent-primary);
+        }
+
+        .terminal-error {
+            color: #ef4444;
+        }
+    </style>
+</head>
+<body>
+    <main class="error-page">
+        <div class="error-content">
+            <div class="error-code">404</div>
+            <h1 class="error-title">Page Not Found</h1>
+            <p class="error-message">
+                Looks like you've ventured into uncharted territory.
+                The page you're looking for doesn't exist or has been moved.
+            </p>
+
+            <div class="error-terminal">
+                <div class="terminal-line">
+                    <span class="terminal-prompt">$</span> cd /requested-page
+                </div>
+                <div class="terminal-line">
+                    <span class="terminal-error">Error: ENOENT: no such file or directory</span>
+                </div>
+                <div class="terminal-line">
+                    <span class="terminal-prompt">$</span> <span class="typing-cursor">|</span>
+                </div>
+            </div>
+
+            <a href="index.html" class="btn btn-primary">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 18px; height: 18px;">
+                    <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                    <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                </svg>
+                Back to Home
+            </a>
+        </div>
+    </main>
+
+    <script>
+        // Theme initialization
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            document.documentElement.setAttribute('data-theme', savedTheme);
+        } else if (!window.matchMedia('(prefers-color-scheme: dark)').matches) {
+            document.documentElement.setAttribute('data-theme', 'light');
+        }
+    </script>
+</body>
+</html>

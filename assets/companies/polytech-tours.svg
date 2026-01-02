@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <defs>
+    <linearGradient id="polyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#e31837"/>
+      <stop offset="100%" style="stop-color:#c41230"/>
+    </linearGradient>
+  </defs>
+  <circle cx="50" cy="50" r="45" fill="url(#polyGrad)"/>
+  <text x="50" y="42" font-family="Arial, sans-serif" font-size="14" font-weight="bold" fill="white" text-anchor="middle">POLYTECH</text>
+  <text x="50" y="60" font-family="Arial, sans-serif" font-size="12" font-weight="bold" fill="white" text-anchor="middle">TOURS</text>
+</svg>
