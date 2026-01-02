@@ -16,7 +16,32 @@ document.addEventListener('DOMContentLoaded', () => {
     initSmoothScroll();
     initFormHandler();
     setCurrentYear();
+    initSkillIcons();
 });
+
+// ============================================
+// Skill Icons Fallback
+// ============================================
+function initSkillIcons() {
+    const skillIcons = document.querySelectorAll('.skill-icon img');
+    skillIcons.forEach(img => {
+        img.onerror = function() {
+            // Replace broken image with a simple icon placeholder
+            this.style.display = 'none';
+            const parent = this.parentElement;
+            if (!parent.querySelector('svg')) {
+                parent.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 24px; height: 24px; color: var(--accent-primary);">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <path d="M12 6v6l4 2"></path>
+                </svg>`;
+            }
+        };
+        // Trigger error check for already loaded/failed images
+        if (img.complete && img.naturalHeight === 0) {
+            img.onerror();
+        }
+    });
+}
 
 // ============================================
 // Theme Toggle
