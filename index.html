@@ -19,6 +19,7 @@
 </head>
 <body>
     <div class="cursor-follower"></div>
+    <div class="noise-overlay"></div>
 
     <!-- Navigation -->
     <nav class="navbar">
@@ -61,6 +62,24 @@
             <div class="grid-pattern"></div>
             <div class="gradient-orb gradient-orb-1"></div>
             <div class="gradient-orb gradient-orb-2"></div>
+            <div class="gradient-orb gradient-orb-3"></div>
+            <!-- Floating Particles -->
+            <div class="hero-particles">
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+                <div class="particle"></div>
+            </div>
+            <!-- Floating Shapes -->
+            <div class="floating-shapes">
+                <div class="floating-shape circle"></div>
+                <div class="floating-shape square"></div>
+                <div class="floating-shape circle"></div>
+            </div>
         </div>
 
         <div class="hero-content">
@@ -223,7 +242,7 @@
             </div>
 
             <div class="timeline">
-                <div class="timeline-item">
+                <div class="timeline-item expandable" data-expanded="false">
                     <div class="timeline-marker">
                         <img src="assets/companies/imagino.svg" alt="Imagino" class="company-logo">
                     </div>
@@ -231,24 +250,50 @@
                         <div class="timeline-header">
                             <h3 class="timeline-title">Software Engineer</h3>
                             <span class="timeline-company">Imagino</span>
+                            <button class="expand-btn" aria-label="Expand details">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M6 9l6 6 6-6"/>
+                                </svg>
+                            </button>
                         </div>
                         <span class="timeline-date">Apr 2024 - Present</span>
                         <p class="timeline-description">
                             Building a next-gen Customer Data Platform (CDP/CEP) enabling enterprises to unify data
-                            and activate it across channels in real time. Designing microservices in Go, maintaining
-                            Kubernetes clusters on Azure, and leading a multi-person team.
+                            and activate it across channels in real time.
                         </p>
+                        <div class="timeline-expanded">
+                            <div class="expanded-section">
+                                <h4>Responsibilities</h4>
+                                <ul>
+                                    <li>Backend Development (Golang): Designed and optimized microservices & web services in Go</li>
+                                    <li>Kubernetes & Cloud Operations: Maintained Kubernetes clusters on Azure, managed CI/CD pipelines, Helm charts, and deployments</li>
+                                    <li>Feature Ownership: Delivered real-time data processing features and APIs for CDP plugins</li>
+                                    <li>Team Leadership & Recruitment: Mentored developers, managed a multi-person team, and conducted technical interviews</li>
+                                </ul>
+                            </div>
+                            <div class="expanded-section">
+                                <h4>Technical Highlights</h4>
+                                <ul>
+                                    <li>Cross-functional Collaboration: Worked closely with product team to align business needs with robust technical solutions</li>
+                                    <li>Monitoring & Reliability: Implemented Grafana, Prometheus for observability</li>
+                                    <li>Architecture & Scalability: Supported evolution of the platform (migration)</li>
+                                </ul>
+                            </div>
+                        </div>
                         <div class="timeline-tags">
                             <span class="tag">Golang</span>
                             <span class="tag">Kubernetes</span>
                             <span class="tag">Azure</span>
                             <span class="tag">PostgreSQL</span>
+                            <span class="tag">DuckDB</span>
                             <span class="tag">ClickHouse</span>
+                            <span class="tag">JetStream</span>
+                            <span class="tag">Helm</span>
                         </div>
                     </div>
                 </div>
 
-                <div class="timeline-item">
+                <div class="timeline-item expandable" data-expanded="false">
                     <div class="timeline-marker">
                         <img src="assets/companies/addict-mobile.png" alt="Addict Mobile" class="company-logo">
                     </div>
@@ -256,24 +301,52 @@
                         <div class="timeline-header">
                             <h3 class="timeline-title">Cloud Architect & Software Engineer</h3>
                             <span class="timeline-company">Addict Mobile Technology</span>
+                            <button class="expand-btn" aria-label="Expand details">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M6 9l6 6 6-6"/>
+                                </svg>
+                            </button>
                         </div>
                         <span class="timeline-date">Feb 2020 - Apr 2024</span>
                         <p class="timeline-description">
                             Designed scalable backend architectures on AWS with focus on high availability
-                            and serverless solutions. Built infrastructure as code projects using AWS CDK
-                            and implemented robust CI/CD pipelines for automated deployments.
+                            and serverless solutions.
                         </p>
+                        <div class="timeline-expanded">
+                            <div class="expanded-section">
+                                <h4>Cloud Architect (Mar 2022 - Apr 2024)</h4>
+                                <ul>
+                                    <li>Architecture Leadership: Designed scalable backend architectures on AWS, focusing on high availability, cost optimization, and serverless solutions (Lambda, Step Functions, DynamoDB)</li>
+                                    <li>Infrastructure as Code: Built new projects with AWS CDK, ensuring reproducibility and faster deployments</li>
+                                    <li>Observability & Monitoring: Integrated Prometheus, Grafana, and CloudWatch for monitoring and alerting</li>
+                                    <li>Migration & Optimization: Led migration from Elasticsearch to OpenSearch, improving performance while cutting costs</li>
+                                    <li>Cost Optimization: Achieved a 24% reduction in AWS infrastructure costs through reserved instances, autoscaling, and serverless adoption</li>
+                                </ul>
+                            </div>
+                            <div class="expanded-section">
+                                <h4>Software Engineer (Feb 2020 - Mar 2022)</h4>
+                                <ul>
+                                    <li>Backend Development: Built backend services and features in Golang and Java (Spring Boot)</li>
+                                    <li>API Development: Designed REST APIs using clean architecture principles</li>
+                                    <li>Cloud & DevOps: Deployed services on AWS (ECS, S3, RDS, Lambda)</li>
+                                    <li>Business Alignment: Translated business needs into actionable technical specifications</li>
+                                </ul>
+                            </div>
+                        </div>
                         <div class="timeline-tags">
                             <span class="tag">AWS</span>
                             <span class="tag">Golang</span>
                             <span class="tag">AWS CDK</span>
                             <span class="tag">Serverless</span>
                             <span class="tag">Docker</span>
+                            <span class="tag">OpenSearch</span>
+                            <span class="tag">Java</span>
+                            <span class="tag">Spring Boot</span>
                         </div>
                     </div>
                 </div>
 
-                <div class="timeline-item">
+                <div class="timeline-item expandable" data-expanded="false">
                     <div class="timeline-marker">
                         <img src="assets/companies/astek.png" alt="Astek" class="company-logo">
                     </div>
@@ -281,23 +354,39 @@
                         <div class="timeline-header">
                             <h3 class="timeline-title">Backend Developer</h3>
                             <span class="timeline-company">Astek</span>
+                            <button class="expand-btn" aria-label="Expand details">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M6 9l6 6 6-6"/>
+                                </svg>
+                            </button>
                         </div>
                         <span class="timeline-date">Aug 2019 - Feb 2020</span>
                         <p class="timeline-description">
                             Participated in migrating internal microservices from REST to gRPC to enhance
-                            performance and scalability. Implemented gRPC communication layer in Golang,
-                            improving latency and throughput under high load.
+                            performance and scalability.
                         </p>
+                        <div class="timeline-expanded">
+                            <div class="expanded-section">
+                                <h4>Mission Details</h4>
+                                <ul>
+                                    <li>Participated in a migration initiative to transition internal microservices from REST to gRPC</li>
+                                    <li>Enhanced performance, scalability, and reliability of the system</li>
+                                    <li>Implemented a gRPC communication layer in Golang to replace REST endpoints between critical services</li>
+                                    <li>Improved latency and throughput of inter-service calls, especially under high load</li>
+                                </ul>
+                            </div>
+                        </div>
                         <div class="timeline-tags">
                             <span class="tag">Golang</span>
                             <span class="tag">gRPC</span>
                             <span class="tag">Docker</span>
+                            <span class="tag">AWS</span>
                             <span class="tag">Microservices</span>
                         </div>
                     </div>
                 </div>
 
-                <div class="timeline-item">
+                <div class="timeline-item expandable" data-expanded="false">
                     <div class="timeline-marker">
                         <img src="assets/companies/edf.svg" alt="EDF" class="company-logo">
                     </div>
@@ -305,16 +394,31 @@
                         <div class="timeline-header">
                             <h3 class="timeline-title">Backend Developer (Internship)</h3>
                             <span class="timeline-company">EDF - Corsica Project</span>
+                            <button class="expand-btn" aria-label="Expand details">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M6 9l6 6 6-6"/>
+                                </svg>
+                            </button>
                         </div>
                         <span class="timeline-date">Feb 2018 - Aug 2018</span>
                         <p class="timeline-description">
                             Improved issue reporting processes for hydroelectric and wind power plants.
-                            Developed backend features with Java Spring MVC and Oracle DB.
                         </p>
+                        <div class="timeline-expanded">
+                            <div class="expanded-section">
+                                <h4>Mission Details</h4>
+                                <ul>
+                                    <li>Improved issue reporting processes for hydroelectric and wind power plants</li>
+                                    <li>Developed backend features with Java Spring MVC and Oracle DB</li>
+                                    <li>Built web features with JavaScript for shift worker tools</li>
+                                </ul>
+                            </div>
+                        </div>
                         <div class="timeline-tags">
                             <span class="tag">Java</span>
                             <span class="tag">Spring MVC</span>
                             <span class="tag">Oracle</span>
+                            <span class="tag">JavaScript</span>
                         </div>
                     </div>
                 </div>
@@ -411,6 +515,377 @@
 
     <!-- Skills Section -->
     <section id="skills" class="section skills">
+        <!-- Tech/Math Background -->
+        <div class="skills-bg-math">
+            <span class="math-formula">∫f(x)dx = F(x) + C</span>
+            <span class="math-formula">E = mc²</span>
+            <span class="math-formula">∇ × B = μ₀J + μ₀ε₀∂E/∂t</span>
+            <span class="math-formula">O(n log n)</span>
+            <span class="math-formula">λx.x + 1</span>
+            <span class="math-formula">∀x ∈ ℝ : x² ≥ 0</span>
+            <span class="math-formula">SHA-256(m)</span>
+            <span class="math-formula">P(A|B) = P(B|A)P(A)/P(B)</span>
+        </div>
+        <div class="circuit-pattern"></div>
+        <div class="hex-grid"></div>
+
+        <!-- Animated Mascots -->
+        <div class="skills-mascots">
+            <!-- Go Gopher -->
+            <div class="mascot gopher" title="Go Gopher says hi!">
+                <svg viewBox="0 0 100 100" class="gopher-svg">
+                    <!-- Body -->
+                    <ellipse cx="50" cy="60" rx="30" ry="25" fill="#67D2DF"/>
+                    <!-- Head -->
+                    <circle cx="50" cy="35" r="22" fill="#67D2DF"/>
+                    <!-- Eyes (white) -->
+                    <circle cx="42" cy="30" r="8" fill="white"/>
+                    <circle cx="58" cy="30" r="8" fill="white"/>
+                    <!-- Pupils -->
+                    <circle cx="44" cy="30" r="4" fill="#1A1A1A" class="gopher-pupil"/>
+                    <circle cx="60" cy="30" r="4" fill="#1A1A1A" class="gopher-pupil"/>
+                    <!-- Nose -->
+                    <ellipse cx="50" cy="40" rx="6" ry="4" fill="#C9B89A"/>
+                    <!-- Teeth -->
+                    <rect x="46" y="44" width="3" height="5" fill="white" rx="1"/>
+                    <rect x="51" y="44" width="3" height="5" fill="white" rx="1"/>
+                    <!-- Ears -->
+                    <ellipse cx="30" cy="22" rx="6" ry="8" fill="#67D2DF"/>
+                    <ellipse cx="70" cy="22" rx="6" ry="8" fill="#67D2DF"/>
+                    <ellipse cx="30" cy="22" rx="3" ry="5" fill="#4FBDCA"/>
+                    <ellipse cx="70" cy="22" rx="3" ry="5" fill="#4FBDCA"/>
+                    <!-- Feet -->
+                    <ellipse cx="35" cy="82" rx="10" ry="5" fill="#C9B89A"/>
+                    <ellipse cx="65" cy="82" rx="10" ry="5" fill="#C9B89A"/>
+                    <!-- Arms -->
+                    <ellipse cx="22" cy="55" rx="6" ry="12" fill="#67D2DF" class="gopher-arm-left"/>
+                    <ellipse cx="78" cy="55" rx="6" ry="12" fill="#67D2DF" class="gopher-arm-right"/>
+                </svg>
+            </div>
+
+            <!-- Rust Ferris (Crab) -->
+            <div class="mascot ferris" title="Ferris loves safe code!">
+                <svg viewBox="0 0 100 80" class="ferris-svg">
+                    <!-- Body -->
+                    <ellipse cx="50" cy="45" rx="28" ry="22" fill="#F74C00"/>
+                    <!-- Shell pattern -->
+                    <ellipse cx="50" cy="42" rx="20" ry="15" fill="#D84000" opacity="0.5"/>
+                    <!-- Eyes on stalks -->
+                    <line x1="38" y1="28" x2="35" y2="18" stroke="#F74C00" stroke-width="4"/>
+                    <line x1="62" y1="28" x2="65" y2="18" stroke="#F74C00" stroke-width="4"/>
+                    <circle cx="35" cy="15" r="6" fill="#F74C00"/>
+                    <circle cx="65" cy="15" r="6" fill="#F74C00"/>
+                    <circle cx="35" cy="15" r="4" fill="white"/>
+                    <circle cx="65" cy="15" r="4" fill="white"/>
+                    <circle cx="36" cy="15" r="2" fill="#1A1A1A" class="ferris-eye"/>
+                    <circle cx="66" cy="15" r="2" fill="#1A1A1A" class="ferris-eye"/>
+                    <!-- Claws -->
+                    <ellipse cx="15" cy="40" rx="12" ry="8" fill="#F74C00" class="ferris-claw-left"/>
+                    <ellipse cx="85" cy="40" rx="12" ry="8" fill="#F74C00" class="ferris-claw-right"/>
+                    <!-- Legs -->
+                    <line x1="28" y1="58" x2="18" y2="70" stroke="#F74C00" stroke-width="4" stroke-linecap="round"/>
+                    <line x1="38" y1="62" x2="32" y2="72" stroke="#F74C00" stroke-width="4" stroke-linecap="round"/>
+                    <line x1="62" y1="62" x2="68" y2="72" stroke="#F74C00" stroke-width="4" stroke-linecap="round"/>
+                    <line x1="72" y1="58" x2="82" y2="70" stroke="#F74C00" stroke-width="4" stroke-linecap="round"/>
+                    <!-- Happy mouth -->
+                    <path d="M 42 52 Q 50 58 58 52" stroke="#D84000" stroke-width="2" fill="none"/>
+                </svg>
+            </div>
+
+            <!-- Docker Whale -->
+            <div class="mascot docker-whale" title="Docker whale delivering containers!">
+                <svg viewBox="0 0 120 80" class="whale-svg">
+                    <!-- Body -->
+                    <path d="M20 50 Q10 50 10 40 Q10 25 30 25 L90 25 Q110 25 110 40 Q110 55 90 55 L30 55 Q20 55 20 50" fill="#2496ED"/>
+                    <!-- Containers -->
+                    <rect x="25" y="15" width="12" height="10" fill="#E0E0E0" rx="1" class="container c1"/>
+                    <rect x="40" y="15" width="12" height="10" fill="#E0E0E0" rx="1" class="container c2"/>
+                    <rect x="55" y="15" width="12" height="10" fill="#E0E0E0" rx="1" class="container c3"/>
+                    <rect x="70" y="15" width="12" height="10" fill="#E0E0E0" rx="1" class="container c4"/>
+                    <rect x="32" y="3" width="12" height="10" fill="#E0E0E0" rx="1" class="container c5"/>
+                    <rect x="47" y="3" width="12" height="10" fill="#E0E0E0" rx="1" class="container c6"/>
+                    <rect x="62" y="3" width="12" height="10" fill="#E0E0E0" rx="1" class="container c7"/>
+                    <!-- Eye -->
+                    <circle cx="95" cy="38" r="4" fill="white"/>
+                    <circle cx="96" cy="38" r="2" fill="#1A1A1A"/>
+                    <!-- Tail -->
+                    <path d="M10 40 Q0 35 5 25 Q8 30 10 35" fill="#2496ED" class="whale-tail"/>
+                    <!-- Water spout -->
+                    <path d="M85 20 Q88 10 85 5 M88 22 Q92 12 88 7 M91 20 Q94 15 91 10" stroke="#2496ED" stroke-width="2" fill="none" stroke-linecap="round" class="whale-spout"/>
+                </svg>
+            </div>
+
+            <!-- Kubernetes Wheel -->
+            <div class="mascot k8s-wheel" title="Kubernetes orchestrating pods!">
+                <svg viewBox="0 0 80 80" class="k8s-svg">
+                    <!-- Wheel spokes -->
+                    <g class="k8s-rotate">
+                        <circle cx="40" cy="40" r="30" fill="none" stroke="#326CE5" stroke-width="6"/>
+                        <circle cx="40" cy="40" r="10" fill="#326CE5"/>
+                        <!-- Spokes -->
+                        <line x1="40" y1="10" x2="40" y2="25" stroke="#326CE5" stroke-width="4"/>
+                        <line x1="40" y1="55" x2="40" y2="70" stroke="#326CE5" stroke-width="4"/>
+                        <line x1="10" y1="40" x2="25" y2="40" stroke="#326CE5" stroke-width="4"/>
+                        <line x1="55" y1="40" x2="70" y2="40" stroke="#326CE5" stroke-width="4"/>
+                        <line x1="18" y1="18" x2="29" y2="29" stroke="#326CE5" stroke-width="4"/>
+                        <line x1="51" y1="51" x2="62" y2="62" stroke="#326CE5" stroke-width="4"/>
+                        <line x1="62" y1="18" x2="51" y2="29" stroke="#326CE5" stroke-width="4"/>
+                        <line x1="29" y1="51" x2="18" y2="62" stroke="#326CE5" stroke-width="4"/>
+                        <!-- Pods -->
+                        <circle cx="40" cy="10" r="5" fill="#326CE5"/>
+                        <circle cx="40" cy="70" r="5" fill="#326CE5"/>
+                        <circle cx="10" cy="40" r="5" fill="#326CE5"/>
+                        <circle cx="70" cy="40" r="5" fill="#326CE5"/>
+                        <circle cx="18" cy="18" r="4" fill="#326CE5"/>
+                        <circle cx="62" cy="62" r="4" fill="#326CE5"/>
+                        <circle cx="62" cy="18" r="4" fill="#326CE5"/>
+                        <circle cx="18" cy="62" r="4" fill="#326CE5"/>
+                    </g>
+                </svg>
+            </div>
+
+            <!-- PostgreSQL Elephant (Slonik) -->
+            <div class="mascot postgres-elephant" title="Slonik says: SELECT * FROM skills!">
+                <svg viewBox="0 0 100 100" class="elephant-svg">
+                    <!-- Body -->
+                    <ellipse cx="50" cy="55" rx="30" ry="25" fill="#336791"/>
+                    <!-- Head -->
+                    <circle cx="50" cy="35" r="25" fill="#336791"/>
+                    <!-- Ears -->
+                    <ellipse cx="25" cy="30" rx="12" ry="15" fill="#336791" class="elephant-ear-left"/>
+                    <ellipse cx="75" cy="30" rx="12" ry="15" fill="#336791" class="elephant-ear-right"/>
+                    <ellipse cx="25" cy="30" rx="8" ry="10" fill="#264d73"/>
+                    <ellipse cx="75" cy="30" rx="8" ry="10" fill="#264d73"/>
+                    <!-- Trunk -->
+                    <path d="M50 45 Q45 55 40 70 Q38 80 45 85 Q50 82 48 75 Q50 65 55 55" fill="#336791" class="elephant-trunk"/>
+                    <!-- Eyes -->
+                    <circle cx="40" cy="30" r="6" fill="white"/>
+                    <circle cx="60" cy="30" r="6" fill="white"/>
+                    <circle cx="42" cy="30" r="3" fill="#1A1A1A" class="elephant-pupil"/>
+                    <circle cx="62" cy="30" r="3" fill="#1A1A1A" class="elephant-pupil"/>
+                    <!-- Tusks -->
+                    <path d="M35 50 Q30 60 32 65" stroke="#F5F5F5" stroke-width="4" fill="none" stroke-linecap="round"/>
+                    <path d="M65 50 Q70 60 68 65" stroke="#F5F5F5" stroke-width="4" fill="none" stroke-linecap="round"/>
+                    <!-- Feet -->
+                    <ellipse cx="35" cy="78" rx="8" ry="5" fill="#264d73"/>
+                    <ellipse cx="65" cy="78" rx="8" ry="5" fill="#264d73"/>
+                </svg>
+            </div>
+
+            <!-- Python Snake -->
+            <div class="mascot python-snake" title="Python slithering through data!">
+                <svg viewBox="0 0 100 80" class="snake-svg">
+                    <!-- Body coil -->
+                    <path d="M20 60 Q10 50 20 40 Q30 30 40 35 Q50 40 55 30 Q60 20 75 25 Q90 30 85 45 Q80 55 70 50"
+                          stroke="#306998" stroke-width="12" fill="none" stroke-linecap="round" class="snake-body-blue"/>
+                    <path d="M70 50 Q60 45 55 55 Q50 65 35 60 Q25 58 20 60"
+                          stroke="#FFD43B" stroke-width="12" fill="none" stroke-linecap="round" class="snake-body-yellow"/>
+                    <!-- Head -->
+                    <circle cx="20" cy="60" r="10" fill="#FFD43B"/>
+                    <!-- Eyes -->
+                    <circle cx="16" cy="57" r="3" fill="white"/>
+                    <circle cx="24" cy="57" r="3" fill="white"/>
+                    <circle cx="16" cy="57" r="1.5" fill="#1A1A1A" class="snake-eye"/>
+                    <circle cx="24" cy="57" r="1.5" fill="#1A1A1A" class="snake-eye"/>
+                    <!-- Tongue -->
+                    <path d="M12 62 L5 65 M12 62 L5 59" stroke="#FF6B6B" stroke-width="2" stroke-linecap="round" class="snake-tongue"/>
+                </svg>
+            </div>
+
+            <!-- Java Duke (Coffee Cup) -->
+            <div class="mascot java-duke" title="Java brewing some code!">
+                <svg viewBox="0 0 80 100" class="java-svg">
+                    <!-- Cup -->
+                    <path d="M15 30 L20 85 Q20 95 40 95 Q60 95 60 85 L65 30 Z" fill="#5382A1"/>
+                    <!-- Cup rim -->
+                    <ellipse cx="40" cy="30" rx="27" ry="8" fill="#5382A1"/>
+                    <ellipse cx="40" cy="30" rx="22" ry="5" fill="#E76F00"/>
+                    <!-- Handle -->
+                    <path d="M65 40 Q80 40 80 55 Q80 70 65 70" stroke="#5382A1" stroke-width="6" fill="none"/>
+                    <!-- Steam -->
+                    <path d="M30 20 Q28 10 32 5" stroke="#E76F00" stroke-width="2" fill="none" stroke-linecap="round" class="steam s1"/>
+                    <path d="M40 18 Q38 8 42 3" stroke="#E76F00" stroke-width="2" fill="none" stroke-linecap="round" class="steam s2"/>
+                    <path d="M50 20 Q48 10 52 5" stroke="#E76F00" stroke-width="2" fill="none" stroke-linecap="round" class="steam s3"/>
+                    <!-- Java text -->
+                    <text x="40" y="65" text-anchor="middle" fill="white" font-size="12" font-weight="bold">JAVA</text>
+                </svg>
+            </div>
+
+            <!-- Redis Diamond -->
+            <div class="mascot redis-diamond" title="Redis caching at light speed!">
+                <svg viewBox="0 0 80 80" class="redis-svg">
+                    <!-- Diamond shape -->
+                    <polygon points="40,5 75,35 40,75 5,35" fill="#DC382D" class="redis-gem"/>
+                    <!-- Facets -->
+                    <polygon points="40,5 55,25 40,45 25,25" fill="#A41E11" opacity="0.5"/>
+                    <polygon points="40,45 55,25 75,35 40,75" fill="#FF4438" opacity="0.3"/>
+                    <!-- Shine -->
+                    <polygon points="25,25 40,5 40,20 30,28" fill="white" opacity="0.3" class="redis-shine"/>
+                    <!-- Sparkles -->
+                    <circle cx="25" cy="20" r="2" fill="white" class="sparkle sp1"/>
+                    <circle cx="60" cy="30" r="1.5" fill="white" class="sparkle sp2"/>
+                    <circle cx="35" cy="55" r="1" fill="white" class="sparkle sp3"/>
+                </svg>
+            </div>
+
+            <!-- AWS Cloud -->
+            <div class="mascot aws-cloud" title="AWS: Unlimited cloud power!">
+                <svg viewBox="0 0 120 80" class="aws-svg">
+                    <!-- Cloud shape -->
+                    <path d="M25 55 Q10 55 10 42 Q10 30 25 30 Q28 20 42 20 Q55 20 60 28 Q65 18 80 20 Q95 22 95 38 Q110 38 110 50 Q110 62 95 62 L25 62 Q10 62 10 50"
+                          fill="#FF9900" class="aws-cloud-shape"/>
+                    <!-- Smile -->
+                    <path d="M40 45 Q60 55 80 45" stroke="#232F3E" stroke-width="3" fill="none" stroke-linecap="round"/>
+                    <!-- Eyes -->
+                    <circle cx="45" cy="38" r="4" fill="#232F3E"/>
+                    <circle cx="75" cy="38" r="4" fill="#232F3E"/>
+                    <circle cx="46" cy="37" r="1.5" fill="white"/>
+                    <circle cx="76" cy="37" r="1.5" fill="white"/>
+                    <!-- Rain drops (data) -->
+                    <rect x="35" y="68" width="4" height="8" rx="2" fill="#FF9900" class="data-drop d1"/>
+                    <rect x="50" y="72" width="4" height="8" rx="2" fill="#FF9900" class="data-drop d2"/>
+                    <rect x="65" y="68" width="4" height="8" rx="2" fill="#FF9900" class="data-drop d3"/>
+                    <rect x="80" y="72" width="4" height="8" rx="2" fill="#FF9900" class="data-drop d4"/>
+                </svg>
+            </div>
+
+            <!-- Kafka Bird -->
+            <div class="mascot kafka-bird" title="Kafka streaming events!">
+                <svg viewBox="0 0 80 80" class="kafka-svg">
+                    <!-- Body -->
+                    <circle cx="40" cy="45" r="20" fill="#231F20"/>
+                    <!-- Head -->
+                    <circle cx="40" cy="25" r="12" fill="#231F20"/>
+                    <!-- Beak -->
+                    <polygon points="40,30 35,38 45,38" fill="#FF6B00"/>
+                    <!-- Eyes -->
+                    <circle cx="35" cy="23" r="4" fill="white"/>
+                    <circle cx="45" cy="23" r="4" fill="white"/>
+                    <circle cx="36" cy="23" r="2" fill="#231F20" class="kafka-eye"/>
+                    <circle cx="46" cy="23" r="2" fill="#231F20" class="kafka-eye"/>
+                    <!-- Wings -->
+                    <ellipse cx="20" cy="45" rx="10" ry="15" fill="#231F20" class="kafka-wing-left"/>
+                    <ellipse cx="60" cy="45" rx="10" ry="15" fill="#231F20" class="kafka-wing-right"/>
+                    <!-- Feet -->
+                    <line x1="35" y1="65" x2="30" y2="75" stroke="#FF6B00" stroke-width="3"/>
+                    <line x1="45" y1="65" x2="50" y2="75" stroke="#FF6B00" stroke-width="3"/>
+                    <!-- Data streams -->
+                    <path d="M5 40 Q15 35 20 40" stroke="#FF6B00" stroke-width="2" fill="none" class="kafka-stream ks1"/>
+                    <path d="M5 50 Q15 45 20 50" stroke="#FF6B00" stroke-width="2" fill="none" class="kafka-stream ks2"/>
+                    <path d="M60 40 Q65 35 75 40" stroke="#FF6B00" stroke-width="2" fill="none" class="kafka-stream ks3"/>
+                    <path d="M60 50 Q65 45 75 50" stroke="#FF6B00" stroke-width="2" fill="none" class="kafka-stream ks4"/>
+                </svg>
+            </div>
+
+            <!-- Linux Tux Penguin -->
+            <div class="mascot tux-penguin" title="Tux: Open source forever!">
+                <svg viewBox="0 0 80 100" class="tux-svg">
+                    <!-- Body -->
+                    <ellipse cx="40" cy="65" rx="25" ry="30" fill="#1A1A1A"/>
+                    <!-- Belly -->
+                    <ellipse cx="40" cy="70" rx="18" ry="22" fill="#FFC107"/>
+                    <!-- Head -->
+                    <circle cx="40" cy="30" r="20" fill="#1A1A1A"/>
+                    <!-- Face -->
+                    <ellipse cx="40" cy="35" rx="12" ry="10" fill="white"/>
+                    <!-- Eyes -->
+                    <circle cx="35" cy="28" r="5" fill="white"/>
+                    <circle cx="45" cy="28" r="5" fill="white"/>
+                    <circle cx="36" cy="28" r="2.5" fill="#1A1A1A" class="tux-eye"/>
+                    <circle cx="46" cy="28" r="2.5" fill="#1A1A1A" class="tux-eye"/>
+                    <!-- Beak -->
+                    <ellipse cx="40" cy="38" rx="6" ry="4" fill="#FF9800"/>
+                    <!-- Feet -->
+                    <ellipse cx="30" cy="95" rx="10" ry="5" fill="#FF9800" class="tux-foot-left"/>
+                    <ellipse cx="50" cy="95" rx="10" ry="5" fill="#FF9800" class="tux-foot-right"/>
+                    <!-- Wings -->
+                    <ellipse cx="15" cy="60" rx="8" ry="20" fill="#1A1A1A" class="tux-wing-left"/>
+                    <ellipse cx="65" cy="60" rx="8" ry="20" fill="#1A1A1A" class="tux-wing-right"/>
+                </svg>
+            </div>
+
+            <!-- Bitcoin Coin -->
+            <div class="mascot bitcoin-coin" title="Bitcoin: To the moon!">
+                <svg viewBox="0 0 100 100" class="bitcoin-svg">
+                    <!-- Coin body -->
+                    <circle cx="50" cy="50" r="45" fill="#F7931A" class="btc-coin"/>
+                    <circle cx="50" cy="50" r="40" fill="none" stroke="#FFB74D" stroke-width="3"/>
+                    <circle cx="50" cy="50" r="35" fill="none" stroke="#E68A00" stroke-width="1"/>
+                    <!-- Bitcoin B symbol -->
+                    <path d="M42 25 L42 75 M42 25 L58 25 Q70 25 70 37 Q70 50 58 50 L42 50 M42 50 L60 50 Q75 50 75 62 Q75 75 60 75 L42 75"
+                          stroke="white" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round" class="btc-symbol"/>
+                    <!-- Serifs on B -->
+                    <line x1="38" y1="25" x2="46" y2="25" stroke="white" stroke-width="6" stroke-linecap="round"/>
+                    <line x1="38" y1="75" x2="46" y2="75" stroke="white" stroke-width="6" stroke-linecap="round"/>
+                    <line x1="38" y1="50" x2="46" y2="50" stroke="white" stroke-width="4" stroke-linecap="round"/>
+                    <!-- Shine effect -->
+                    <ellipse cx="35" cy="35" rx="10" ry="15" fill="white" opacity="0.2" transform="rotate(-45 35 35)" class="btc-shine"/>
+                    <!-- Sparkles -->
+                    <circle cx="85" cy="20" r="3" fill="#FFD700" class="btc-sparkle sp1"/>
+                    <circle cx="15" cy="75" r="2" fill="#FFD700" class="btc-sparkle sp2"/>
+                    <circle cx="90" cy="70" r="2.5" fill="#FFD700" class="btc-sparkle sp3"/>
+                </svg>
+            </div>
+
+            <!-- Ethereum Diamond -->
+            <div class="mascot ethereum-diamond" title="Ethereum: Smart contracts!">
+                <svg viewBox="0 0 100 120" class="eth-svg">
+                    <!-- Main diamond shape -->
+                    <polygon points="50,5 85,55 50,75 15,55" fill="#627EEA" class="eth-top"/>
+                    <polygon points="50,75 85,55 50,115 15,55" fill="#454A75" class="eth-bottom"/>
+                    <!-- Inner facets -->
+                    <polygon points="50,5 50,45 85,55" fill="#8C9FEF" opacity="0.7"/>
+                    <polygon points="50,5 50,45 15,55" fill="#627EEA" opacity="0.9"/>
+                    <polygon points="50,45 85,55 50,75" fill="#454A75" opacity="0.8"/>
+                    <polygon points="50,45 15,55 50,75" fill="#627EEA" opacity="0.7"/>
+                    <!-- Center line -->
+                    <line x1="50" y1="5" x2="50" y2="75" stroke="#C5CAE9" stroke-width="1" opacity="0.5"/>
+                    <!-- Glow effect -->
+                    <circle cx="50" cy="55" r="25" fill="url(#ethGlow)" opacity="0.3" class="eth-glow"/>
+                    <defs>
+                        <radialGradient id="ethGlow">
+                            <stop offset="0%" stop-color="#627EEA"/>
+                            <stop offset="100%" stop-color="transparent"/>
+                        </radialGradient>
+                    </defs>
+                </svg>
+            </div>
+
+            <!-- Blockchain Chain -->
+            <div class="mascot blockchain-chain" title="Blockchain: Immutable & secure!">
+                <svg viewBox="0 0 200 60" class="chain-svg">
+                    <!-- Chain links -->
+                    <g class="chain-group">
+                        <!-- Link 1 -->
+                        <rect x="5" y="15" width="40" height="30" rx="10" fill="none" stroke="#9C27B0" stroke-width="4" class="chain-link c1"/>
+                        <rect x="15" y="22" width="20" height="16" rx="3" fill="#9C27B0" opacity="0.3"/>
+                        <text x="25" y="34" text-anchor="middle" fill="white" font-size="8" font-weight="bold">01</text>
+                        <!-- Link 2 -->
+                        <rect x="35" y="15" width="40" height="30" rx="10" fill="none" stroke="#7B1FA2" stroke-width="4" class="chain-link c2"/>
+                        <rect x="45" y="22" width="20" height="16" rx="3" fill="#7B1FA2" opacity="0.3"/>
+                        <text x="55" y="34" text-anchor="middle" fill="white" font-size="8" font-weight="bold">A3</text>
+                        <!-- Link 3 -->
+                        <rect x="65" y="15" width="40" height="30" rx="10" fill="none" stroke="#6A1B9A" stroke-width="4" class="chain-link c3"/>
+                        <rect x="75" y="22" width="20" height="16" rx="3" fill="#6A1B9A" opacity="0.3"/>
+                        <text x="85" y="34" text-anchor="middle" fill="white" font-size="8" font-weight="bold">F7</text>
+                        <!-- Link 4 -->
+                        <rect x="95" y="15" width="40" height="30" rx="10" fill="none" stroke="#4A148C" stroke-width="4" class="chain-link c4"/>
+                        <rect x="105" y="22" width="20" height="16" rx="3" fill="#4A148C" opacity="0.3"/>
+                        <text x="115" y="34" text-anchor="middle" fill="white" font-size="8" font-weight="bold">2B</text>
+                        <!-- Link 5 (new block being added) -->
+                        <rect x="125" y="15" width="40" height="30" rx="10" fill="none" stroke="#E1BEE7" stroke-width="4" stroke-dasharray="5,3" class="chain-link c5 new-block"/>
+                        <rect x="135" y="22" width="20" height="16" rx="3" fill="#E1BEE7" opacity="0.2"/>
+                        <text x="145" y="34" text-anchor="middle" fill="#9C27B0" font-size="8" font-weight="bold" class="block-hash">??</text>
+                    </g>
+                    <!-- Connection lines -->
+                    <line x1="43" y1="30" x2="37" y2="30" stroke="#CE93D8" stroke-width="2" class="chain-connector"/>
+                    <line x1="73" y1="30" x2="67" y2="30" stroke="#CE93D8" stroke-width="2" class="chain-connector"/>
+                    <line x1="103" y1="30" x2="97" y2="30" stroke="#CE93D8" stroke-width="2" class="chain-connector"/>
+                    <line x1="133" y1="30" x2="127" y2="30" stroke="#CE93D8" stroke-width="2" stroke-dasharray="3,2" class="chain-connector new"/>
+                </svg>
+            </div>
+        </div>
+
         <div class="container">
             <div class="section-header">
                 <span class="section-tag">&lt;skills&gt;</span>
@@ -861,22 +1336,46 @@
 
     <!-- Projects Section -->
     <section id="projects" class="section projects">
+        <div class="projects-bg">
+            <div class="projects-grid-pattern"></div>
+            <div class="projects-glow projects-glow-1"></div>
+            <div class="projects-glow projects-glow-2"></div>
+        </div>
         <div class="container">
             <div class="section-header">
                 <span class="section-tag">&lt;projects&gt;</span>
                 <h2 class="section-title">Featured Projects</h2>
+                <p class="section-subtitle">Building scalable solutions that make an impact</p>
             </div>
 
             <div class="projects-grid">
-                <article class="project-card featured">
+                <!-- Featured Project - Twize -->
+                <article class="project-card featured" data-importance="high">
+                    <div class="project-badge">
+                        <span class="badge-star">&#9733;</span>
+                        <span>Featured</span>
+                    </div>
                     <div class="project-image">
                         <img src="assets/projects/project-twize.png" alt="Twize - AI-Powered Enterprise Trip Management">
+                        <div class="project-image-overlay">
+                            <div class="platform-badges">
+                                <span class="platform-badge web" title="Web Application">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <line x1="2" y1="12" x2="22" y2="12"></line>
+                                        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                                    </svg>
+                                    <span>Web</span>
+                                </span>
+                            </div>
+                        </div>
                     </div>
                     <div class="project-content">
                         <div class="project-header">
                             <span class="project-label">B2B SaaS Platform</span>
                             <div class="project-links">
-                                <a href="https://twize.app/" target="_blank" rel="noopener" class="project-link" aria-label="Live Demo">
+                                <a href="https://twize.app/" target="_blank" rel="noopener" class="project-link live-link visit-btn" aria-label="Visit Website">
+                                    <span class="visit-text">Visit Website</span>
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                                         <polyline points="15 3 21 3 21 9"></polyline>
@@ -885,12 +1384,29 @@
                                 </a>
                             </div>
                         </div>
-                        <h3 class="project-title">Twize</h3>
+                        <h3 class="project-title">
+                            <span class="title-text">Twize</span>
+                            <span class="title-highlight"></span>
+                        </h3>
                         <p class="project-description">
                             Enterprise-grade B2B SaaS platform revolutionizing trip management for travel agencies.
                             Features AI-powered itinerary generation, automated multi-currency billing systems,
                             and fully customizable white-label solutions for seamless corporate travel experiences.
                         </p>
+                        <div class="project-features">
+                            <span class="feature-item">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                AI-Powered Itineraries
+                            </span>
+                            <span class="feature-item">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                Multi-Currency Billing
+                            </span>
+                            <span class="feature-item">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                White-Label Ready
+                            </span>
+                        </div>
                         <div class="project-tech">
                             <span>Golang</span>
                             <span>AI/ML</span>
@@ -901,9 +1417,34 @@
                     </div>
                 </article>
 
-                <article class="project-card">
+                <!-- Poneglyph - Cross Platform -->
+                <article class="project-card" data-importance="high">
                     <div class="project-image">
                         <img src="assets/projects/project-poneglyph.jpeg" alt="Poneglyph - Enterprise Fleet Management">
+                        <div class="project-image-overlay">
+                            <div class="platform-badges">
+                                <span class="platform-badge web" title="Web Application">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <line x1="2" y1="12" x2="22" y2="12"></line>
+                                        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                                    </svg>
+                                    <span>Web</span>
+                                </span>
+                                <span class="platform-badge ios" title="iOS App">
+                                    <svg viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.81-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/>
+                                    </svg>
+                                    <span>iOS</span>
+                                </span>
+                                <span class="platform-badge android" title="Android App">
+                                    <svg viewBox="0 0 24 24" fill="currentColor">
+                                        <path d="M17.523 15.341c-.5 0-.908-.406-.908-.908 0-.5.406-.908.908-.908.5 0 .908.406.908.908 0 .5-.406.908-.908.908m-11.046 0c-.5 0-.908-.406-.908-.908 0-.5.406-.908.908-.908.5 0 .908.406.908.908 0 .5-.406.908-.908.908m11.4-6.027l2.022-3.502c.112-.194.046-.442-.148-.554-.193-.112-.442-.046-.553.148l-2.046 3.542c-1.69-.77-3.59-1.199-5.152-1.199-1.562 0-3.462.43-5.152 1.199L4.802 5.406c-.112-.194-.36-.26-.553-.148-.194.112-.26.36-.148.554l2.022 3.502C2.662 11.194.5 14.52.5 18.341h23c0-3.821-2.162-7.147-5.623-9.027"/>
+                                    </svg>
+                                    <span>Android</span>
+                                </span>
+                            </div>
+                        </div>
                     </div>
                     <div class="project-content">
                         <div class="project-header">
@@ -911,42 +1452,61 @@
                             <div class="project-links">
                             </div>
                         </div>
-                        <h3 class="project-title">Poneglyph</h3>
+                        <h3 class="project-title">
+                            <span class="title-text">Poneglyph</span>
+                            <span class="title-highlight"></span>
+                        </h3>
                         <p class="project-description">
                             Comprehensive enterprise fleet management platform built for scale.
-                            Unified cross-platform experience (Web, iOS, Android) with real-time GPS tracking,
+                            Unified cross-platform experience with real-time GPS tracking,
                             intelligent route optimization, and advanced operational analytics dashboard.
                         </p>
                         <div class="project-tech">
                             <span>Golang</span>
-                            <span>iOS</span>
-                            <span>Android</span>
+                            <span>Swift</span>
+                            <span>Kotlin</span>
                             <span>Real-time</span>
                             <span>Kubernetes</span>
                         </div>
                     </div>
                 </article>
 
-                <article class="project-card">
+                <!-- Rust Core Library -->
+                <article class="project-card" data-importance="medium">
                     <div class="project-image rust-logo-bg">
                         <svg viewBox="0 0 512 512" class="rust-logo">
                             <path fill="#f74c00" d="M256 0C114.62 0 0 114.62 0 256s114.62 256 256 256 256-114.62 256-256S397.38 0 256 0zm0 482C131.38 482 30 380.62 30 256S131.38 30 256 30s226 101.38 226 226-101.38 226-226 226z"/>
                             <path fill="#f74c00" d="M256 60c-108.25 0-196 87.75-196 196s87.75 196 196 196 196-87.75 196-196S364.25 60 256 60zm127.67 211.75h-26.42c-1.86 15.15-5.89 29.47-11.88 42.67l22.89 13.22-20 34.64-22.89-13.22c-9.54 12.47-21.16 23.08-34.33 31.47l13.22 22.89-34.64 20-13.22-22.89c-13.2 5.99-27.52 10.02-42.67 11.88v26.42h-40v-26.42c-15.15-1.86-29.47-5.89-42.67-11.88l-13.22 22.89-34.64-20 13.22-22.89c-13.17-8.39-24.79-19-34.33-31.47l-22.89 13.22-20-34.64 22.89-13.22c-5.99-13.2-10.02-27.52-11.88-42.67H68.33v-40h26.42c1.86-15.15 5.89-29.47 11.88-42.67l-22.89-13.22 20-34.64 22.89 13.22c9.54-12.47 21.16-23.08 34.33-31.47l-13.22-22.89 34.64-20 13.22 22.89c13.2-5.99 27.52-10.02 42.67-11.88V68.33h40v26.42c15.15 1.86 29.47 5.89 42.67 11.88l13.22-22.89 34.64 20-13.22 22.89c13.17 8.39 24.79 19 34.33 31.47l22.89-13.22 20 34.64-22.89 13.22c5.99 13.2 10.02 27.52 11.88 42.67h26.42v40z"/>
                             <circle fill="#f74c00" cx="256" cy="256" r="60"/>
                         </svg>
+                        <div class="project-image-overlay">
+                            <div class="platform-badges">
+                                <span class="platform-badge library" title="Library/Package">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                                    </svg>
+                                    <span>Library</span>
+                                </span>
+                            </div>
+                        </div>
                     </div>
                     <div class="project-content">
                         <div class="project-header">
                             <span class="project-label">Open Source Library</span>
                             <div class="project-links">
-                                <a href="https://github.com/pskshksh" target="_blank" rel="noopener" class="project-link" aria-label="GitHub">
+                                <a href="https://github.com/pskshksh" target="_blank" rel="noopener" class="project-link github-link" aria-label="GitHub">
                                     <svg viewBox="0 0 24 24" fill="currentColor">
                                         <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
                                     </svg>
+                                    <span class="link-text">Code</span>
                                 </a>
                             </div>
                         </div>
-                        <h3 class="project-title">Rust Core Library</h3>
+                        <h3 class="project-title">
+                            <span class="title-text">Rust Core Library</span>
+                            <span class="title-highlight"></span>
+                        </h3>
                         <p class="project-description">
                             Generic Rust library providing essential building blocks for backend services.
                             Includes data types, OAuth2/authentication, authorization, push notifications,
@@ -964,9 +1524,12 @@
             </div>
 
             <div class="projects-cta">
-                <a href="https://github.com/pskshksh" target="_blank" rel="noopener" class="btn btn-outline">
+                <a href="https://github.com/pskshksh" target="_blank" rel="noopener" class="btn btn-outline btn-glow">
+                    <svg viewBox="0 0 24 24" fill="currentColor" class="btn-icon">
+                        <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                    </svg>
                     View GitHub Profile
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-arrow">
                         <path d="M5 12h14M12 5l7 7-7 7"></path>
                     </svg>
                 </a>
@@ -1076,19 +1639,33 @@
 
     <!-- Contact Section -->
     <section id="contact" class="section contact">
+        <div class="contact-bg">
+            <div class="contact-grid-pattern"></div>
+            <div class="contact-glow contact-glow-1"></div>
+            <div class="contact-glow contact-glow-2"></div>
+            <div class="floating-icons">
+                <span class="floating-icon icon-1">&#128640;</span>
+                <span class="floating-icon icon-2">&#128187;</span>
+                <span class="floating-icon icon-3">&#9889;</span>
+                <span class="floating-icon icon-4">&#128161;</span>
+            </div>
+        </div>
         <div class="container">
             <div class="section-header">
                 <span class="section-tag">&lt;contact&gt;</span>
                 <h2 class="section-title">Get In Touch</h2>
+                <p class="section-subtitle">Let's build something amazing together</p>
             </div>
 
             <div class="contact-content">
                 <div class="contact-info">
-                    <h3>Let's discuss your project</h3>
-                    <p>
-                        I'm open to discussing new opportunities, interesting projects,
-                        or collaborations. Feel free to reach out if you have questions
-                        about backend development, cloud architecture, or just want to connect.
+                    <h3 class="contact-headline">
+                        <span class="wave-emoji">&#128075;</span> Let's discuss your next big idea
+                    </h3>
+                    <p class="contact-description">
+                        Whether you need a scalable backend system, cloud architecture expertise,
+                        or blockchain solutions — I'm here to help turn your vision into reality.
+                        Let's connect and explore the possibilities!
                     </p>
 
                     <div class="contact-methods">
@@ -1145,16 +1722,31 @@
                 </div>
 
                 <div class="contact-cta-box">
+                    <div class="cta-decoration">
+                        <div class="cta-ring"></div>
+                        <div class="cta-ring"></div>
+                        <div class="cta-ring"></div>
+                    </div>
                     <div class="cta-content">
-                        <h4>Ready to collaborate?</h4>
-                        <p>Drop me an email and let's discuss how we can work together on your next project.</p>
-                        <a href="mailto:ayoubidel64@gmail.com?subject=Project%20Inquiry&body=Hi%20Ayoub%2C%0A%0AI%20would%20like%20to%20discuss..." class="btn btn-primary btn-large">
+                        <div class="cta-icon">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                                <polyline points="22,6 12,13 2,6"></polyline>
+                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
                             </svg>
-                            <span>Send me an Email</span>
+                        </div>
+                        <h4>Ready to start your project?</h4>
+                        <p>I typically respond within 24 hours. Let's make something great!</p>
+                        <a href="mailto:ayoubidel64@gmail.com?subject=Let's%20Work%20Together&body=Hi%20Ayoub%2C%0A%0AI%20came%20across%20your%20portfolio%20and%20I'm%20interested%20in%20discussing..." class="btn btn-primary btn-large contact-cta-btn">
+                            <span class="btn-shine"></span>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="22" y1="2" x2="11" y2="13"></line>
+                                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                            </svg>
+                            <span>Let's Talk</span>
                         </a>
+                        <div class="cta-availability">
+                            <span class="availability-dot"></span>
+                            <span>Available for new projects</span>
+                        </div>
                     </div>
                     <div class="cta-decoration">
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
@@ -1211,6 +1803,29 @@
             </div>
         </div>
     </footer>
+
+    <!-- Hidden Easter Eggs -->
+    <div class="secret-message" id="secretMessage">
+        <h3>🎉 You found a secret!</h3>
+        <p>Congrats! You're curious and that's a great trait for a developer.</p>
+        <p style="font-family: var(--font-mono); font-size: 0.85rem; color: var(--accent-primary);">
+            "The only way to do great work is to love what you do." - Steve Jobs
+        </p>
+        <button class="close-btn" onclick="closeSecret()">Awesome!</button>
+    </div>
+
+    <div class="matrix-rain" id="matrixRain"></div>
+
+    <div class="achievement" id="achievement">
+        <div class="achievement-icon">🏆</div>
+        <div class="achievement-content">
+            <h4>ACHIEVEMENT UNLOCKED</h4>
+            <p id="achievementText">Explorer</p>
+        </div>
+    </div>
+
+    <!-- Hidden trigger (corner click) -->
+    <div id="hiddenTrigger" style="position: fixed; bottom: 10px; right: 10px; width: 20px; height: 20px; opacity: 0; cursor: default;" data-clicks="0"></div>
 
     <script src="js/main.js"></script>
 </body>

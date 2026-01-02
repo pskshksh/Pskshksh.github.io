@@ -17,6 +17,15 @@ document.addEventListener('DOMContentLoaded', () => {
     initFormHandler();
     setCurrentYear();
     initSkillIcons();
+    initScrollProgress();
+    initTiltEffect();
+    initParallax();
+    initMagneticButtons();
+    initTextAnimations();
+    initExpandableExperience();
+    initEasterEggs();
+    initConsoleMessage();
+    initSectionEffects();
 });
 
 // ============================================
@@ -459,3 +468,623 @@ document.querySelectorAll('.skill-icon img').forEach(img => {
         `;
     });
 });
+
+// ============================================
+// Scroll Progress Indicator
+// ============================================
+function initScrollProgress() {
+    const progressBar = document.createElement('div');
+    progressBar.className = 'scroll-progress';
+    document.body.appendChild(progressBar);
+
+    window.addEventListener('scroll', () => {
+        const scrollTop = window.pageYOffset;
+        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+        const scrollPercent = (scrollTop / docHeight) * 100;
+        progressBar.style.width = `${scrollPercent}%`;
+    });
+}
+
+// ============================================
+// 3D Tilt Effect on Cards
+// ============================================
+function initTiltEffect() {
+    const cards = document.querySelectorAll('.project-card, .skill-category, .value-card');
+
+    cards.forEach(card => {
+        card.addEventListener('mousemove', (e) => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+
+            const rotateX = (y - centerY) / 20;
+            const rotateY = (centerX - x) / 20;
+
+            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-5px)`;
+        });
+
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0)';
+        });
+    });
+}
+
+// ============================================
+// Parallax Effect
+// ============================================
+function initParallax() {
+    const parallaxElements = document.querySelectorAll('.gradient-orb, .hero-bg');
+
+    window.addEventListener('scroll', () => {
+        const scrollY = window.pageYOffset;
+
+        parallaxElements.forEach(el => {
+            const speed = el.dataset.speed || 0.5;
+            el.style.transform = `translateY(${scrollY * speed}px)`;
+        });
+    });
+
+    // Mouse parallax for hero
+    const hero = document.querySelector('.hero');
+    const heroContent = document.querySelector('.hero-content');
+
+    if (hero && heroContent) {
+        hero.addEventListener('mousemove', (e) => {
+            const rect = hero.getBoundingClientRect();
+            const x = (e.clientX - rect.left) / rect.width - 0.5;
+            const y = (e.clientY - rect.top) / rect.height - 0.5;
+
+            const orbs = document.querySelectorAll('.gradient-orb');
+            orbs.forEach((orb, index) => {
+                const depth = (index + 1) * 20;
+                orb.style.transform = `translate(${x * depth}px, ${y * depth}px)`;
+            });
+        });
+    }
+}
+
+// ============================================
+// Magnetic Button Effect
+// ============================================
+function initMagneticButtons() {
+    const buttons = document.querySelectorAll('.btn-primary, .btn-secondary, .social-link');
+
+    buttons.forEach(btn => {
+        btn.addEventListener('mousemove', (e) => {
+            const rect = btn.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+
+            btn.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`;
+        });
+
+        btn.addEventListener('mouseleave', () => {
+            btn.style.transform = 'translate(0, 0)';
+        });
+    });
+}
+
+// ============================================
+// Text Reveal Animations
+// ============================================
+function initTextAnimations() {
+    // Add staggered animation to skill items
+    const skillItems = document.querySelectorAll('.skill-item');
+    skillItems.forEach((item, index) => {
+        item.style.transitionDelay = `${index * 0.05}s`;
+    });
+
+    // Animate section titles on scroll
+    const titles = document.querySelectorAll('.section-title');
+    const titleObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('title-animated');
+            }
+        });
+    }, { threshold: 0.5 });
+
+    titles.forEach(title => titleObserver.observe(title));
+}
+
+// ============================================
+// Enhanced Typing Effect
+// ============================================
+function typeWriter(element, texts, speed = 100, pause = 2000) {
+    let textIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+
+    function type() {
+        const currentText = texts[textIndex];
+
+        if (isDeleting) {
+            element.textContent = currentText.substring(0, charIndex - 1);
+            charIndex--;
+        } else {
+            element.textContent = currentText.substring(0, charIndex + 1);
+            charIndex++;
+        }
+
+        let typeSpeed = speed;
+
+        if (isDeleting) {
+            typeSpeed /= 2;
+        }
+
+        if (!isDeleting && charIndex === currentText.length) {
+            typeSpeed = pause;
+            isDeleting = true;
+        } else if (isDeleting && charIndex === 0) {
+            isDeleting = false;
+            textIndex = (textIndex + 1) % texts.length;
+            typeSpeed = 500;
+        }
+
+        setTimeout(type, typeSpeed);
+    }
+
+    type();
+}
+
+// ============================================
+// Spotlight Effect on Cards
+// ============================================
+document.querySelectorAll('.project-card, .skill-category, .blog-card').forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        card.style.setProperty('--spotlight-x', `${x}px`);
+        card.style.setProperty('--spotlight-y', `${y}px`);
+    });
+});
+
+// ============================================
+// Intersection Observer for Timeline Animation
+// ============================================
+const timelineObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('timeline-visible');
+        }
+    });
+}, { threshold: 0.2 });
+
+document.querySelectorAll('.timeline').forEach(timeline => {
+    timelineObserver.observe(timeline);
+});
+
+// ============================================
+// Add ripple effect to buttons
+// ============================================
+document.querySelectorAll('.btn').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+        const rect = this.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+
+        const ripple = document.createElement('span');
+        ripple.className = 'btn-ripple-effect';
+        ripple.style.left = `${x}px`;
+        ripple.style.top = `${y}px`;
+
+        this.appendChild(ripple);
+
+        setTimeout(() => ripple.remove(), 600);
+    });
+});
+
+// ============================================
+// Expandable Experience Cards
+// ============================================
+function initExpandableExperience() {
+    const expandableItems = document.querySelectorAll('.timeline-item.expandable');
+
+    expandableItems.forEach(item => {
+        const content = item.querySelector('.timeline-content');
+        const expandBtn = item.querySelector('.expand-btn');
+
+        const toggleExpand = (e) => {
+            // Don't toggle if clicking on links or tags
+            if (e.target.closest('a') || e.target.closest('.tag')) return;
+
+            const isExpanded = item.classList.contains('expanded');
+
+            // Close all other expanded items
+            expandableItems.forEach(otherItem => {
+                if (otherItem !== item) {
+                    otherItem.classList.remove('expanded');
+                }
+            });
+
+            // Toggle current item
+            item.classList.toggle('expanded');
+
+            // Play sound effect (subtle click)
+            if (!isExpanded) {
+                playClickSound();
+            }
+        };
+
+        content.addEventListener('click', toggleExpand);
+    });
+}
+
+function playClickSound() {
+    // Create a subtle click sound using Web Audio API
+    try {
+        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        const oscillator = audioContext.createOscillator();
+        const gainNode = audioContext.createGain();
+
+        oscillator.connect(gainNode);
+        gainNode.connect(audioContext.destination);
+
+        oscillator.frequency.value = 600;
+        oscillator.type = 'sine';
+        gainNode.gain.value = 0.1;
+        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
+
+        oscillator.start(audioContext.currentTime);
+        oscillator.stop(audioContext.currentTime + 0.1);
+    } catch (e) {
+        // Audio not supported, silently fail
+    }
+}
+
+// ============================================
+// Easter Eggs & Hidden Messages
+// ============================================
+function initEasterEggs() {
+    // Konami Code: ↑ ↑ ↓ ↓ ← → ← → B A
+    const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'KeyB', 'KeyA'];
+    let konamiIndex = 0;
+
+    // Track achievements
+    const achievements = {
+        konami: false,
+        explorer: false,
+        reader: false,
+        clicker: false,
+        scroller: false
+    };
+
+    // Konami code listener
+    document.addEventListener('keydown', (e) => {
+        if (e.code === konamiCode[konamiIndex]) {
+            konamiIndex++;
+            if (konamiIndex === konamiCode.length) {
+                triggerMatrixRain();
+                showAchievement('🎮', 'Konami Master');
+                achievements.konami = true;
+                konamiIndex = 0;
+            }
+        } else {
+            konamiIndex = 0;
+        }
+    });
+
+    // Triple click on logo triggers secret
+    const logo = document.querySelector('.nav-logo');
+    let clickCount = 0;
+    let clickTimer = null;
+
+    logo?.addEventListener('click', (e) => {
+        e.preventDefault();
+        clickCount++;
+        clearTimeout(clickTimer);
+
+        if (clickCount >= 3) {
+            showSecretMessage();
+            showAchievement('🔍', 'Secret Finder');
+            achievements.explorer = true;
+            clickCount = 0;
+        } else {
+            clickTimer = setTimeout(() => clickCount = 0, 500);
+        }
+    });
+
+    // Hidden corner trigger (bottom right)
+    const hiddenTrigger = document.getElementById('hiddenTrigger');
+    let cornerClicks = 0;
+
+    hiddenTrigger?.addEventListener('click', () => {
+        cornerClicks++;
+        if (cornerClicks >= 5) {
+            document.body.classList.add('rainbow-mode');
+            showAchievement('🌈', 'Rainbow Discoverer');
+            setTimeout(() => document.body.classList.remove('rainbow-mode'), 5000);
+            cornerClicks = 0;
+        }
+    });
+
+    // Scroll to bottom achievement
+    let scrolledToBottom = false;
+    window.addEventListener('scroll', () => {
+        if (!scrolledToBottom && (window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100) {
+            scrolledToBottom = true;
+            if (!achievements.scroller) {
+                showAchievement('📜', 'Deep Diver');
+                achievements.scroller = true;
+            }
+        }
+    });
+
+    // Type "hello" anywhere
+    let typedKeys = '';
+    document.addEventListener('keypress', (e) => {
+        typedKeys += e.key.toLowerCase();
+        if (typedKeys.includes('hello')) {
+            showAchievement('👋', 'Friendly Coder');
+            typedKeys = '';
+        }
+        if (typedKeys.includes('hire')) {
+            showAchievement('💼', 'Ready to Work!');
+            document.querySelector('.hero-name')?.classList.add('rainbow-border');
+            typedKeys = '';
+        }
+        if (typedKeys.length > 20) typedKeys = typedKeys.slice(-10);
+    });
+
+    // Click on specific skill 10 times
+    const golangSkill = document.querySelector('.skill-item:first-child');
+    let skillClicks = 0;
+
+    document.querySelectorAll('.skill-item').forEach(skill => {
+        skill.addEventListener('click', () => {
+            skillClicks++;
+            if (skillClicks === 10 && !achievements.clicker) {
+                showAchievement('⚡', 'Skill Enthusiast');
+                achievements.clicker = true;
+            }
+        });
+    });
+}
+
+function triggerMatrixRain() {
+    const container = document.getElementById('matrixRain');
+    if (!container) return;
+
+    container.classList.add('active');
+
+    // Create matrix columns
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()アイウエオカキクケコ';
+    const columns = Math.floor(window.innerWidth / 20);
+
+    for (let i = 0; i < columns; i++) {
+        const column = document.createElement('div');
+        column.className = 'matrix-column';
+        column.style.left = `${i * 20}px`;
+        column.style.animationDelay = `${Math.random() * 2}s`;
+        column.style.animationDuration = `${3 + Math.random() * 4}s`;
+
+        // Generate random string
+        let text = '';
+        for (let j = 0; j < 30; j++) {
+            text += chars[Math.floor(Math.random() * chars.length)] + '<br>';
+        }
+        column.innerHTML = text;
+
+        container.appendChild(column);
+    }
+
+    // Remove after animation
+    setTimeout(() => {
+        container.classList.remove('active');
+        container.innerHTML = '';
+    }, 5000);
+}
+
+function showSecretMessage() {
+    const message = document.getElementById('secretMessage');
+    if (message) {
+        message.classList.add('active');
+    }
+}
+
+function closeSecret() {
+    const message = document.getElementById('secretMessage');
+    if (message) {
+        message.classList.remove('active');
+    }
+}
+
+// Make closeSecret globally accessible
+window.closeSecret = closeSecret;
+
+function showAchievement(icon, text) {
+    const achievement = document.getElementById('achievement');
+    const achievementIcon = achievement?.querySelector('.achievement-icon');
+    const achievementText = document.getElementById('achievementText');
+
+    if (achievement && achievementIcon && achievementText) {
+        achievementIcon.textContent = icon;
+        achievementText.textContent = text;
+        achievement.classList.add('show');
+
+        // Play achievement sound
+        try {
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+
+            oscillator.frequency.value = 800;
+            oscillator.type = 'sine';
+            gainNode.gain.value = 0.15;
+
+            oscillator.start(audioContext.currentTime);
+            oscillator.frequency.exponentialRampToValueAtTime(1200, audioContext.currentTime + 0.1);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
+            oscillator.stop(audioContext.currentTime + 0.3);
+        } catch (e) {}
+
+        setTimeout(() => {
+            achievement.classList.remove('show');
+        }, 4000);
+    }
+}
+
+// ============================================
+// Console Easter Egg Message
+// ============================================
+function initConsoleMessage() {
+    const styles = [
+        'color: #60a5fa',
+        'font-size: 24px',
+        'font-weight: bold',
+        'text-shadow: 2px 2px 4px rgba(0,0,0,0.3)'
+    ].join(';');
+
+    const subtitleStyles = [
+        'color: #94a3b8',
+        'font-size: 14px'
+    ].join(';');
+
+    const hintStyles = [
+        'color: #4ade80',
+        'font-size: 12px',
+        'font-style: italic'
+    ].join(';');
+
+    console.log('%c👋 Hey there, curious developer!', styles);
+    console.log('%cYou found the console. Nice debugging skills!', subtitleStyles);
+    console.log('%c');
+    console.log('%c💡 Hints:', 'color: #fbbf24; font-size: 14px; font-weight: bold');
+    console.log('%c• Try the Konami Code (↑↑↓↓←→←→BA)', hintStyles);
+    console.log('%c• Triple-click the logo', hintStyles);
+    console.log('%c• Type "hello" or "hire" on your keyboard', hintStyles);
+    console.log('%c• Scroll all the way down', hintStyles);
+    console.log('%c• Click the bottom-right corner 5 times', hintStyles);
+    console.log('%c');
+    console.log('%c🚀 Built with passion by Ayoub Idel', 'color: #60a5fa; font-size: 12px');
+
+    // Hidden console command
+    window.unlockAll = () => {
+        triggerMatrixRain();
+        showAchievement('🏆', 'Console Hacker');
+        console.log('%c🎉 All secrets unlocked!', 'color: #4ade80; font-size: 16px; font-weight: bold');
+    };
+}
+
+// ============================================
+// Section Effects
+// ============================================
+function initSectionEffects() {
+    // Add reveal animation to sections
+    const sections = document.querySelectorAll('.section');
+
+    const sectionObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('section-visible');
+
+                // Add stagger animation to children
+                const children = entry.target.querySelectorAll('.skill-category, .project-card, .blog-card, .value-card');
+                children.forEach((child, index) => {
+                    child.style.transitionDelay = `${index * 0.1}s`;
+                    child.classList.add('card-visible');
+                });
+            }
+        });
+    }, { threshold: 0.1 });
+
+    sections.forEach(section => sectionObserver.observe(section));
+
+    // Floating animation for hero elements
+    const heroVisual = document.querySelector('.hero-visual');
+    if (heroVisual) {
+        let mouseX = 0;
+        let mouseY = 0;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = (e.clientX / window.innerWidth - 0.5) * 20;
+            mouseY = (e.clientY / window.innerHeight - 0.5) * 20;
+        });
+
+        function animateHero() {
+            if (heroVisual) {
+                heroVisual.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
+            }
+            requestAnimationFrame(animateHero);
+        }
+        animateHero();
+    }
+
+    // Add glow effect on scroll for skills
+    const skillsSection = document.querySelector('.skills');
+    if (skillsSection) {
+        window.addEventListener('scroll', () => {
+            const rect = skillsSection.getBoundingClientRect();
+            if (rect.top < window.innerHeight && rect.bottom > 0) {
+                const progress = 1 - (rect.top / window.innerHeight);
+                skillsSection.style.setProperty('--scroll-progress', progress);
+            }
+        });
+    }
+
+    // About section image parallax
+    const aboutImage = document.querySelector('.profile-photo');
+    if (aboutImage) {
+        window.addEventListener('scroll', () => {
+            const rect = aboutImage.getBoundingClientRect();
+            if (rect.top < window.innerHeight && rect.bottom > 0) {
+                const progress = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
+                aboutImage.style.transform = `scale(${1 + progress * 0.05})`;
+            }
+        });
+    }
+
+    // Blog cards hover sound
+    document.querySelectorAll('.blog-card').forEach(card => {
+        card.addEventListener('mouseenter', () => {
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+
+                oscillator.frequency.value = 440;
+                oscillator.type = 'sine';
+                gainNode.gain.value = 0.05;
+                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.05);
+
+                oscillator.start(audioContext.currentTime);
+                oscillator.stop(audioContext.currentTime + 0.05);
+            } catch (e) {}
+        });
+    });
+}
+
+// ============================================
+// Rainbow Mode CSS
+// ============================================
+const rainbowStyle = document.createElement('style');
+rainbowStyle.textContent = `
+    .rainbow-mode {
+        animation: rainbow-bg 3s ease infinite;
+    }
+    @keyframes rainbow-bg {
+        0% { filter: hue-rotate(0deg); }
+        100% { filter: hue-rotate(360deg); }
+    }
+    .rainbow-mode .hero-name,
+    .rainbow-mode .section-title,
+    .rainbow-mode .nav-logo {
+        animation: rainbow-text 2s ease infinite;
+    }
+    @keyframes rainbow-text {
+        0% { filter: hue-rotate(0deg); }
+        100% { filter: hue-rotate(360deg); }
+    }
+`;
+document.head.appendChild(rainbowStyle);
