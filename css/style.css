@@ -1748,33 +1748,7 @@ input, textarea {
     transition: opacity 0.4s ease;
 }
 
-.project-card:hover::before {
-    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
-    opacity: 1;
-}
 
-.project-card:hover {
-    border-color: transparent;
-    transform: translateY(-12px) scale(1.02);
-    box-shadow: var(--shadow-xl), 0 25px 50px rgba(0, 0, 0, 0.2), 0 0 60px rgba(96, 165, 250, 0.15);
-}
-
-/* Subtle glow effect on hover */
-.project-card::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    border-radius: var(--radius-lg);
-    background: radial-gradient(circle at 50% 0%, rgba(96, 165, 250, 0.15), transparent 60%);
-    opacity: 0;
-    transition: opacity 0.4s ease;
-    pointer-events: none;
-    z-index: 0;
-}
-
-.project-card:hover::after {
-    opacity: 1;
-}
 
 /* Featured badge */
 .project-badge {
@@ -1791,30 +1765,17 @@ input, textarea {
     align-items: center;
     gap: 6px;
     z-index: 10;
-    box-shadow: 0 4px 15px rgba(96, 165, 250, 0.4);
-    animation: badge-pulse 2s ease-in-out infinite;
+    box-shadow: 0 2px 8px rgba(96, 165, 250, 0.3);
 }
 
 .badge-star {
-    font-size: 1rem;
-    animation: star-spin 3s linear infinite;
-}
-
-@keyframes badge-pulse {
-    0%, 100% { box-shadow: 0 4px 15px rgba(96, 165, 250, 0.4); }
-    50% { box-shadow: 0 4px 25px rgba(96, 165, 250, 0.6); }
-}
-
-@keyframes star-spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+    font-size: 0.9rem;
 }
 
 .project-card.featured {
     grid-column: 1 / -1;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    background: linear-gradient(135deg, var(--bg-card), rgba(96, 165, 250, 0.05));
 }
 
 .project-card[data-importance="high"]::before {
@@ -1828,21 +1789,15 @@ input, textarea {
     overflow: hidden;
 }
 
-/* Platform badges overlay */
+/* Platform badges overlay - always visible */
 .project-image-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, transparent 50%);
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.6) 0%, transparent 40%);
     display: flex;
     align-items: flex-end;
     justify-content: flex-start;
     padding: var(--space-md);
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.project-card:hover .project-image-overlay {
-    opacity: 1;
 }
 
 .platform-badges {
@@ -1904,7 +1859,7 @@ input, textarea {
 }
 
 .project-card:hover .project-image img {
-    transform: scale(1.05);
+    transform: none;
 }
 
 /* Rust logo background for project */
@@ -2036,19 +1991,7 @@ input, textarea {
 }
 
 .project-title .title-highlight {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 0;
-    height: 30%;
-    background: linear-gradient(90deg, var(--accent-primary), var(--accent-secondary));
-    opacity: 0.2;
-    transition: width 0.4s ease;
-    z-index: 0;
-}
-
-.project-card:hover .project-title .title-highlight {
-    width: 100%;
+    display: none;
 }
 
 /* Project features list */
@@ -2101,32 +2044,50 @@ input, textarea {
 }
 
 .project-link .link-text {
-    opacity: 0;
-    width: 0;
-    transition: all 0.3s ease;
-}
-
-.project-link:hover .link-text {
     opacity: 1;
     width: auto;
     margin-left: 4px;
 }
 
+.project-link.live-link {
+    background: #ff6b35;
+    color: white;
+}
+
 .project-link.live-link:hover {
-    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+    background: #e55a2b;
     color: white;
 }
 
 /* Visit Website Button */
+.project-link.visit-website-btn {
+    padding: 14px 28px;
+    background: #ff6b35;
+    color: white;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: var(--radius-md);
+    gap: 10px;
+}
+
+.project-link.visit-website-btn:hover {
+    background: #e55a2b;
+}
+
+.project-link.visit-website-btn svg {
+    width: 20px;
+    height: 20px;
+}
+
+/* Visit Website Button - Simple */
 .project-link.visit-btn {
-    padding: 10px 18px;
-    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+    padding: 8px 16px;
+    background: var(--accent-primary);
     color: white;
     font-size: 0.85rem;
     font-weight: 600;
-    border-radius: var(--radius-full);
-    box-shadow: 0 4px 15px rgba(96, 165, 250, 0.3);
-    transition: all 0.3s ease;
+    border-radius: var(--radius-md);
+    transition: background 0.2s ease;
 }
 
 .project-link.visit-btn .visit-text {
@@ -2135,19 +2096,13 @@ input, textarea {
 }
 
 .project-link.visit-btn svg {
-    width: 16px;
-    height: 16px;
+    width: 14px;
+    height: 14px;
     margin-left: 6px;
 }
 
 .project-link.visit-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(96, 165, 250, 0.5);
-    background: linear-gradient(135deg, var(--accent-secondary), var(--accent-primary));
-}
-
-.project-link.visit-btn:hover svg {
-    transform: translate(3px, -3px);
+    background: var(--accent-secondary);
 }
 
 .project-link.github-link:hover {
