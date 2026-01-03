@@ -1730,6 +1730,8 @@ input, textarea {
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: var(--shadow-soft);
     position: relative;
+    display: flex;
+    flex-direction: column;
 }
 
 .project-card::before {
@@ -1862,24 +1864,37 @@ input, textarea {
     transform: none;
 }
 
-/* Rust logo background for project */
-.project-image.rust-logo-bg {
+/* Rust project background */
+.project-image.rust-project-bg {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, var(--gray-900), var(--gray-800));
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    position: relative;
+    overflow: hidden;
 }
 
-.project-image.rust-logo-bg .rust-logo {
-    width: 120px;
-    height: 120px;
-    opacity: 0.9;
-    transition: transform 0.4s ease, opacity 0.4s ease;
+.project-image.rust-project-bg::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(circle at 20% 80%, rgba(247, 76, 0, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(247, 76, 0, 0.1) 0%, transparent 40%);
 }
 
-.project-card:hover .project-image.rust-logo-bg .rust-logo {
-    transform: scale(1.1) rotate(10deg);
-    opacity: 1;
+.rust-ferris-container {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.rust-ferris {
+    width: 140px;
+    height: auto;
+    filter: drop-shadow(0 10px 30px rgba(247, 76, 0, 0.3));
 }
 
 .project-card.featured .project-image {
@@ -1903,6 +1918,9 @@ input, textarea {
 
 .project-content {
     padding: var(--space-xl);
+    display: flex;
+    flex-direction: column;
+    flex: 1;
 }
 
 .project-header {
@@ -2059,15 +2077,28 @@ input, textarea {
     color: white;
 }
 
+/* Project CTA container */
+.project-cta {
+    margin-top: auto;
+    padding-top: var(--space-md);
+    text-align: center;
+}
+
 /* Visit Website Button */
 .project-link.visit-website-btn {
-    padding: 14px 28px;
+    width: auto;
+    height: auto;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px 24px;
     background: #ff6b35;
     color: white;
-    font-size: 1.1rem;
+    font-size: 0.95rem;
     font-weight: 600;
     border-radius: var(--radius-md);
-    gap: 10px;
+    gap: 8px;
+    white-space: nowrap;
 }
 
 .project-link.visit-website-btn:hover {
@@ -2077,6 +2108,7 @@ input, textarea {
 .project-link.visit-website-btn svg {
     width: 20px;
     height: 20px;
+    flex-shrink: 0;
 }
 
 /* Visit Website Button - Simple */
@@ -2695,7 +2727,6 @@ input, textarea {
     z-index: 0;
 }
 
-.project-card:hover::before,
 .skill-category:hover::before,
 .blog-card:hover::before {
     opacity: 1;
@@ -4342,5 +4373,96 @@ body::after {
     .mascot.java-duke,
     .mascot.aws-cloud {
         transform: scale(0.7);
+    }
+}
+
+/* ============================================
+   Unlimited Fireworks Effect
+   ============================================ */
+.unlimited-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.9);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: overlay-fade-in 0.3s ease;
+}
+
+.unlimited-overlay.fade-out {
+    animation: overlay-fade-out 0.5s ease forwards;
+}
+
+@keyframes overlay-fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes overlay-fade-out {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+.unlimited-message {
+    font-size: clamp(2rem, 8vw, 4rem);
+    font-weight: 700;
+    color: white;
+    text-align: center;
+    z-index: 10001;
+    text-shadow:
+        0 0 20px rgba(255, 107, 53, 0.8),
+        0 0 40px rgba(255, 107, 53, 0.6),
+        0 0 60px rgba(255, 107, 53, 0.4);
+    animation: message-pulse 1s ease-in-out infinite;
+}
+
+@keyframes message-pulse {
+    0%, 100% {
+        transform: scale(1);
+        text-shadow:
+            0 0 20px rgba(255, 107, 53, 0.8),
+            0 0 40px rgba(255, 107, 53, 0.6),
+            0 0 60px rgba(255, 107, 53, 0.4);
+    }
+    50% {
+        transform: scale(1.05);
+        text-shadow:
+            0 0 30px rgba(255, 107, 53, 1),
+            0 0 60px rgba(255, 107, 53, 0.8),
+            0 0 90px rgba(255, 107, 53, 0.6);
+    }
+}
+
+.fireworks-container {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.firework {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+}
+
+.particle {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    animation: particle-explode 1s ease-out forwards;
+    box-shadow: 0 0 10px currentColor, 0 0 20px currentColor;
+}
+
+@keyframes particle-explode {
+    0% {
+        transform: rotate(var(--angle)) translateX(0) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: rotate(var(--angle)) translateX(150px) scale(0);
+        opacity: 0;
     }
 }

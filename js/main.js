@@ -844,6 +844,94 @@ function initEasterEggs() {
             }
         });
     });
+
+    // Secret: Hold 'A' key + click on profile image to switch photo
+    const profilePhoto = document.querySelector('.profile-photo');
+    let isAKeyPressed = false;
+    let isHat2 = false;
+
+    // Track 'A' key press
+    document.addEventListener('keydown', (e) => {
+        if (e.key.toLowerCase() === 'a') {
+            isAKeyPressed = true;
+        }
+    });
+
+    document.addEventListener('keyup', (e) => {
+        if (e.key.toLowerCase() === 'a') {
+            isAKeyPressed = false;
+        }
+    });
+
+    // Click on profile photo while holding 'A'
+    if (profilePhoto) {
+        profilePhoto.style.cursor = 'pointer';
+        profilePhoto.addEventListener('click', () => {
+            if (isAKeyPressed) {
+                isHat2 = !isHat2;
+                profilePhoto.style.transition = 'transform 0.5s ease, opacity 0.3s ease';
+                profilePhoto.style.transform = 'scale(0.8) rotate(10deg)';
+                profilePhoto.style.opacity = '0';
+
+                setTimeout(() => {
+                    profilePhoto.src = isHat2 ? 'assets/profile/me_hat2.png' : 'assets/profile/me_hat1.png';
+                    profilePhoto.style.transform = 'scale(1) rotate(0deg)';
+                    profilePhoto.style.opacity = '1';
+                }, 300);
+
+                // Show fireworks and message
+                if (isHat2) {
+                    showUnlimitedEffect();
+                }
+            }
+        });
+    }
+}
+
+// Unlimited fireworks effect
+function showUnlimitedEffect() {
+    // Create overlay
+    const overlay = document.createElement('div');
+    overlay.className = 'unlimited-overlay';
+    overlay.innerHTML = `
+        <div class="unlimited-message">✨ You are UNLIMITED! ✨</div>
+        <div class="fireworks-container"></div>
+    `;
+    document.body.appendChild(overlay);
+
+    // Create fireworks
+    const container = overlay.querySelector('.fireworks-container');
+    const colors = ['#ff6b35', '#f7931e', '#ffb347', '#60a5fa', '#a78bfa', '#f472b6', '#34d399'];
+
+    function createFirework() {
+        const firework = document.createElement('div');
+        firework.className = 'firework';
+        firework.style.left = Math.random() * 100 + '%';
+        firework.style.top = Math.random() * 100 + '%';
+
+        // Create particles
+        for (let i = 0; i < 12; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.style.background = colors[Math.floor(Math.random() * colors.length)];
+            particle.style.setProperty('--angle', (i * 30) + 'deg');
+            firework.appendChild(particle);
+        }
+
+        container.appendChild(firework);
+
+        setTimeout(() => firework.remove(), 1000);
+    }
+
+    // Launch fireworks repeatedly
+    const fireworkInterval = setInterval(createFirework, 200);
+
+    // Remove after 6 seconds
+    setTimeout(() => {
+        clearInterval(fireworkInterval);
+        overlay.classList.add('fade-out');
+        setTimeout(() => overlay.remove(), 500);
+    }, 6000);
 }
 
 function triggerMatrixRain() {

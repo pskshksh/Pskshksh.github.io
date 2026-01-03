@@ -1349,8 +1349,8 @@
             </div>
 
             <div class="projects-grid">
-                <!-- Featured Project - Twize -->
-                <article class="project-card featured" data-importance="high">
+                <!-- Twize Project -->
+                <article class="project-card" data-importance="high">
                     <div class="project-image">
                         <img src="assets/projects/project-twize.png" alt="Twize - AI-Powered Enterprise Trip Management">
                         <div class="project-image-overlay">
@@ -1369,46 +1369,30 @@
                     <div class="project-content">
                         <div class="project-header">
                             <span class="project-label">B2B SaaS Platform</span>
-                            <div class="project-links">
-                                <a href="https://twize.app/" target="_blank" rel="noopener" class="project-link visit-website-btn" aria-label="Visit Website">
-                                    Visit Website
-                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                                        <polyline points="15 3 21 3 21 9"></polyline>
-                                        <line x1="10" y1="14" x2="21" y2="3"></line>
-                                    </svg>
-                                </a>
-                            </div>
                         </div>
                         <h3 class="project-title">
                             <span class="title-text">Twize</span>
-                            <span class="title-highlight"></span>
                         </h3>
                         <p class="project-description">
                             Enterprise-grade B2B SaaS platform revolutionizing trip management for travel agencies.
-                            Features AI-powered itinerary generation, automated multi-currency billing systems,
-                            and fully customizable white-label solutions for seamless corporate travel experiences.
+                            Features AI-powered itinerary generation and automated multi-currency billing.
                         </p>
-                        <div class="project-features">
-                            <span class="feature-item">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                                AI-Powered Itineraries
-                            </span>
-                            <span class="feature-item">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                                Multi-Currency Billing
-                            </span>
-                            <span class="feature-item">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                                White-Label Ready
-                            </span>
-                        </div>
                         <div class="project-tech">
                             <span>Golang</span>
                             <span>AI/ML</span>
                             <span>Microservices</span>
                             <span>AWS</span>
                             <span>PostgreSQL</span>
+                        </div>
+                        <div class="project-cta">
+                            <a href="https://twize.app/" target="_blank" rel="noopener" class="project-link visit-website-btn" aria-label="Visit Website">
+                                Visit Website
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                                    <polyline points="15 3 21 3 21 9"></polyline>
+                                    <line x1="10" y1="14" x2="21" y2="3"></line>
+                                </svg>
+                            </a>
                         </div>
                     </div>
                 </article>
@@ -1469,12 +1453,10 @@
 
                 <!-- Rust Core Library -->
                 <article class="project-card" data-importance="medium">
-                    <div class="project-image rust-logo-bg">
-                        <svg viewBox="0 0 512 512" class="rust-logo">
-                            <path fill="#f74c00" d="M256 0C114.62 0 0 114.62 0 256s114.62 256 256 256 256-114.62 256-256S397.38 0 256 0zm0 482C131.38 482 30 380.62 30 256S131.38 30 256 30s226 101.38 226 226-101.38 226-226 226z"/>
-                            <path fill="#f74c00" d="M256 60c-108.25 0-196 87.75-196 196s87.75 196 196 196 196-87.75 196-196S364.25 60 256 60zm127.67 211.75h-26.42c-1.86 15.15-5.89 29.47-11.88 42.67l22.89 13.22-20 34.64-22.89-13.22c-9.54 12.47-21.16 23.08-34.33 31.47l13.22 22.89-34.64 20-13.22-22.89c-13.2 5.99-27.52 10.02-42.67 11.88v26.42h-40v-26.42c-15.15-1.86-29.47-5.89-42.67-11.88l-13.22 22.89-34.64-20 13.22-22.89c-13.17-8.39-24.79-19-34.33-31.47l-22.89 13.22-20-34.64 22.89-13.22c-5.99-13.2-10.02-27.52-11.88-42.67H68.33v-40h26.42c1.86-15.15 5.89-29.47 11.88-42.67l-22.89-13.22 20-34.64 22.89 13.22c9.54-12.47 21.16-23.08 34.33-31.47l-13.22-22.89 34.64-20 13.22 22.89c13.2-5.99 27.52-10.02 42.67-11.88V68.33h40v26.42c15.15 1.86 29.47 5.89 42.67 11.88l13.22-22.89 34.64 20-13.22 22.89c13.17 8.39 24.79 19 34.33 31.47l22.89-13.22 20 34.64-22.89 13.22c5.99 13.2 10.02 27.52 11.88 42.67h26.42v40z"/>
-                            <circle fill="#f74c00" cx="256" cy="256" r="60"/>
-                        </svg>
+                    <div class="project-image rust-project-bg">
+                        <div class="rust-ferris-container">
+                            <img src="https://rustacean.net/assets/rustacean-flat-happy.svg" alt="Ferris the Crab" class="rust-ferris">
+                        </div>
                         <div class="project-image-overlay">
                             <div class="platform-badges">
                                 <span class="platform-badge library" title="Library/Package">
