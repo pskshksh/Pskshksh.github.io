@@ -35,22 +35,41 @@
             </button>
 
             <ul class="nav-menu">
-                <li><a href="#home" class="nav-link active">Home</a></li>
-                <li><a href="#about" class="nav-link">About</a></li>
-                <li><a href="#experience" class="nav-link">Experience</a></li>
-                <li><a href="#education" class="nav-link">Education</a></li>
-                <li><a href="#skills" class="nav-link">Skills</a></li>
-                <li><a href="#projects" class="nav-link">Projects</a></li>
-                <li><a href="#blog" class="nav-link">Blog</a></li>
-                <li><a href="#contact" class="nav-link">Contact</a></li>
+                <li><a href="#home" class="nav-link active" data-i18n="nav_home">Home</a></li>
+                <li><a href="#about" class="nav-link" data-i18n="nav_about">About</a></li>
+                <li><a href="#experience" class="nav-link" data-i18n="nav_experience">Experience</a></li>
+                <li><a href="#education" class="nav-link" data-i18n="nav_education">Education</a></li>
+                <li><a href="#skills" class="nav-link" data-i18n="nav_skills">Skills</a></li>
+                <li><a href="#projects" class="nav-link" data-i18n="nav_projects">Projects</a></li>
+                <li><a href="#blog" class="nav-link" data-i18n="nav_blog">Blog</a></li>
+                <li><a href="#contact" class="nav-link" data-i18n="nav_contact">Contact</a></li>
             </ul>
 
             <div class="nav-actions">
+                <div class="language-selector">
+                    <button class="lang-btn" id="langToggle" aria-label="Change language">
+                        <span class="lang-flag">🇬🇧</span>
+                        <span class="lang-code">EN</span>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="lang-arrow">
+                            <polyline points="6 9 12 15 18 9"></polyline>
+                        </svg>
+                    </button>
+                    <div class="lang-dropdown">
+                        <button class="lang-option active" data-lang="en">
+                            <span class="lang-flag">🇬🇧</span>
+                            <span>English</span>
+                        </button>
+                        <button class="lang-option" data-lang="fr">
+                            <span class="lang-flag">🇫🇷</span>
+                            <span>Français</span>
+                        </button>
+                    </div>
+                </div>
                 <a href="assets/cv.pdf" download class="btn btn-primary btn-download">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"></path>
                     </svg>
-                    Download CV
+                    <span data-i18n="download_cv">Download CV</span>
                 </a>
             </div>
         </div>
@@ -87,10 +106,10 @@
                 <h1 class="hero-name">Ayoub Idel</h1>
 
                 <div class="hero-title">
-                    <span class="title-static">Backend Engineer & Cloud Architect</span>
+                    <span class="title-static" data-i18n="hero_title">Backend Engineer & Cloud Architect</span>
                 </div>
 
-                <p class="hero-description">
+                <p class="hero-description" data-i18n="hero_description">
                     Building high-performance distributed systems with Golang and Rust.
                     Designing scalable cloud architectures on AWS and Kubernetes.
                     Passionate about blockchain technology and system optimization.
@@ -98,13 +117,13 @@
 
                 <div class="hero-cta">
                     <a href="#contact" class="btn btn-primary">
-                        <span>Get in Touch</span>
+                        <span data-i18n="get_in_touch">Get in Touch</span>
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M5 12h14M12 5l7 7-7 7"></path>
                         </svg>
                     </a>
                     <a href="#projects" class="btn btn-secondary">
-                        <span>View Projects</span>
+                        <span data-i18n="view_projects">View Projects</span>
                     </a>
                 </div>
 
@@ -163,7 +182,7 @@
         </div>
 
         <div class="scroll-indicator">
-            <span>Scroll to explore</span>
+            <span data-i18n="scroll_explore">Scroll to explore</span>
             <div class="scroll-arrow">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M12 5v14M5 12l7 7 7-7"></path>
@@ -177,7 +196,7 @@
         <div class="container">
             <div class="section-header">
                 <span class="section-tag">&lt;about&gt;</span>
-                <h2 class="section-title">About Me</h2>
+                <h2 class="section-title" data-i18n="about_title">About Me</h2>
             </div>
 
             <div class="about-content">
@@ -190,17 +209,17 @@
 
                 <div class="about-text">
                     <h3 class="about-headline">
-                        <span class="highlight">Backend Engineer & Cloud Architect</span> based in Paris, France.
+                        <span class="highlight" data-i18n="about_headline">Backend Engineer & Cloud Architect</span> <span data-i18n="about_location">based in Paris, France.</span>
                     </h3>
 
-                    <p>
+                    <p data-i18n="about_p1">
                         I specialize in designing scalable cloud architectures and building high-performance
                         backend services. With strong expertise in Golang, AWS, and Kubernetes, I focus on
                         delivering robust systems that handle real-world challenges at scale. I love Rust
                         and enjoy developing with it for systems programming and blockchain projects.
                     </p>
 
-                    <p>
+                    <p data-i18n="about_p2">
                         Educated at CPGE in Le Havre and graduated from an engineering school in Tours.
                         I'm passionate about blockchain technology and always exploring new ways to build
                         efficient distributed systems. Outside of coding, I love playing football and padel,
@@ -214,17 +233,17 @@
                     <div class="about-stats">
                         <div class="stat">
                             <span class="stat-number" data-count="6">0</span>
-                            <span class="stat-label">Years Experience</span>
+                            <span class="stat-label" data-i18n="years_exp">Years Experience</span>
                         </div>
                         <div class="stat">
                             <span class="stat-number" data-count="37">0</span>
-                            <span class="stat-label">Countries Visited</span>
+                            <span class="stat-label" data-i18n="countries_visited">Countries Visited</span>
                         </div>
                     </div>
 
                     <div class="about-cta">
-                        <a href="#contact" class="btn btn-primary">Let's Work Together</a>
-                        <a href="assets/cv.pdf" download class="btn btn-outline">Download Resume</a>
+                        <a href="#contact" class="btn btn-primary" data-i18n="lets_work">Let's Work Together</a>
+                        <a href="assets/cv.pdf" download class="btn btn-outline" data-i18n="download_resume">Download Resume</a>
                     </div>
                 </div>
             </div>
@@ -238,7 +257,7 @@
         <div class="container">
             <div class="section-header">
                 <span class="section-tag">&lt;experience&gt;</span>
-                <h2 class="section-title">Work Experience</h2>
+                <h2 class="section-title" data-i18n="experience_title">Work Experience</h2>
             </div>
 
             <div class="timeline">
@@ -431,7 +450,7 @@
                         <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
                         <polyline points="22 4 12 14.01 9 11.01"></polyline>
                     </svg>
-                    Certification (In Progress)
+                    <span data-i18n="certification_title">Certification (In Progress)</span>
                 </h3>
 
                 <div class="education-cards">
@@ -445,7 +464,7 @@
                         <div class="education-info">
                             <h4>AWS Certified Solutions Architect - Professional</h4>
                             <span class="education-school">Amazon Web Services</span>
-                            <span class="education-year">Preparing</span>
+                            <span class="education-year" data-i18n="preparing">Preparing</span>
                         </div>
                     </div>
                 </div>
@@ -460,7 +479,7 @@
         <div class="container">
             <div class="section-header">
                 <span class="section-tag">&lt;education&gt;</span>
-                <h2 class="section-title">Education</h2>
+                <h2 class="section-title" data-i18n="education_title">Education</h2>
             </div>
 
             <div class="timeline education-timeline-styled">
@@ -889,7 +908,7 @@
         <div class="container">
             <div class="section-header">
                 <span class="section-tag">&lt;skills&gt;</span>
-                <h2 class="section-title">Technical Skills</h2>
+                <h2 class="section-title" data-i18n="skills_title">Technical Skills</h2>
             </div>
 
             <div class="skills-grid">
@@ -901,7 +920,7 @@
                                 <polyline points="8 6 2 12 8 18"></polyline>
                             </svg>
                         </span>
-                        Languages
+                        <span data-i18n="skills_languages">Languages</span>
                     </h3>
                     <div class="skill-items">
                         <div class="skill-item" data-skill="Golang">
@@ -944,7 +963,7 @@
                                 <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path>
                             </svg>
                         </span>
-                        Cloud & Infrastructure
+                        <span data-i18n="skills_cloud">Cloud & Infrastructure</span>
                     </h3>
                     <div class="skill-items">
                         <div class="skill-item" data-skill="AWS">
@@ -997,7 +1016,7 @@
                                 <line x1="12" y1="22.08" x2="12" y2="12"></line>
                             </svg>
                         </span>
-                        Containers & Orchestration
+                        <span data-i18n="skills_containers">Containers & Orchestration</span>
                     </h3>
                     <div class="skill-items">
                         <div class="skill-item" data-skill="Kubernetes">
@@ -1043,7 +1062,7 @@
                                 <line x1="6" y1="18" x2="6.01" y2="18"></line>
                             </svg>
                         </span>
-                        Databases & Messaging
+                        <span data-i18n="skills_databases">Databases & Messaging</span>
                     </h3>
                     <div class="skill-items">
                         <div class="skill-item" data-skill="PostgreSQL">
@@ -1106,7 +1125,7 @@
                                 <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
                             </svg>
                         </span>
-                        APIs & Protocols
+                        <span data-i18n="skills_apis">APIs & Protocols</span>
                     </h3>
                     <div class="skill-items">
                         <div class="skill-item" data-skill="gRPC">
@@ -1163,7 +1182,7 @@
                                 <path d="M2 12l10 5 10-5"></path>
                             </svg>
                         </span>
-                        Monitoring & Observability
+                        <span data-i18n="skills_monitoring">Monitoring & Observability</span>
                     </h3>
                     <div class="skill-items">
                         <div class="skill-item" data-skill="Grafana">
@@ -1223,7 +1242,7 @@
                                 <line x1="17.5" y1="10" x2="17.5" y2="14"></line>
                             </svg>
                         </span>
-                        Blockchain & Web3
+                        <span data-i18n="skills_blockchain">Blockchain & Web3</span>
                     </h3>
                     <div class="skill-items">
                         <div class="skill-item" data-skill="Hyperledger Fabric">
@@ -1283,7 +1302,7 @@
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
                     </svg>
-                    Values I Care About
+                    <span data-i18n="values_title">Values I Care About</span>
                 </h3>
                 <div class="values-grid">
                     <div class="value-card">
@@ -1292,8 +1311,8 @@
                                 <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
                             </svg>
                         </div>
-                        <h4>Ownership</h4>
-                        <p>Taking full responsibility for projects and delivering quality results</p>
+                        <h4 data-i18n="value_ownership">Ownership</h4>
+                        <p data-i18n="value_ownership_desc">Taking full responsibility for projects and delivering quality results</p>
                     </div>
                     <div class="value-card">
                         <div class="value-icon">
@@ -1304,8 +1323,8 @@
                                 <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
                             </svg>
                         </div>
-                        <h4>Mutual Growth</h4>
-                        <p>Growing together with teammates through knowledge sharing and collaboration</p>
+                        <h4 data-i18n="value_growth">Mutual Growth</h4>
+                        <p data-i18n="value_growth_desc">Growing together with teammates through knowledge sharing and collaboration</p>
                     </div>
                     <div class="value-card">
                         <div class="value-icon">
@@ -1314,8 +1333,8 @@
                                 <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"></path>
                             </svg>
                         </div>
-                        <h4>Continuous Learning</h4>
-                        <p>Always curious, always learning new technologies and best practices</p>
+                        <h4 data-i18n="value_learning">Continuous Learning</h4>
+                        <p data-i18n="value_learning_desc">Always curious, always learning new technologies and best practices</p>
                     </div>
                     <div class="value-card">
                         <div class="value-icon">
@@ -1324,8 +1343,8 @@
                                 <polyline points="12 6 12 12 16 14"></polyline>
                             </svg>
                         </div>
-                        <h4>Reliability</h4>
-                        <p>Being dependable and consistent in delivering commitments on time</p>
+                        <h4 data-i18n="value_reliability">Reliability</h4>
+                        <p data-i18n="value_reliability_desc">Being dependable and consistent in delivering commitments on time</p>
                     </div>
                 </div>
             </div>
@@ -1344,8 +1363,8 @@
         <div class="container">
             <div class="section-header">
                 <span class="section-tag">&lt;projects&gt;</span>
-                <h2 class="section-title">Featured Projects</h2>
-                <p class="section-subtitle">Building scalable solutions that make an impact</p>
+                <h2 class="section-title" data-i18n="projects_title">Featured Projects</h2>
+                <p class="section-subtitle" data-i18n="projects_subtitle">Building scalable solutions that make an impact</p>
             </div>
 
             <div class="projects-grid">
@@ -1368,12 +1387,12 @@
                     </div>
                     <div class="project-content">
                         <div class="project-header">
-                            <span class="project-label">B2B SaaS Platform</span>
+                            <span class="project-label" data-i18n="project_twize_label">B2B SaaS Platform</span>
                         </div>
                         <h3 class="project-title">
                             <span class="title-text">Twize</span>
                         </h3>
-                        <p class="project-description">
+                        <p class="project-description" data-i18n="project_twize_desc">
                             Enterprise-grade B2B SaaS platform revolutionizing trip management for travel agencies.
                             Features AI-powered itinerary generation and automated multi-currency billing.
                         </p>
@@ -1386,7 +1405,7 @@
                         </div>
                         <div class="project-cta">
                             <a href="https://twize.app/" target="_blank" rel="noopener" class="project-link visit-website-btn" aria-label="Visit Website">
-                                Visit Website
+                                <span data-i18n="visit_website">Visit Website</span>
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                     <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                                     <polyline points="15 3 21 3 21 9"></polyline>
@@ -1428,7 +1447,7 @@
                     </div>
                     <div class="project-content">
                         <div class="project-header">
-                            <span class="project-label">Enterprise Solution</span>
+                            <span class="project-label" data-i18n="project_poneglyph_label">Enterprise Solution</span>
                             <div class="project-links">
                             </div>
                         </div>
@@ -1436,7 +1455,7 @@
                             <span class="title-text">Poneglyph</span>
                             <span class="title-highlight"></span>
                         </h3>
-                        <p class="project-description">
+                        <p class="project-description" data-i18n="project_poneglyph_desc">
                             Comprehensive enterprise fleet management platform built for scale.
                             Unified cross-platform experience with real-time GPS tracking,
                             intelligent route optimization, and advanced operational analytics dashboard.
@@ -1471,7 +1490,7 @@
                     </div>
                     <div class="project-content">
                         <div class="project-header">
-                            <span class="project-label">Open Source Library</span>
+                            <span class="project-label" data-i18n="project_rust_label">Open Source Library</span>
                             <div class="project-links">
                                 <a href="https://github.com/pskshksh" target="_blank" rel="noopener" class="project-link github-link" aria-label="GitHub">
                                     <svg viewBox="0 0 24 24" fill="currentColor">
@@ -1485,7 +1504,7 @@
                             <span class="title-text">Rust Core Library</span>
                             <span class="title-highlight"></span>
                         </h3>
-                        <p class="project-description">
+                        <p class="project-description" data-i18n="project_rust_desc">
                             Generic Rust library providing essential building blocks for backend services.
                             Includes data types, OAuth2/authentication, authorization, push notifications,
                             email handling, and HTTP server utilities. Designed for reuse and portability across projects.
@@ -1506,7 +1525,7 @@
                     <svg viewBox="0 0 24 24" fill="currentColor" class="btn-icon">
                         <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
                     </svg>
-                    View GitHub Profile
+                    <span data-i18n="view_github">View GitHub Profile</span>
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="btn-arrow">
                         <path d="M5 12h14M12 5l7 7-7 7"></path>
                     </svg>
@@ -1522,8 +1541,8 @@
         <div class="container">
             <div class="section-header">
                 <span class="section-tag">&lt;blog&gt;</span>
-                <h2 class="section-title">Articles on Medium</h2>
-                <p class="section-subtitle">Deep dives into Golang, streaming, and software engineering</p>
+                <h2 class="section-title" data-i18n="blog_title">Articles on Medium</h2>
+                <p class="section-subtitle" data-i18n="blog_subtitle">Deep dives into Golang, streaming, and software engineering</p>
             </div>
 
             <div class="blog-grid">
@@ -1541,7 +1560,7 @@
                             Discover the power of io.Pipe for seamless data streaming. Learn how to bridge data producers and consumers without temporary storage or manual buffer management.
                         </p>
                         <a href="https://medium.com/@0xgotznit/mastering-io-pipe-in-go-ca8686150b5e" target="_blank" rel="noopener" class="blog-link">
-                            Read on Medium
+                            <span data-i18n="read_on_medium">Read on Medium</span>
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                                 <polyline points="15 3 21 3 21 9"></polyline>
@@ -1565,7 +1584,7 @@
                             Learn how to use io.TeeReader and io.MultiWriter for simultaneous reading and multiple writing. Efficient data routing and duplication mechanisms.
                         </p>
                         <a href="https://medium.com/@0xgotznit/efficient-data-duplication-in-go-simultaneous-reading-and-multiple-writing-d7afe0e7727a" target="_blank" rel="noopener" class="blog-link">
-                            Read on Medium
+                            <span data-i18n="read_on_medium">Read on Medium</span>
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                                 <polyline points="15 3 21 3 21 9"></polyline>
@@ -1589,7 +1608,7 @@
                             A friendly guide to eliminating dead code. Learn how to identify and remove unused functions with the deadcode tool for cleaner, maintainable codebases.
                         </p>
                         <a href="https://medium.com/@0xgotznit/banishing-the-ghosts-in-your-go-code-a-friendly-guide-to-eliminating-dead-code-bfd8f3b0984f" target="_blank" rel="noopener" class="blog-link">
-                            Read on Medium
+                            <span data-i18n="read_on_medium">Read on Medium</span>
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                                 <polyline points="15 3 21 3 21 9"></polyline>
@@ -1602,7 +1621,7 @@
 
             <div class="blog-cta">
                 <a href="https://medium.com/@0xgotznit" target="_blank" rel="noopener" class="btn btn-outline">
-                    View All Articles on Medium
+                    <span data-i18n="view_all_articles">View All Articles on Medium</span>
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                         <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
                         <polyline points="15 3 21 3 21 9"></polyline>
@@ -1631,16 +1650,16 @@
         <div class="container">
             <div class="section-header">
                 <span class="section-tag">&lt;contact&gt;</span>
-                <h2 class="section-title">Get In Touch</h2>
-                <p class="section-subtitle">Let's build something amazing together</p>
+                <h2 class="section-title" data-i18n="contact_title">Get In Touch</h2>
+                <p class="section-subtitle" data-i18n="contact_subtitle">Let's build something amazing together</p>
             </div>
 
             <div class="contact-content">
                 <div class="contact-info">
                     <h3 class="contact-headline">
-                        <span class="wave-emoji">&#128075;</span> Let's discuss your next big idea
+                        <span class="wave-emoji">&#128075;</span> <span data-i18n="contact_headline">Let's discuss your next big idea</span>
                     </h3>
-                    <p class="contact-description">
+                    <p class="contact-description" data-i18n="contact_description">
                         Whether you need a scalable backend system, cloud architecture expertise,
                         or blockchain solutions — I'm here to help turn your vision into reality.
                         Let's connect and explore the possibilities!
@@ -1655,7 +1674,7 @@
                                 </svg>
                             </div>
                             <div class="method-info">
-                                <span class="method-label">Email</span>
+                                <span class="method-label" data-i18n="contact_email">Email</span>
                                 <span class="method-value">ayoubidel64@gmail.com</span>
                             </div>
                         </a>
@@ -1680,7 +1699,7 @@
                             </div>
                             <div class="method-info">
                                 <span class="method-label">LinkedIn</span>
-                                <span class="method-value">Connect with me</span>
+                                <span class="method-value" data-i18n="connect_with_me">Connect with me</span>
                             </div>
                         </a>
 
@@ -1692,7 +1711,7 @@
                                 </svg>
                             </div>
                             <div class="method-info">
-                                <span class="method-label">Location</span>
+                                <span class="method-label" data-i18n="contact_location">Location</span>
                                 <span class="method-value">Paris, France</span>
                             </div>
                         </div>
@@ -1711,19 +1730,19 @@
                                 <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
                             </svg>
                         </div>
-                        <h4>Ready to start your project?</h4>
-                        <p>I typically respond within 24 hours. Let's make something great!</p>
+                        <h4 data-i18n="contact_cta_title">Ready to start your project?</h4>
+                        <p data-i18n="contact_cta_desc">I typically respond within 24 hours. Let's make something great!</p>
                         <a href="mailto:ayoubidel64@gmail.com?subject=Let's%20Work%20Together&body=Hi%20Ayoub%2C%0A%0AI%20came%20across%20your%20portfolio%20and%20I'm%20interested%20in%20discussing..." class="btn btn-primary btn-large contact-cta-btn">
                             <span class="btn-shine"></span>
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                                 <line x1="22" y1="2" x2="11" y2="13"></line>
                                 <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
                             </svg>
-                            <span>Let's Talk</span>
+                            <span data-i18n="lets_talk">Let's Talk</span>
                         </a>
                         <div class="cta-availability">
                             <span class="availability-dot"></span>
-                            <span>Available for new projects</span>
+                            <span data-i18n="available">Available for new projects</span>
                         </div>
                     </div>
                     <div class="cta-decoration">
@@ -1748,24 +1767,24 @@
                         <span class="logo-text">Ayoub</span>
                         <span class="logo-bracket">}</span>
                     </a>
-                    <p>Backend Engineer & Cloud Architect</p>
+                    <p data-i18n="footer_role">Backend Engineer & Cloud Architect</p>
                 </div>
 
                 <div class="footer-links">
                     <div class="footer-section">
-                        <h4>Navigation</h4>
+                        <h4 data-i18n="footer_navigation">Navigation</h4>
                         <ul>
-                            <li><a href="#home">Home</a></li>
-                            <li><a href="#about">About</a></li>
-                            <li><a href="#experience">Experience</a></li>
-                            <li><a href="#projects">Projects</a></li>
-                            <li><a href="#blog">Blog</a></li>
-                            <li><a href="#contact">Contact</a></li>
+                            <li><a href="#home" data-i18n="nav_home">Home</a></li>
+                            <li><a href="#about" data-i18n="nav_about">About</a></li>
+                            <li><a href="#experience" data-i18n="nav_experience">Experience</a></li>
+                            <li><a href="#projects" data-i18n="nav_projects">Projects</a></li>
+                            <li><a href="#blog" data-i18n="nav_blog">Blog</a></li>
+                            <li><a href="#contact" data-i18n="nav_contact">Contact</a></li>
                         </ul>
                     </div>
 
                     <div class="footer-section">
-                        <h4>Connect</h4>
+                        <h4 data-i18n="footer_connect">Connect</h4>
                         <ul>
                             <li><a href="https://github.com/pskshksh" target="_blank" rel="noopener">GitHub</a></li>
                             <li><a href="https://linkedin.com/in/ayoubidel/" target="_blank" rel="noopener">LinkedIn</a></li>
@@ -1776,8 +1795,11 @@
             </div>
 
             <div class="footer-bottom">
-                <p>&copy; <span id="current-year">2026</span> Ayoub Idel. All rights reserved.</p>
-                <p class="footer-tech">Built with HTML, CSS & JavaScript</p>
+                <p>&copy; <span id="current-year">2026</span> Ayoub Idel. <span data-i18n="rights_reserved">All rights reserved.</span></p>
+                <p class="footer-tech" data-i18n="built_with">Built with HTML, CSS & JavaScript</p>
+                <p class="footer-amazigh" title="Ayoub - ⵉⵎⴰⵣⵉⵖⵏ (Amazigh)">
+                    ⴰⵢⵓⴱ ⵉⴷⵍ — ⵜⴰⵎⴰⵣⵉⵖⵜ ⵏ ⵜⵉⵣⵏⵉⵜ
+                </p>
             </div>
         </div>
     </footer>

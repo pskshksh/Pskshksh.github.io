@@ -4466,3 +4466,119 @@ body::after {
         opacity: 0;
     }
 }
+
+/* ============================================
+   Language Selector
+   ============================================ */
+.language-selector {
+    position: relative;
+    margin-right: var(--space-md);
+}
+
+.lang-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.lang-btn:hover {
+    border-color: var(--accent-primary);
+    background: var(--bg-elevated);
+}
+
+.lang-flag {
+    font-size: 1.1rem;
+}
+
+.lang-code {
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.lang-arrow {
+    width: 14px;
+    height: 14px;
+    transition: transform 0.3s ease;
+}
+
+.language-selector.open .lang-arrow {
+    transform: rotate(180deg);
+}
+
+.lang-dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    min-width: 140px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-lg);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.language-selector.open .lang-dropdown {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.lang-option {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 10px 14px;
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: left;
+}
+
+.lang-option:first-child {
+    border-radius: var(--radius-md) var(--radius-md) 0 0;
+}
+
+.lang-option:last-child {
+    border-radius: 0 0 var(--radius-md) var(--radius-md);
+}
+
+.lang-option:hover {
+    background: var(--bg-tertiary);
+    color: var(--text-primary);
+}
+
+.lang-option.active {
+    background: rgba(96, 165, 250, 0.1);
+    color: var(--accent-primary);
+}
+
+/* ============================================
+   Footer Amazigh Letters
+   ============================================ */
+.footer-amazigh {
+    font-size: 1.1rem;
+    color: var(--accent-primary);
+    margin-top: var(--space-md);
+    letter-spacing: 2px;
+    opacity: 0.9;
+    transition: all 0.3s ease;
+}
+
+.footer-amazigh:hover {
+    opacity: 1;
+    text-shadow: 0 0 10px rgba(96, 165, 250, 0.5);
+}

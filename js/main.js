@@ -7,6 +7,7 @@
 // DOM Content Loaded
 // ============================================
 document.addEventListener('DOMContentLoaded', () => {
+    initLanguage();
     initTheme();
     initNavigation();
     initTypingEffect();
@@ -27,6 +28,313 @@ document.addEventListener('DOMContentLoaded', () => {
     initConsoleMessage();
     initSectionEffects();
 });
+
+// ============================================
+// Language / i18n System
+// ============================================
+const translations = {
+    en: {
+        // Navigation
+        nav_home: "Home",
+        nav_about: "About",
+        nav_experience: "Experience",
+        nav_education: "Education",
+        nav_skills: "Skills",
+        nav_projects: "Projects",
+        nav_blog: "Blog",
+        nav_contact: "Contact",
+        download_cv: "Download CV",
+
+        // Hero
+        hero_title: "Backend Engineer & Cloud Architect",
+        hero_description: "Building high-performance distributed systems with Golang and Rust. Designing scalable cloud architectures on AWS and Kubernetes. Passionate about blockchain technology and system optimization.",
+        get_in_touch: "Get in Touch",
+        view_projects: "View Projects",
+        scroll_explore: "Scroll to explore",
+
+        // About
+        about_title: "About Me",
+        about_headline: "Backend Engineer & Cloud Architect",
+        about_location: "based in Paris, France.",
+        about_p1: "I specialize in designing scalable cloud architectures and building high-performance backend services. With strong expertise in Golang, AWS, and Kubernetes, I focus on delivering robust systems that handle real-world challenges at scale. I love Rust and enjoy developing with it for systems programming and blockchain projects.",
+        about_p2: "Educated at CPGE in Le Havre and graduated from an engineering school in Tours. I'm passionate about blockchain technology and always exploring new ways to build efficient distributed systems. Outside of coding, I love playing football and padel, and I'm an avid traveler having explored 37 countries across Europe, Africa, and Asia.",
+        years_exp: "Years Experience",
+        countries_visited: "Countries Visited",
+        lets_work: "Let's Work Together",
+        download_resume: "Download Resume",
+
+        // Section titles
+        experience_title: "Work Experience",
+        education_title: "Education",
+        skills_title: "Technical Skills",
+        projects_title: "Featured Projects",
+        projects_subtitle: "Building scalable solutions that make an impact",
+        blog_title: "Articles on Medium",
+        contact_title: "Get In Touch",
+
+        // Skills categories
+        skills_backend: "Backend & Systems",
+        skills_cloud: "Cloud & DevOps",
+        skills_blockchain: "Blockchain & Web3",
+        skills_databases: "Databases & Storage",
+
+        // Projects
+        visit_website: "Visit Website",
+        project_twize_label: "B2B SaaS Platform",
+        project_twize_desc: "Enterprise-grade B2B SaaS platform revolutionizing trip management for travel agencies. Features AI-powered itinerary generation and automated multi-currency billing.",
+        project_poneglyph_label: "Enterprise Solution",
+        project_poneglyph_desc: "Comprehensive enterprise fleet management platform built for scale. Unified cross-platform experience with real-time GPS tracking, intelligent route optimization, and advanced operational analytics dashboard.",
+        project_rust_label: "Open Source Library",
+        project_rust_desc: "Generic Rust library providing essential building blocks for backend services. Includes data types, OAuth2/authentication, authorization, push notifications, email handling, and HTTP server utilities.",
+
+        // Blog
+        read_article: "Read Article",
+        min_read: "min read",
+
+        // Contact
+        contact_subtitle: "Let's build something amazing together",
+        contact_email: "Email",
+        contact_location: "Location",
+        contact_social: "Social",
+        contact_cta_title: "Ready to Start a Project?",
+        contact_cta_desc: "I'm always open to discussing new opportunities, interesting projects, or just having a chat about technology.",
+        lets_talk: "Let's Talk",
+        available: "Available for new projects",
+
+        // Footer
+        rights_reserved: "All rights reserved.",
+        built_with: "Built with HTML, CSS & JavaScript",
+        footer_role: "Backend Engineer & Cloud Architect",
+        footer_navigation: "Navigation",
+        footer_connect: "Connect",
+
+        // Blog
+        blog_subtitle: "Deep dives into Golang, streaming, and software engineering",
+        read_on_medium: "Read on Medium",
+        view_all_articles: "View All Articles on Medium",
+
+        // Contact extended
+        contact_headline: "Let's discuss your next big idea",
+        contact_description: "Whether you need a scalable backend system, cloud architecture expertise, or blockchain solutions — I'm here to help turn your vision into reality. Let's connect and explore the possibilities!",
+        connect_with_me: "Connect with me",
+
+        // Skills categories
+        skills_languages: "Languages",
+        skills_cloud: "Cloud & Infrastructure",
+        skills_containers: "Containers & Orchestration",
+        skills_databases: "Databases & Messaging",
+        skills_apis: "APIs & Protocols",
+        skills_monitoring: "Monitoring & Observability",
+        skills_blockchain: "Blockchain & Web3",
+
+        // Values
+        values_title: "Values I Care About",
+        value_ownership: "Ownership",
+        value_ownership_desc: "Taking full responsibility for projects and delivering quality results",
+        value_growth: "Mutual Growth",
+        value_growth_desc: "Growing together with teammates through knowledge sharing and collaboration",
+        value_learning: "Continuous Learning",
+        value_learning_desc: "Always curious, always learning new technologies and best practices",
+        value_reliability: "Reliability",
+        value_reliability_desc: "Being dependable and consistent in delivering commitments on time",
+
+        // Certification
+        certification_title: "Certification (In Progress)",
+        preparing: "Preparing",
+
+        // Projects
+        view_github: "View GitHub Profile"
+    },
+    fr: {
+        // Navigation
+        nav_home: "Accueil",
+        nav_about: "À propos",
+        nav_experience: "Expérience",
+        nav_education: "Formation",
+        nav_skills: "Compétences",
+        nav_projects: "Projets",
+        nav_blog: "Blog",
+        nav_contact: "Contact",
+        download_cv: "Télécharger CV",
+
+        // Hero
+        hero_title: "Ingénieur Backend & Architecte Cloud",
+        hero_description: "Création de systèmes distribués haute performance avec Golang et Rust. Conception d'architectures cloud évolutives sur AWS et Kubernetes. Passionné par la blockchain et l'optimisation des systèmes.",
+        get_in_touch: "Me Contacter",
+        view_projects: "Voir les Projets",
+        scroll_explore: "Défiler pour explorer",
+
+        // About
+        about_title: "À Propos",
+        about_headline: "Ingénieur Backend & Architecte Cloud",
+        about_location: "basé à Paris, France.",
+        about_p1: "Je me spécialise dans la conception d'architectures cloud évolutives et la création de services backend haute performance. Avec une forte expertise en Golang, AWS et Kubernetes, je me concentre sur la livraison de systèmes robustes capables de gérer des défis réels à grande échelle. J'adore Rust et j'aime développer avec pour la programmation système et les projets blockchain.",
+        about_p2: "Formé en CPGE au Havre et diplômé d'une école d'ingénieurs à Tours. Je suis passionné par la technologie blockchain et j'explore toujours de nouvelles façons de construire des systèmes distribués efficaces. En dehors du code, j'aime jouer au football et au padel, et je suis un grand voyageur ayant exploré 37 pays en Europe, Afrique et Asie.",
+        years_exp: "Années d'Expérience",
+        countries_visited: "Pays Visités",
+        lets_work: "Travaillons Ensemble",
+        download_resume: "Télécharger CV",
+
+        // Section titles
+        experience_title: "Expérience Professionnelle",
+        education_title: "Formation",
+        skills_title: "Compétences Techniques",
+        projects_title: "Projets Phares",
+        projects_subtitle: "Construire des solutions évolutives qui font la différence",
+        blog_title: "Articles sur Medium",
+        contact_title: "Me Contacter",
+
+        // Skills categories
+        skills_backend: "Backend & Systèmes",
+        skills_cloud: "Cloud & DevOps",
+        skills_blockchain: "Blockchain & Web3",
+        skills_databases: "Bases de Données & Stockage",
+
+        // Projects
+        visit_website: "Visiter le Site",
+        project_twize_label: "Plateforme B2B SaaS",
+        project_twize_desc: "Plateforme B2B SaaS de niveau entreprise révolutionnant la gestion des voyages pour les agences. Génération d'itinéraires par IA et facturation multi-devises automatisée.",
+        project_poneglyph_label: "Solution Entreprise",
+        project_poneglyph_desc: "Plateforme complète de gestion de flotte d'entreprise conçue pour l'échelle. Expérience multiplateforme unifiée avec suivi GPS en temps réel, optimisation intelligente des itinéraires et tableau de bord analytique avancé.",
+        project_rust_label: "Bibliothèque Open Source",
+        project_rust_desc: "Bibliothèque Rust générique fournissant des blocs de construction essentiels pour les services backend. Inclut types de données, OAuth2/authentification, autorisation, notifications push, gestion d'emails et utilitaires serveur HTTP.",
+
+        // Blog
+        read_article: "Lire l'Article",
+        min_read: "min de lecture",
+
+        // Contact
+        contact_subtitle: "Construisons quelque chose d'incroyable ensemble",
+        contact_email: "Email",
+        contact_location: "Localisation",
+        contact_social: "Réseaux",
+        contact_cta_title: "Prêt à Démarrer un Projet ?",
+        contact_cta_desc: "Je suis toujours ouvert à discuter de nouvelles opportunités, de projets intéressants, ou simplement à parler de technologie.",
+        lets_talk: "Discutons",
+        available: "Disponible pour de nouveaux projets",
+
+        // Footer
+        rights_reserved: "Tous droits réservés.",
+        built_with: "Créé avec HTML, CSS & JavaScript",
+        footer_role: "Ingénieur Backend & Architecte Cloud",
+        footer_navigation: "Navigation",
+        footer_connect: "Réseaux",
+
+        // Blog
+        blog_subtitle: "Plongées approfondies dans Golang, le streaming et le génie logiciel",
+        read_on_medium: "Lire sur Medium",
+        view_all_articles: "Voir tous les articles sur Medium",
+
+        // Contact extended
+        contact_headline: "Discutons de votre prochaine grande idée",
+        contact_description: "Que vous ayez besoin d'un système backend évolutif, d'une expertise en architecture cloud ou de solutions blockchain — je suis là pour transformer votre vision en réalité. Connectons-nous et explorons les possibilités !",
+        connect_with_me: "Me contacter",
+
+        // Skills categories
+        skills_languages: "Langages",
+        skills_cloud: "Cloud & Infrastructure",
+        skills_containers: "Conteneurs & Orchestration",
+        skills_databases: "Bases de Données & Messaging",
+        skills_apis: "APIs & Protocoles",
+        skills_monitoring: "Monitoring & Observabilité",
+        skills_blockchain: "Blockchain & Web3",
+
+        // Values
+        values_title: "Valeurs qui me tiennent à cœur",
+        value_ownership: "Responsabilité",
+        value_ownership_desc: "Prendre la pleine responsabilité des projets et livrer des résultats de qualité",
+        value_growth: "Croissance Mutuelle",
+        value_growth_desc: "Grandir ensemble avec les coéquipiers grâce au partage des connaissances et à la collaboration",
+        value_learning: "Apprentissage Continu",
+        value_learning_desc: "Toujours curieux, toujours apprendre de nouvelles technologies et meilleures pratiques",
+        value_reliability: "Fiabilité",
+        value_reliability_desc: "Être fiable et constant dans la livraison des engagements à temps",
+
+        // Certification
+        certification_title: "Certification (En Cours)",
+        preparing: "En préparation",
+
+        // Projects
+        view_github: "Voir le Profil GitHub"
+    }
+};
+
+let currentLanguage = localStorage.getItem('language') || 'en';
+
+function initLanguage() {
+    const langSelector = document.querySelector('.language-selector');
+    const langToggle = document.getElementById('langToggle');
+    const langOptions = document.querySelectorAll('.lang-option');
+
+    if (!langSelector || !langToggle) return;
+
+    // Apply saved language
+    applyLanguage(currentLanguage);
+    updateLangButton(currentLanguage);
+
+    // Toggle dropdown
+    langToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        langSelector.classList.toggle('open');
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', () => {
+        langSelector.classList.remove('open');
+    });
+
+    // Language option click
+    langOptions.forEach(option => {
+        option.addEventListener('click', () => {
+            const lang = option.dataset.lang;
+            currentLanguage = lang;
+            localStorage.setItem('language', lang);
+
+            applyLanguage(lang);
+            updateLangButton(lang);
+
+            // Update active state
+            langOptions.forEach(opt => opt.classList.remove('active'));
+            option.classList.add('active');
+
+            langSelector.classList.remove('open');
+        });
+    });
+}
+
+function applyLanguage(lang) {
+    const t = translations[lang];
+    if (!t) return;
+
+    // Update all elements with data-i18n attribute
+    document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.dataset.i18n;
+        if (t[key]) {
+            el.textContent = t[key];
+        }
+    });
+
+    // Update HTML lang attribute
+    document.documentElement.lang = lang;
+}
+
+function updateLangButton(lang) {
+    const langFlag = document.querySelector('.lang-btn .lang-flag');
+    const langCode = document.querySelector('.lang-btn .lang-code');
+
+    if (lang === 'fr') {
+        langFlag.textContent = '🇫🇷';
+        langCode.textContent = 'FR';
+    } else {
+        langFlag.textContent = '🇬🇧';
+        langCode.textContent = 'EN';
+    }
+
+    // Update active option
+    document.querySelectorAll('.lang-option').forEach(opt => {
+        opt.classList.toggle('active', opt.dataset.lang === lang);
+    });
+}
 
 // ============================================
 // Skill Icons Fallback
