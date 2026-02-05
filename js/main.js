@@ -1484,3 +1484,29 @@ rainbowStyle.textContent = `
     }
 `;
 document.head.appendChild(rainbowStyle);
+
+// ============================================
+// Contact Modal
+// ============================================
+function openContactModal() {
+    const modal = document.getElementById('contactModal');
+    if (modal) {
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+    }
+}
+
+function closeContactModal() {
+    const modal = document.getElementById('contactModal');
+    if (modal) {
+        modal.classList.remove('active');
+        document.body.style.overflow = '';
+    }
+}
+
+// Close modal on Escape key
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+        closeContactModal();
+    }
+});

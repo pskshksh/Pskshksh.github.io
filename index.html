@@ -52,7 +52,7 @@
                 <li><a href="#skills" class="nav-link" data-i18n="nav_skills">Skills</a></li>
                 <li><a href="#projects" class="nav-link" data-i18n="nav_projects">Projects</a></li>
                 <li><a href="#blog" class="nav-link" data-i18n="nav_blog">Blog</a></li>
-                <li><a href="#contact" class="nav-link" data-i18n="nav_contact">Contact</a></li>
+                <li><a href="#" class="nav-link" data-i18n="nav_contact" onclick="openContactModal(); return false;">Contact</a></li>
             </ul>
 
             <div class="nav-actions">
@@ -133,7 +133,7 @@
                 </p>
 
                 <div class="hero-rust-actions">
-                    <a href="#contact" class="btn-rust-primary">
+                    <a href="#" class="btn-rust-primary" onclick="openContactModal(); return false;">
                         <span>Let's Connect</span>
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
                             <path d="M5 12h14M12 5l7 7-7 7"></path>
@@ -1067,8 +1067,17 @@
     </section>
 
     <!-- Contact Section -->
-    <section id="contact" class="section contact-rust">
-        <div class="container">
+    <!-- Contact Popup Modal -->
+    <div class="contact-modal" id="contactModal">
+        <div class="contact-modal-overlay" onclick="closeContactModal()"></div>
+        <div class="contact-modal-content">
+            <button class="contact-modal-close" onclick="closeContactModal()">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+
             <div class="contact-rust-wrapper">
                 <!-- Left accent bar -->
                 <div class="contact-rust-accent"></div>
@@ -1148,7 +1157,16 @@
                 </div>
             </div>
         </div>
-    </section>
+    </div>
+
+    <!-- Floating Contact Button -->
+    <button class="contact-fab" onclick="openContactModal()" aria-label="Contact me">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+            <polyline points="22,6 12,13 2,6"></polyline>
+        </svg>
+        <span>Contact</span>
+    </button>
 
     <!-- Footer -->
     <footer class="footer-minimal">
