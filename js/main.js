@@ -1068,7 +1068,6 @@ function initEasterEggs() {
             konamiIndex++;
             if (konamiIndex === konamiCode.length) {
                 triggerMatrixRain();
-                showAchievement('🎮', 'Konami Master');
                 achievements.konami = true;
                 konamiIndex = 0;
             }
@@ -1089,7 +1088,6 @@ function initEasterEggs() {
 
         if (clickCount >= 3) {
             showSecretMessage();
-            showAchievement('🔍', 'Secret Finder');
             achievements.explorer = true;
             clickCount = 0;
         } else {
@@ -1105,7 +1103,6 @@ function initEasterEggs() {
         cornerClicks++;
         if (cornerClicks >= 5) {
             document.body.classList.add('rainbow-mode');
-            showAchievement('🌈', 'Rainbow Discoverer');
             setTimeout(() => document.body.classList.remove('rainbow-mode'), 5000);
             cornerClicks = 0;
         }
@@ -1117,7 +1114,6 @@ function initEasterEggs() {
         if (!scrolledToBottom && (window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100) {
             scrolledToBottom = true;
             if (!achievements.scroller) {
-                showAchievement('📜', 'Deep Diver');
                 achievements.scroller = true;
             }
         }
@@ -1128,11 +1124,9 @@ function initEasterEggs() {
     document.addEventListener('keypress', (e) => {
         typedKeys += e.key.toLowerCase();
         if (typedKeys.includes('hello')) {
-            showAchievement('👋', 'Friendly Coder');
             typedKeys = '';
         }
         if (typedKeys.includes('hire')) {
-            showAchievement('💼', 'Ready to Work!');
             document.querySelector('.hero-name')?.classList.add('rainbow-border');
             typedKeys = '';
         }
@@ -1147,7 +1141,6 @@ function initEasterEggs() {
         skill.addEventListener('click', () => {
             skillClicks++;
             if (skillClicks === 10 && !achievements.clicker) {
-                showAchievement('⚡', 'Skill Enthusiast');
                 achievements.clicker = true;
             }
         });
@@ -1293,40 +1286,6 @@ function closeSecret() {
 // Make closeSecret globally accessible
 window.closeSecret = closeSecret;
 
-function showAchievement(icon, text) {
-    const achievement = document.getElementById('achievement');
-    const achievementIcon = achievement?.querySelector('.achievement-icon');
-    const achievementText = document.getElementById('achievementText');
-
-    if (achievement && achievementIcon && achievementText) {
-        achievementIcon.textContent = icon;
-        achievementText.textContent = text;
-        achievement.classList.add('show');
-
-        // Play achievement sound
-        try {
-            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            const oscillator = audioContext.createOscillator();
-            const gainNode = audioContext.createGain();
-
-            oscillator.connect(gainNode);
-            gainNode.connect(audioContext.destination);
-
-            oscillator.frequency.value = 800;
-            oscillator.type = 'sine';
-            gainNode.gain.value = 0.15;
-
-            oscillator.start(audioContext.currentTime);
-            oscillator.frequency.exponentialRampToValueAtTime(1200, audioContext.currentTime + 0.1);
-            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.3);
-            oscillator.stop(audioContext.currentTime + 0.3);
-        } catch (e) {}
-
-        setTimeout(() => {
-            achievement.classList.remove('show');
-        }, 4000);
-    }
-}
 
 // ============================================
 // Console Easter Egg Message
@@ -1365,7 +1324,6 @@ function initConsoleMessage() {
     // Hidden console command
     window.unlockAll = () => {
         triggerMatrixRain();
-        showAchievement('🏆', 'Console Hacker');
         console.log('%c🎉 All secrets unlocked!', 'color: #4ade80; font-size: 16px; font-weight: bold');
     };
 }
