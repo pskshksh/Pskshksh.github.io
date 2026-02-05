@@ -1493,6 +1493,13 @@ function openContactModal() {
     if (modal) {
         modal.classList.add('active');
         document.body.style.overflow = 'hidden';
+        // Track contact modal open
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'contact_open', {
+                'event_category': 'engagement',
+                'event_label': 'Contact Modal Opened'
+            });
+        }
     }
 }
 
@@ -1509,4 +1516,97 @@ document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
         closeContactModal();
     }
+});
+
+// ============================================
+// Analytics Event Tracking
+// ============================================
+document.addEventListener('DOMContentLoaded', () => {
+    // Helper function to track events
+    function trackEvent(category, action, label) {
+        if (typeof gtag !== 'undefined') {
+            gtag('event', action, {
+                'event_category': category,
+                'event_label': label
+            });
+        }
+    }
+
+    // Track GitHub link clicks
+    document.querySelectorAll('a[href*="github.com/pskshksh"]').forEach(link => {
+        link.addEventListener('click', () => {
+            trackEvent('social', 'github_click', 'GitHub Profile');
+        });
+    });
+
+    // Track LinkedIn link clicks
+    document.querySelectorAll('a[href*="linkedin.com/in/ayoubidel"]').forEach(link => {
+        link.addEventListener('click', () => {
+            trackEvent('social', 'linkedin_click', 'LinkedIn Profile');
+        });
+    });
+
+    // Track Medium/Article clicks
+    document.querySelectorAll('a[href*="medium.com/@pskshksh"]').forEach(link => {
+        link.addEventListener('click', (e) => {
+            const articleTitle = link.closest('.article-card')?.querySelector('.article-title')?.textContent || 'Medium Article';
+            trackEvent('content', 'article_click', articleTitle);
+        });
+    });
+
+    // Track email clicks
+    document.querySelectorAll('a[href^="mailto:"]').forEach(link => {
+        link.addEventListener('click', () => {
+            trackEvent('contact', 'email_click', 'Email Contact');
+        });
+    });
+
+    // Track project link clicks
+    document.querySelectorAll('.project-link, .project-card a').forEach(link => {
+        link.addEventListener('click', () => {
+            const projectTitle = link.closest('.project-card')?.querySelector('.project-title')?.textContent || 'Project';
+            trackEvent('projects', 'project_click', projectTitle);
+        });
+    });
+
+    // Track "View All Projects" button
+    document.querySelectorAll('a[href*="github.com/pskshksh"].btn').forEach(link => {
+        link.addEventListener('click', () => {
+            trackEvent('projects', 'view_all_projects', 'View All Projects Button');
+        });
+    });
+
+    // Track "View All Articles" button
+    document.querySelectorAll('.btn-rust-secondary').forEach(link => {
+        if (link.href && link.href.includes('medium.com')) {
+            link.addEventListener('click', () => {
+                trackEvent('content', 'view_all_articles', 'View All Articles Button');
+            });
+        }
+    });
+
+    // Track navigation clicks
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', () => {
+            const section = link.getAttribute('data-i18n') || link.textContent;
+            trackEvent('navigation', 'nav_click', section);
+        });
+    });
+
+    // Track scroll depth
+    let scrollDepths = [25, 50, 75, 100];
+    let trackedDepths = [];
+
+    window.addEventListener('scroll', () => {
+        const scrollPercent = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
+
+        scrollDepths.forEach(depth => {
+            if (scrollPercent >= depth && !trackedDepths.includes(depth)) {
+                trackedDepths.push(depth);
+                trackEvent('engagement', 'scroll_depth', `${depth}% scrolled`);
+            }
+        });
+    });
+
+    console.log('📊 Analytics tracking initialized');
 });
