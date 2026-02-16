@@ -1,30 +1,30 @@
 /* ============================================
-   CSS Variables - Professional Light Gray & Blue Color Scheme
+   CSS Variables - Dark Theme with Purple/Green/Cyan Accents
    ============================================ */
 :root {
-    /* Gray Scale - Much Lighter, Professional Tones */
-    --gray-950: #1a1f2e;
-    --gray-900: #1e2433;
-    --gray-850: #252c3d;
-    --gray-800: #2d3548;
-    --gray-700: #3d4760;
-    --gray-600: #5a6580;
-    --gray-500: #7a869e;
-    --gray-400: #a0aabe;
-    --gray-300: #c5cdd8;
-    --gray-200: #dde3eb;
-    --gray-100: #eef2f7;
-    --gray-50: #f7f9fc;
+    /* Gray Scale - Ultra Dark, Blog-Matching Tones */
+    --gray-950: #050507;
+    --gray-900: #0a0a0f;
+    --gray-850: #0f0f18;
+    --gray-800: #12121e;
+    --gray-700: #1e1e32;
+    --gray-600: #2a2a44;
+    --gray-500: #6e6e8c;
+    --gray-400: #6e6e8c;
+    --gray-300: #b0b0cc;
+    --gray-200: #d0d0e0;
+    --gray-100: #e4e4f0;
+    --gray-50: #f0f0f8;
 
-    /* Blue Accent Scale - Softer Professional Blues */
-    --blue-700: #2563eb;
-    --blue-600: #3b82f6;
-    --blue-500: #60a5fa;
-    --blue-400: #7cb8fc;
-    --blue-300: #a5cbfd;
-    --blue-200: #c9ddfe;
-    --blue-100: #e0edff;
-    --blue-glow: rgba(96, 165, 250, 0.3);
+    /* Purple Accent Scale - Solana-Inspired */
+    --blue-700: #6b21a8;
+    --blue-600: #7b32d9;
+    --blue-500: #9945FF;
+    --blue-400: #b07aff;
+    --blue-300: #c9a5ff;
+    --blue-200: #e0d0ff;
+    --blue-100: #f0e8ff;
+    --blue-glow: rgba(153, 69, 255, 0.3);
 
     /* Semantic Colors */
     --bg-primary: var(--gray-900);
@@ -46,7 +46,7 @@
     --border-hover: var(--gray-600);
     --border-accent: var(--blue-500);
 
-    /* Code Colors - Blue-Gray Theme */
+    /* Code Colors - Purple-Gray Theme */
     --code-bg: var(--gray-950);
     --code-keyword: var(--blue-400);
     --code-string: var(--blue-200);
@@ -55,15 +55,15 @@
     --code-function: var(--blue-400);
     --code-comment: var(--gray-500);
 
-    /* Shadows - Ultra Soft, Professional */
-    --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.08);
-    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
-    --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.08);
-    --shadow-lg: 0 12px 48px rgba(0, 0, 0, 0.15), 0 4px 16px rgba(0, 0, 0, 0.1);
-    --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.18), 0 8px 24px rgba(0, 0, 0, 0.12);
-    --shadow-glow: 0 0 50px rgba(59, 130, 246, 0.25);
-    --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.1), 0 2px 8px rgba(0, 0, 0, 0.06);
-    --shadow-soft: 0 8px 32px rgba(0, 0, 0, 0.08);
+    /* Shadows - Ultra Soft */
+    --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.15);
+    --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2), 0 1px 2px rgba(0, 0, 0, 0.12);
+    --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.25), 0 2px 8px rgba(0, 0, 0, 0.15);
+    --shadow-lg: 0 12px 48px rgba(0, 0, 0, 0.3), 0 4px 16px rgba(0, 0, 0, 0.2);
+    --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.35), 0 8px 24px rgba(0, 0, 0, 0.25);
+    --shadow-glow: 0 0 50px rgba(153, 69, 255, 0.25);
+    --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.2), 0 2px 8px rgba(0, 0, 0, 0.12);
+    --shadow-soft: 0 8px 32px rgba(0, 0, 0, 0.15);
 
     /* Typography */
     --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -255,7 +255,7 @@ input, textarea {
 }
 
 .logo-bracket {
-    color: #c2410c;
+    color: #9945FF;
 }
 
 .logo-text {
@@ -288,7 +288,7 @@ input, textarea {
     left: 0;
     width: 0;
     height: 2px;
-    background: linear-gradient(90deg, #c2410c, #ea580c);
+    background: linear-gradient(90deg, #9945FF, #14F195);
     transition: var(--transition-base);
 }
 
@@ -441,7 +441,7 @@ input, textarea {
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, #c2410c, #ea580c);
+    background: linear-gradient(135deg, #9945FF, #14F195);
     color: white;
     box-shadow: var(--shadow-sm);
     position: relative;
@@ -453,7 +453,7 @@ input, textarea {
     content: '';
     position: absolute;
     inset: -2px;
-    background: linear-gradient(45deg, #c2410c, #ea580c, #f97316, #c2410c);
+    background: linear-gradient(45deg, #9945FF, #14F195, #00D4FF, #9945FF);
     background-size: 400%;
     border-radius: inherit;
     z-index: -1;
@@ -471,7 +471,7 @@ input, textarea {
 
 .btn-primary:hover {
     transform: translateY(-3px);
-    box-shadow: 0 10px 40px rgba(194, 65, 12, 0.4);
+    box-shadow: 0 10px 40px rgba(153, 69, 255, 0.4);
 }
 
 .btn-primary:hover::before {
@@ -497,7 +497,7 @@ input, textarea {
 
 .btn-outline:hover {
     background: var(--bg-tertiary);
-    border-color: #c2410c;
+    border-color: #9945FF;
 }
 
 .btn-download {
@@ -891,7 +891,7 @@ input, textarea {
     display: inline-block;
     font-family: var(--font-mono);
     font-size: 0.85rem;
-    color: #c2410c;
+    color: #9945FF;
     margin-bottom: var(--space-sm);
 }
 
@@ -940,7 +940,7 @@ input, textarea {
     position: absolute;
     inset: 0;
     background-image:
-        radial-gradient(circle at 1px 1px, rgba(194, 65, 12, 0.12) 1px, transparent 0);
+        radial-gradient(circle at 1px 1px, rgba(153, 69, 255, 0.12) 1px, transparent 0);
     background-size: 32px 32px;
     mask-image: radial-gradient(ellipse at center, black 0%, transparent 70%);
 }
@@ -954,7 +954,7 @@ input, textarea {
 .rust-orb-1 {
     width: 500px;
     height: 500px;
-    background: #c2410c;
+    background: #9945FF;
     top: -150px;
     right: -150px;
     opacity: 0.12;
@@ -963,7 +963,7 @@ input, textarea {
 .rust-orb-2 {
     width: 400px;
     height: 400px;
-    background: #ea580c;
+    background: #14F195;
     bottom: -100px;
     left: -100px;
     opacity: 0.08;
@@ -1009,15 +1009,15 @@ input, textarea {
     height: 100%;
     border-radius: 50%;
     object-fit: cover;
-    border: 3px solid #c2410c;
+    border: 3px solid #9945FF;
     position: relative;
     z-index: 2;
-    box-shadow: 0 0 40px rgba(194, 65, 12, 0.3);
+    box-shadow: 0 0 40px rgba(153, 69, 255, 0.3);
 }
 
 .hero-ring {
     position: absolute;
-    border: 2px solid #c2410c;
+    border: 2px solid #9945FF;
     border-radius: 50%;
     animation: ring-float 4s ease-in-out infinite;
 }
@@ -1053,7 +1053,7 @@ input, textarea {
 .hero-greeting {
     font-family: var(--font-mono);
     font-size: 0.9rem;
-    color: #c2410c;
+    color: #9945FF;
     text-transform: uppercase;
     letter-spacing: 3px;
     margin-bottom: 4px;
@@ -1063,7 +1063,7 @@ input, textarea {
     font-size: clamp(2.2rem, 6vw, 3.5rem);
     font-weight: 700;
     margin: 0 0 8px;
-    background: linear-gradient(135deg, #c2410c 0%, #ea580c 50%, #f97316 100%);
+    background: linear-gradient(135deg, #9945FF 0%, #14F195 50%, #00D4FF 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -1077,7 +1077,7 @@ input, textarea {
 }
 
 .rust-accent {
-    color: #c2410c;
+    color: #9945FF;
     font-weight: 500;
 }
 
@@ -1091,7 +1091,7 @@ input, textarea {
 }
 
 .hero-rust-location svg {
-    color: #c2410c;
+    color: #9945FF;
 }
 
 /* Card section */
@@ -1113,7 +1113,7 @@ input, textarea {
     left: 0;
     right: 0;
     height: 3px;
-    background: linear-gradient(90deg, #c2410c, #ea580c, #f97316, #ea580c, #c2410c);
+    background: linear-gradient(90deg, #9945FF, #14F195, #00D4FF, #14F195, #9945FF);
     background-size: 200% 100%;
     animation: rust-gradient-flow 3s linear infinite;
 }
@@ -1147,9 +1147,9 @@ input, textarea {
 }
 
 .rust-tech.featured {
-    background: rgba(194, 65, 12, 0.15);
-    color: #ea580c;
-    border: 1px solid rgba(194, 65, 12, 0.3);
+    background: rgba(153, 69, 255, 0.15);
+    color: #14F195;
+    border: 1px solid rgba(153, 69, 255, 0.3);
 }
 
 .rust-tech:hover {
@@ -1168,7 +1168,7 @@ input, textarea {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    background: linear-gradient(135deg, #c2410c, #ea580c);
+    background: linear-gradient(135deg, #9945FF, #14F195);
     color: white;
     padding: 14px 32px;
     border-radius: var(--radius-full);
@@ -1180,7 +1180,7 @@ input, textarea {
 
 .btn-rust-primary:hover {
     transform: translateY(-3px);
-    box-shadow: 0 15px 40px rgba(194, 65, 12, 0.4);
+    box-shadow: 0 15px 40px rgba(153, 69, 255, 0.4);
 }
 
 .btn-rust-primary svg {
@@ -1195,17 +1195,17 @@ input, textarea {
     display: inline-flex;
     align-items: center;
     background: transparent;
-    color: #c2410c;
+    color: #9945FF;
     padding: 14px 32px;
     border-radius: var(--radius-full);
     font-weight: 600;
     text-decoration: none;
     transition: var(--transition-base);
-    border: 2px solid #c2410c;
+    border: 2px solid #9945FF;
 }
 
 .btn-rust-secondary:hover {
-    background: rgba(194, 65, 12, 0.1);
+    background: rgba(153, 69, 255, 0.1);
     transform: translateY(-3px);
 }
 
@@ -1230,11 +1230,11 @@ input, textarea {
 }
 
 .rust-social-link:hover {
-    background: #c2410c;
+    background: #9945FF;
     color: white;
-    border-color: #c2410c;
+    border-color: #9945FF;
     transform: translateY(-4px);
-    box-shadow: 0 10px 25px rgba(194, 65, 12, 0.3);
+    box-shadow: 0 10px 25px rgba(153, 69, 255, 0.3);
 }
 
 .rust-social-link svg {
@@ -1261,7 +1261,7 @@ input, textarea {
 .scroll-rust-line {
     width: 1px;
     height: 40px;
-    background: linear-gradient(to bottom, #c2410c, transparent);
+    background: linear-gradient(to bottom, #9945FF, transparent);
     animation: scroll-line 2s ease-in-out infinite;
 }
 
@@ -1323,7 +1323,7 @@ input, textarea {
     height: 100%;
     border-radius: 50%;
     object-fit: cover;
-    border: 3px solid #c2410c;
+    border: 3px solid #9945FF;
     position: relative;
     z-index: 2;
 }
@@ -1331,7 +1331,7 @@ input, textarea {
 .photo-ring {
     position: absolute;
     inset: -8px;
-    border: 2px solid #c2410c;
+    border: 2px solid #9945FF;
     border-radius: 50%;
     opacity: 0.4;
     animation: ring-pulse 3s ease-in-out infinite;
@@ -1356,7 +1356,7 @@ input, textarea {
 .about-greeting {
     font-family: var(--font-mono);
     font-size: 0.85rem;
-    color: #c2410c;
+    color: #9945FF;
     text-transform: uppercase;
     letter-spacing: 2px;
 }
@@ -1365,7 +1365,7 @@ input, textarea {
     font-size: 2.5rem;
     font-weight: 700;
     margin: 4px 0 8px;
-    background: linear-gradient(135deg, #c2410c, #ea580c);
+    background: linear-gradient(135deg, #9945FF, #14F195);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -1378,7 +1378,7 @@ input, textarea {
 }
 
 .rust-highlight {
-    color: #c2410c;
+    color: #9945FF;
     font-weight: 500;
 }
 
@@ -1392,7 +1392,7 @@ input, textarea {
 }
 
 .about-location svg {
-    color: #c2410c;
+    color: #9945FF;
 }
 
 /* Main card */
@@ -1413,7 +1413,7 @@ input, textarea {
     left: 0;
     right: 0;
     height: 4px;
-    background: linear-gradient(90deg, #c2410c, #ea580c, #b45309);
+    background: linear-gradient(90deg, #9945FF, #14F195, #7b32d9);
 }
 
 .about-card-content {
@@ -1444,9 +1444,9 @@ input, textarea {
 }
 
 .tech-badge.rust-badge {
-    background: rgba(194, 65, 12, 0.15);
-    color: #ea580c;
-    border: 1px solid rgba(194, 65, 12, 0.3);
+    background: rgba(153, 69, 255, 0.15);
+    color: #14F195;
+    border: 1px solid rgba(153, 69, 255, 0.3);
 }
 
 /* Highlights */
@@ -1468,7 +1468,7 @@ input, textarea {
     display: block;
     font-size: 2rem;
     font-weight: 700;
-    color: #c2410c;
+    color: #9945FF;
     line-height: 1;
 }
 
@@ -1499,7 +1499,7 @@ input, textarea {
 
 .about-quote-rust::before {
     content: '"';
-    color: #c2410c;
+    color: #9945FF;
     font-size: 1.5rem;
     font-weight: 700;
     margin-right: 4px;
@@ -1515,7 +1515,7 @@ input, textarea {
 }
 
 .btn-rust {
-    background: linear-gradient(135deg, #c2410c, #ea580c);
+    background: linear-gradient(135deg, #9945FF, #14F195);
     color: white;
     padding: 12px 28px;
     border-radius: var(--radius-full);
@@ -1527,22 +1527,22 @@ input, textarea {
 
 .btn-rust:hover {
     transform: translateY(-2px);
-    box-shadow: 0 10px 30px rgba(194, 65, 12, 0.3);
+    box-shadow: 0 10px 30px rgba(153, 69, 255, 0.3);
 }
 
 .btn-rust-outline {
     background: transparent;
-    color: #c2410c;
+    color: #9945FF;
     padding: 12px 28px;
     border-radius: var(--radius-full);
     font-weight: 500;
     text-decoration: none;
     transition: var(--transition-base);
-    border: 2px solid #c2410c;
+    border: 2px solid #9945FF;
 }
 
 .btn-rust-outline:hover {
-    background: rgba(194, 65, 12, 0.1);
+    background: rgba(153, 69, 255, 0.1);
 }
 
 /* Mobile responsive */
@@ -1790,11 +1790,11 @@ input, textarea {
     bottom: 0;
     width: 4px;
     background: linear-gradient(180deg,
-        #c2410c 0%,
-        #b45309 25%,
-        #c2410c 50%,
-        #b45309 75%,
-        #c2410c 100%
+        #9945FF 0%,
+        #7b32d9 25%,
+        #9945FF 50%,
+        #7b32d9 75%,
+        #9945FF 100%
     );
     border-radius: 4px;
     opacity: 0.3;
@@ -1808,15 +1808,15 @@ input, textarea {
     transform: translateX(-50%);
     width: 14px;
     height: 14px;
-    background: #c2410c;
+    background: #9945FF;
     border-radius: 50%;
-    box-shadow: 0 0 20px #c2410c, 0 0 40px #c2410c;
+    box-shadow: 0 0 20px #9945FF, 0 0 40px #9945FF;
     animation: glow-pulse-rust 2s ease-in-out infinite;
 }
 
 @keyframes glow-pulse-rust {
-    0%, 100% { box-shadow: 0 0 20px #c2410c, 0 0 40px #c2410c; }
-    50% { box-shadow: 0 0 30px #c2410c, 0 0 60px #c2410c; }
+    0%, 100% { box-shadow: 0 0 20px #9945FF, 0 0 40px #9945FF; }
+    50% { box-shadow: 0 0 30px #9945FF, 0 0 60px #9945FF; }
 }
 
 .timeline-track::after {
@@ -1850,7 +1850,7 @@ input, textarea {
     font-family: var(--font-mono);
     font-size: 0.85rem;
     font-weight: 700;
-    color: #c2410c;
+    color: #9945FF;
     text-align: right;
     padding-top: var(--space-lg);
     position: relative;
@@ -1861,7 +1861,7 @@ input, textarea {
     width: 20px;
     height: 20px;
     background: var(--bg-secondary);
-    border: 3px solid #c2410c;
+    border: 3px solid #9945FF;
     border-radius: 50%;
     position: relative;
     margin-top: var(--space-lg);
@@ -1877,19 +1877,19 @@ input, textarea {
     transform: translate(-50%, -50%);
     width: 8px;
     height: 8px;
-    background: #c2410c;
+    background: #9945FF;
     border-radius: 50%;
     opacity: 0;
     transition: var(--transition-base);
 }
 
 .exp-node.current {
-    border-color: #ea580c;
+    border-color: #14F195;
     animation: pulse-node-rust 2s ease-in-out infinite;
 }
 
 .exp-node.current::before {
-    background: #ea580c;
+    background: #14F195;
     opacity: 1;
 }
 
@@ -1899,12 +1899,12 @@ input, textarea {
 
 .exp-row:hover .exp-node {
     transform: scale(1.2);
-    box-shadow: 0 0 20px rgba(194, 65, 12, 0.5);
+    box-shadow: 0 0 20px rgba(153, 69, 255, 0.5);
 }
 
 @keyframes pulse-node-rust {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(234, 88, 12, 0.4); }
-    50% { box-shadow: 0 0 0 10px rgba(234, 88, 12, 0); }
+    0%, 100% { box-shadow: 0 0 0 0 rgba(20, 241, 149, 0.4); }
+    50% { box-shadow: 0 0 0 10px rgba(20, 241, 149, 0); }
 }
 
 /* Connector line from node to card */
@@ -1915,7 +1915,7 @@ input, textarea {
     top: calc(var(--space-lg) + 8px);
     width: 20px;
     height: 3px;
-    background: linear-gradient(90deg, #c2410c, transparent);
+    background: linear-gradient(90deg, #9945FF, transparent);
     opacity: 0.5;
 }
 
@@ -1936,13 +1936,13 @@ input, textarea {
     left: 0;
     width: 4px;
     height: 100%;
-    background: linear-gradient(180deg, #c2410c, #b45309);
+    background: linear-gradient(180deg, #9945FF, #7b32d9);
     opacity: 0;
     transition: opacity var(--transition-base);
 }
 
 .experience-card:hover {
-    border-color: #c2410c;
+    border-color: #9945FF;
     box-shadow: var(--shadow-lg);
     transform: translateX(4px);
 }
@@ -1983,7 +1983,7 @@ input, textarea {
 
 .exp-company {
     display: block;
-    color: #c2410c;
+    color: #9945FF;
     font-weight: 500;
     font-size: 0.9rem;
 }
@@ -2025,7 +2025,7 @@ input, textarea {
     content: '→';
     position: absolute;
     left: 0;
-    color: #c2410c;
+    color: #9945FF;
     font-weight: 600;
 }
 
@@ -2756,8 +2756,8 @@ input, textarea {
 }
 
 .skill-chip:hover {
-    border-color: #c2410c;
-    background: rgba(194, 65, 12, 0.1);
+    border-color: #9945FF;
+    background: rgba(153, 69, 255, 0.1);
     transform: scale(1.05);
 }
 
@@ -2768,14 +2768,14 @@ input, textarea {
 }
 
 .skill-chip.featured {
-    background: rgba(194, 65, 12, 0.15);
-    border-color: #c2410c;
-    color: #ea580c;
+    background: rgba(153, 69, 255, 0.15);
+    border-color: #9945FF;
+    color: #14F195;
 }
 
 .skill-chip.blockchain {
-    background: linear-gradient(135deg, rgba(194, 65, 12, 0.1), rgba(234, 88, 12, 0.05));
-    border-color: rgba(194, 65, 12, 0.3);
+    background: linear-gradient(135deg, rgba(153, 69, 255, 0.1), rgba(20, 241, 149, 0.05));
+    border-color: rgba(153, 69, 255, 0.3);
 }
 
 @media (max-width: 600px) {
@@ -2808,7 +2808,7 @@ input, textarea {
 }
 
 .values-section .subsection-title svg {
-    color: #c2410c;
+    color: #9945FF;
 }
 
 .values-grid {
@@ -2827,7 +2827,7 @@ input, textarea {
 }
 
 .value-card:hover {
-    border-color: #c2410c;
+    border-color: #9945FF;
     transform: translateY(-3px);
 }
 
@@ -2842,7 +2842,7 @@ input, textarea {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, #c2410c, #ea580c);
+    background: linear-gradient(135deg, #9945FF, #14F195);
     border-radius: var(--radius-sm);
     transition: transform 0.3s ease;
 }
@@ -3926,7 +3926,7 @@ input, textarea {
 }
 
 .footer-mini-logo .logo-bracket {
-    color: #c2410c;
+    color: #9945FF;
 }
 
 .footer-mini-logo .logo-text {
@@ -3953,7 +3953,7 @@ input, textarea {
 
 .footer-mini-links a:hover {
     color: white;
-    background: linear-gradient(135deg, #c2410c 0%, #ea580c 100%);
+    background: linear-gradient(135deg, #9945FF 0%, #14F195 100%);
     transform: translateY(-2px);
 }
 
@@ -3974,7 +3974,7 @@ input, textarea {
 }
 
 .footer-amazigh-inline {
-    color: #ea580c;
+    color: #14F195;
     font-size: 0.9rem;
     cursor: default;
 }
@@ -6062,8 +6062,8 @@ body::after {
 }
 
 .contact-modal-close:hover {
-    background: #c2410c;
-    border-color: #c2410c;
+    background: #9945FF;
+    border-color: #9945FF;
     color: white;
 }
 
@@ -6082,20 +6082,20 @@ body::after {
     align-items: center;
     gap: 8px;
     padding: 14px 24px;
-    background: linear-gradient(135deg, #c2410c 0%, #ea580c 100%);
+    background: linear-gradient(135deg, #9945FF 0%, #14F195 100%);
     color: white;
     font-size: 0.9rem;
     font-weight: 600;
     border: none;
     border-radius: var(--radius-full);
     cursor: pointer;
-    box-shadow: 0 4px 20px rgba(194, 65, 12, 0.4);
+    box-shadow: 0 4px 20px rgba(153, 69, 255, 0.4);
     transition: all 0.3s ease;
 }
 
 .contact-fab:hover {
     transform: translateY(-3px);
-    box-shadow: 0 8px 30px rgba(194, 65, 12, 0.5);
+    box-shadow: 0 8px 30px rgba(153, 69, 255, 0.5);
 }
 
 .contact-fab svg {
@@ -6142,7 +6142,7 @@ body::after {
 
 .contact-rust-accent {
     width: 6px;
-    background: linear-gradient(180deg, #c2410c 0%, #ea580c 50%, #f97316 100%);
+    background: linear-gradient(180deg, #9945FF 0%, #14F195 50%, #00D4FF 100%);
     flex-shrink: 0;
 }
 
@@ -6193,12 +6193,12 @@ body::after {
 }
 
 .code-keyword {
-    color: #c2410c;
+    color: #9945FF;
     font-weight: 600;
 }
 
 .code-function {
-    color: #f97316;
+    color: #00D4FF;
 }
 
 /* Contact Links */
@@ -6223,7 +6223,7 @@ body::after {
 }
 
 .contact-link-rust:hover {
-    background: rgba(194, 65, 12, 0.08);
+    background: rgba(153, 69, 255, 0.08);
     color: var(--text-primary);
 }
 
@@ -6236,7 +6236,7 @@ body::after {
 .contact-link-rust svg {
     width: 20px;
     height: 20px;
-    color: #ea580c;
+    color: #14F195;
     flex-shrink: 0;
 }
 
@@ -6250,7 +6250,7 @@ body::after {
     opacity: 0;
     transform: translateX(-8px);
     transition: all 0.3s ease;
-    color: #ea580c;
+    color: #14F195;
     font-weight: 600;
 }
 
@@ -6305,7 +6305,7 @@ body::after {
     align-items: center;
     gap: 10px;
     padding: 12px 24px;
-    background: linear-gradient(135deg, #c2410c 0%, #ea580c 100%);
+    background: linear-gradient(135deg, #9945FF 0%, #14F195 100%);
     color: white;
     font-family: var(--font-mono);
     font-size: 0.9rem;
@@ -6319,7 +6319,7 @@ body::after {
 
 .cta-button-rust:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(194, 65, 12, 0.4);
+    box-shadow: 0 8px 25px rgba(153, 69, 255, 0.4);
 }
 
 .cta-button-rust svg {
