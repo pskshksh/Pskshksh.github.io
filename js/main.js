@@ -69,7 +69,7 @@ const translations = {
         skills_title: "Technical Skills",
         projects_title: "Featured Projects",
         projects_subtitle: "Building scalable solutions that make an impact",
-        blog_title: "Articles on Medium",
+        blog_title: "Blog",
         contact_title: "Get In Touch",
 
         // Skills categories
@@ -109,9 +109,9 @@ const translations = {
         footer_connect: "Connect",
 
         // Blog
-        blog_subtitle: "Deep dives into Golang, streaming, and software engineering",
+        blog_subtitle: "Deep dives into Solana, Golang, and software engineering",
         read_on_medium: "Read on Medium",
-        view_all_articles: "View All Articles on Medium",
+        view_all_articles: "Visit my Blog Posts",
 
         // Contact extended
         contact_headline: "Let's discuss your next big idea",
@@ -181,7 +181,7 @@ const translations = {
         skills_title: "Compétences Techniques",
         projects_title: "Projets Phares",
         projects_subtitle: "Construire des solutions évolutives qui font la différence",
-        blog_title: "Articles sur Medium",
+        blog_title: "Blog",
         contact_title: "Me Contacter",
 
         // Skills categories
@@ -221,9 +221,9 @@ const translations = {
         footer_connect: "Réseaux",
 
         // Blog
-        blog_subtitle: "Plongées approfondies dans Golang, le streaming et le génie logiciel",
+        blog_subtitle: "Plongées approfondies dans Solana, Golang et le génie logiciel",
         read_on_medium: "Lire sur Medium",
-        view_all_articles: "Voir tous les articles sur Medium",
+        view_all_articles: "Visiter mes articles",
 
         // Contact extended
         contact_headline: "Discutons de votre prochaine grande idée",

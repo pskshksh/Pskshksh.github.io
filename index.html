@@ -51,7 +51,7 @@
                 <li><a href="#education" class="nav-link" data-i18n="nav_education">Education</a></li>
                 <li><a href="#skills" class="nav-link" data-i18n="nav_skills">Skills</a></li>
                 <li><a href="#projects" class="nav-link" data-i18n="nav_projects">Projects</a></li>
-                <li><a href="#blog" class="nav-link" data-i18n="nav_blog">Blog</a></li>
+                <li><a href="blog/" class="nav-link" data-i18n="nav_blog">Blog</a></li>
                 <li><a href="#" class="nav-link" data-i18n="nav_contact" onclick="openContactModal(); return false;">Contact</a></li>
             </ul>
 
@@ -788,6 +788,28 @@
         </div>
     </section>
 
+    <!-- Blog Section -->
+    <section id="blog" class="section blog">
+        <div class="container">
+            <a href="blog/" class="blog-banner">
+                <div class="blog-banner-bg">
+                    <div class="blog-banner-grid"></div>
+                    <div class="blog-banner-glow blog-banner-glow-1"></div>
+                    <div class="blog-banner-glow blog-banner-glow-2"></div>
+                </div>
+                <div class="blog-banner-content">
+                    <span class="blog-banner-tag">&lt;blog&gt;</span>
+                    <h2 class="blog-banner-title">Technical Articles</h2>
+                    <p class="blog-banner-desc">Whenever I discover something interesting worth explaining, I write about it.</p>
+                    <span class="blog-banner-btn">
+                        Read my Posts
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18"><path d="M5 12h14M12 5l7 7-7 7"></path></svg>
+                    </span>
+                </div>
+            </a>
+        </div>
+    </section>
+
     <!-- Projects Section -->
     <section id="projects" class="section projects">
         <div class="projects-bg">
@@ -968,101 +990,6 @@
             </div>
 
             <span class="section-tag section-tag-close">&lt;/projects&gt;</span>
-        </div>
-    </section>
-
-    <!-- Blog Section -->
-    <section id="blog" class="section blog">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-tag">&lt;blog&gt;</span>
-                <h2 class="section-title" data-i18n="blog_title">Articles on Medium</h2>
-                <p class="section-subtitle" data-i18n="blog_subtitle">Deep dives into Golang, streaming, and software engineering</p>
-            </div>
-
-            <div class="articles-container">
-                <article class="article-card">
-                    <div class="article-number">01</div>
-                    <div class="article-content">
-                        <div class="article-header">
-                            <span class="article-tag">Golang</span>
-                            <span class="article-meta">Feb 2024 · 282 reads</span>
-                        </div>
-                        <h3 class="article-title">
-                            <a href="https://medium.com/@pskshksh/mastering-io-pipe-in-go-ca8686150b5e" target="_blank" rel="noopener">
-                                Mastering io.Pipe in Go
-                            </a>
-                        </h3>
-                        <p class="article-excerpt">
-                            Discover the power of io.Pipe for seamless data streaming between producers and consumers.
-                        </p>
-                    </div>
-                    <a href="https://medium.com/@pskshksh/mastering-io-pipe-in-go-ca8686150b5e" target="_blank" rel="noopener" class="article-arrow">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M5 12h14M12 5l7 7-7 7"></path>
-                        </svg>
-                    </a>
-                </article>
-
-                <article class="article-card">
-                    <div class="article-number">02</div>
-                    <div class="article-content">
-                        <div class="article-header">
-                            <span class="article-tag">Golang</span>
-                            <span class="article-meta">Feb 2024 · 69 reads</span>
-                        </div>
-                        <h3 class="article-title">
-                            <a href="https://medium.com/@pskshksh/efficient-data-duplication-in-go-simultaneous-reading-and-multiple-writing-d7afe0e7727a" target="_blank" rel="noopener">
-                                Efficient Data Duplication in Go
-                            </a>
-                        </h3>
-                        <p class="article-excerpt">
-                            Learn io.TeeReader and io.MultiWriter for simultaneous reading and multiple writing.
-                        </p>
-                    </div>
-                    <a href="https://medium.com/@pskshksh/efficient-data-duplication-in-go-simultaneous-reading-and-multiple-writing-d7afe0e7727a" target="_blank" rel="noopener" class="article-arrow">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M5 12h14M12 5l7 7-7 7"></path>
-                        </svg>
-                    </a>
-                </article>
-
-                <article class="article-card">
-                    <div class="article-number">03</div>
-                    <div class="article-content">
-                        <div class="article-header">
-                            <span class="article-tag">Golang</span>
-                            <span class="article-meta">Feb 2024 · 28 reads</span>
-                        </div>
-                        <h3 class="article-title">
-                            <a href="https://medium.com/@pskshksh/banishing-the-ghosts-in-your-go-code-a-friendly-guide-to-eliminating-dead-code-bfd8f3b0984f" target="_blank" rel="noopener">
-                                Banishing Ghosts in Your Go Code
-                            </a>
-                        </h3>
-                        <p class="article-excerpt">
-                            A guide to eliminating dead code and keeping your codebase clean and maintainable.
-                        </p>
-                    </div>
-                    <a href="https://medium.com/@pskshksh/banishing-the-ghosts-in-your-go-code-a-friendly-guide-to-eliminating-dead-code-bfd8f3b0984f" target="_blank" rel="noopener" class="article-arrow">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M5 12h14M12 5l7 7-7 7"></path>
-                        </svg>
-                    </a>
-                </article>
-            </div>
-
-            <div class="blog-cta">
-                <a href="https://medium.com/@pskshksh" target="_blank" rel="noopener" class="btn-rust-secondary">
-                    <span data-i18n="view_all_articles">View All on Medium</span>
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18">
-                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                        <polyline points="15 3 21 3 21 9"></polyline>
-                        <line x1="10" y1="14" x2="21" y2="3"></line>
-                    </svg>
-                </a>
-            </div>
-
-            <span class="section-tag section-tag-close">&lt;/blog&gt;</span>
         </div>
     </section>
 

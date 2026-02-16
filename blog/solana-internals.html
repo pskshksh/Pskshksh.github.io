@@ -1,0 +1,1662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A comprehensive guide to Solana's architecture, account model, program execution, consensus, security, and optimization for Rust developers">
+  <title>Solana Internals — The Definitive Guide for Rust Developers | Ayoub Idel</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.6.1/mermaid.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  <link rel="stylesheet" href="../css/blog.css">
+  <style>
+      :root {
+          --bg: #050507;
+          --bg2: #0a0a0f;
+          --bg3: #0f0f18;
+          --surface: #12121e;
+          --surface2: #181828;
+          --border: #1e1e32;
+          --border2: #2a2a44;
+          --text: #e4e4f0;
+          --text2: #b0b0cc;
+          --text3: #6e6e8c;
+          --sol: #9945FF;
+          --sol2: #7b32d9;
+          --green: #14F195;
+          --green2: #0bc47a;
+          --cyan: #00D4FF;
+          --rust: #F74C00;
+          --yellow: #FFCF36;
+          --red: #FF4466;
+          --gradient: linear-gradient(135deg, #9945FF, #14F195);
+          --gradient2: linear-gradient(135deg, #14F195, #00D4FF);
+          --gradient3: linear-gradient(135deg, #9945FF, #00D4FF);
+          --glow-sol: 0 0 60px rgba(153,69,255,0.15);
+          --glow-green: 0 0 60px rgba(20,241,149,0.1);
+      }
+
+      /* ═══════════ LAYOUT ═══════════ */
+      .page{width:100%;overflow-x:hidden;padding-top:60px}
+      .container{max-width:840px;margin:0 auto;padding:0 32px}
+      .wide{max-width:1080px;margin:0 auto;padding:0 32px}
+
+      /* ═══════════ HERO ═══════════ */
+      .hero{
+          min-height:100vh;
+          display:flex;
+          align-items:center;
+          justify-content:center;
+          text-align:center;
+          position:relative;
+          overflow:hidden;
+      }
+      .hero::before{
+          content:'';position:absolute;inset:0;
+          background:
+                  radial-gradient(ellipse 60% 50% at 50% 40%, rgba(153,69,255,0.08), transparent),
+                  radial-gradient(ellipse 40% 30% at 30% 70%, rgba(20,241,149,0.04), transparent),
+                  radial-gradient(ellipse 40% 30% at 70% 60%, rgba(0,212,255,0.03), transparent);
+          pointer-events:none;
+      }
+      .hero-grid{
+          position:absolute;inset:0;
+          background-image:
+                  linear-gradient(rgba(153,69,255,0.03) 1px, transparent 1px),
+                  linear-gradient(90deg, rgba(153,69,255,0.03) 1px, transparent 1px);
+          background-size:60px 60px;
+          mask-image:radial-gradient(ellipse 70% 60% at 50% 50%, black, transparent);
+      }
+      .hero-content{position:relative;z-index:1}
+      .hero-tag{
+          font-family:'IBM Plex Mono',monospace;
+          font-size:12px;
+          letter-spacing:4px;
+          text-transform:uppercase;
+          color:var(--green);
+          margin-bottom:28px;
+          display:inline-block;
+          padding:6px 18px;
+          border:1px solid rgba(20,241,149,0.2);
+          border-radius:100px;
+      }
+      .hero h1{
+          font-family:'Newsreader',serif;
+          font-size:clamp(42px,6vw,80px);
+          font-weight:700;
+          line-height:1.08;
+          margin-bottom:28px;
+          letter-spacing:-1.5px;
+      }
+      .hero h1 .grad{
+          background:var(--gradient);
+          -webkit-background-clip:text;
+          -webkit-text-fill-color:transparent;
+      }
+      .hero-sub{
+          font-size:clamp(16px,2vw,20px);
+          color:var(--text2);
+          max-width:580px;
+          margin:0 auto 40px;
+          font-weight:300;
+          line-height:1.7;
+      }
+      .hero-stats{
+          display:flex;gap:48px;justify-content:center;flex-wrap:wrap;
+      }
+      .hero-stat{text-align:center}
+      .hero-stat .val{
+          font-family:'IBM Plex Mono',monospace;
+          font-size:28px;font-weight:600;
+          background:var(--gradient);
+          -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+      }
+      .hero-stat .lbl{font-size:12px;color:var(--text3);text-transform:uppercase;letter-spacing:2px;margin-top:4px}
+
+      .scroll-hint{
+          position:absolute;bottom:40px;left:50%;transform:translateX(-50%);
+          font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text3);
+          letter-spacing:2px;text-transform:uppercase;
+          animation:pulse 2s ease-in-out infinite;
+      }
+      @keyframes pulse{0%,100%{opacity:.4}50%{opacity:1}}
+
+      /* ═══════════ TOC ═══════════ */
+      .toc-section{
+          border-top:1px solid var(--border);
+          border-bottom:1px solid var(--border);
+          padding:64px 0;
+          background:var(--bg2);
+      }
+      .toc-grid{
+          display:grid;
+          grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
+          gap:20px;
+          margin-top:32px;
+      }
+      .toc-card{
+          background:var(--surface);
+          border:1px solid var(--border);
+          border-radius:12px;
+          padding:24px;
+          text-decoration:none;
+          transition:all .25s;
+          cursor:pointer;
+          display:block;
+      }
+      .toc-card:hover{
+          border-color:var(--sol);
+          transform:translateY(-2px);
+          box-shadow:var(--glow-sol);
+      }
+      .toc-card .num{
+          font-family:'IBM Plex Mono',monospace;
+          font-size:11px;color:var(--green);
+          letter-spacing:2px;margin-bottom:8px;
+      }
+      .toc-card .title{
+          font-family:'Newsreader',serif;
+          font-size:18px;font-weight:600;
+          color:var(--text);margin-bottom:6px;
+      }
+      .toc-card .desc{font-size:13px;color:var(--text3);line-height:1.5}
+
+      /* ═══════════ SECTIONS ═══════════ */
+      .chapter{padding:100px 0 40px;position:relative}
+      .chapter + .chapter{border-top:1px solid var(--border)}
+      .chapter-num{
+          font-family:'IBM Plex Mono',monospace;
+          font-size:11px;letter-spacing:4px;text-transform:uppercase;
+          color:var(--sol);margin-bottom:12px;
+      }
+      .chapter-num.g{color:var(--green)}
+      .chapter-num.c{color:var(--cyan)}
+      .chapter-num.y{color:var(--yellow)}
+      .chapter-num.r{color:var(--red)}
+
+      h2{
+          font-family:'Newsreader',serif;
+          font-size:clamp(32px,4vw,48px);
+          font-weight:700;line-height:1.15;
+          margin-bottom:20px;letter-spacing:-0.5px;
+      }
+      h3{
+          font-family:'Newsreader',serif;
+          font-size:clamp(22px,3vw,30px);
+          font-weight:600;line-height:1.25;
+          margin:56px 0 16px;
+      }
+      h4{
+          font-size:18px;font-weight:600;
+          margin:36px 0 12px;color:var(--text);
+      }
+      p{margin-bottom:18px;color:var(--text2);font-size:16.5px}
+      p strong{color:var(--text);font-weight:600}
+
+      /* ═══════════ SPECIAL BLOCKS ═══════════ */
+      .lead{
+          font-size:20px;color:var(--text2);
+          line-height:1.7;margin-bottom:28px;
+          font-weight:300;
+          border-left:3px solid var(--sol);
+          padding-left:24px;
+      }
+
+      .axiom{
+          background:linear-gradient(135deg, rgba(153,69,255,0.06), rgba(20,241,149,0.04));
+          border:1px solid rgba(153,69,255,0.15);
+          border-radius:16px;
+          padding:36px 40px;
+          margin:36px 0;
+          position:relative;
+          overflow:hidden;
+      }
+      .axiom::before{
+          content:'';position:absolute;top:0;left:0;width:4px;height:100%;
+          background:var(--gradient);border-radius:4px 0 0 4px;
+      }
+      .axiom .tag{
+          font-family:'IBM Plex Mono',monospace;
+          font-size:10px;letter-spacing:3px;text-transform:uppercase;
+          color:var(--green);margin-bottom:10px;
+      }
+      .axiom h5{
+          font-family:'Newsreader',serif;
+          font-size:22px;font-weight:600;margin-bottom:10px;color:var(--text);
+      }
+      .axiom p{margin-bottom:0;font-size:15.5px}
+      .axiom p + p{margin-top:12px}
+
+      .def{
+          background:var(--surface);
+          border:1px solid var(--border);
+          border-radius:12px;
+          padding:26px 30px;
+          margin:22px 0;
+      }
+      .def .tag{
+          font-family:'IBM Plex Mono',monospace;
+          font-size:10px;letter-spacing:2px;text-transform:uppercase;
+          color:var(--cyan);margin-bottom:6px;
+      }
+      .def .tag.sol-t{color:var(--sol)}
+      .def .tag.g-t{color:var(--green)}
+      .def .tag.y-t{color:var(--yellow)}
+      .def .tag.r-t{color:var(--red)}
+      .def h5{
+          font-family:'Newsreader',serif;
+          font-size:20px;font-weight:600;margin-bottom:8px;color:var(--text);
+      }
+      .def p{margin-bottom:0;font-size:15px}
+      .def p + p{margin-top:10px}
+
+      .warn{
+          background:rgba(255,68,102,0.05);
+          border:1px solid rgba(255,68,102,0.15);
+          border-left:3px solid var(--red);
+          border-radius:0 10px 10px 0;
+          padding:20px 24px;margin:24px 0;
+      }
+      .warn strong{color:var(--red)}
+      .warn p{margin-bottom:0;font-size:14.5px}
+
+      .tip{
+          background:rgba(20,241,149,0.04);
+          border:1px solid rgba(20,241,149,0.12);
+          border-left:3px solid var(--green);
+          border-radius:0 10px 10px 0;
+          padding:20px 24px;margin:24px 0;
+      }
+      .tip strong{color:var(--green)}
+      .tip p{margin-bottom:0;font-size:14.5px}
+
+      /* ═══════════ GRID ═══════════ */
+      .g2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:24px 0}
+      .g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:24px 0}
+      @media(max-width:700px){.g2,.g3{grid-template-columns:1fr}}
+
+      /* ═══════════ DIAGRAM ═══════════ */
+      .diagram{
+          background:var(--surface);
+          border:1px solid var(--border);
+          border-radius:14px;
+          padding:32px;
+          margin:32px 0;
+          overflow-x:auto;
+      }
+      .diagram .cap{
+          font-family:'IBM Plex Mono',monospace;
+          font-size:10px;letter-spacing:2px;text-transform:uppercase;
+          color:var(--text3);margin-bottom:20px;
+      }
+      .mermaid{display:flex;justify-content:center}
+      .mermaid svg{max-width:100%!important;height:auto!important}
+
+      /* ═══════════ CODE ═══════════ */
+      pre{
+          background:var(--bg3);
+          border:1px solid var(--border);
+          border-radius:12px;
+          padding:24px 28px;
+          overflow-x:auto;
+          margin:22px 0;
+          font-family:'IBM Plex Mono',monospace;
+          font-size:13.5px;line-height:1.75;
+          color:#c0c0d8;
+          position:relative;
+      }
+      pre .lang{
+          position:absolute;top:12px;right:16px;
+          font-size:10px;letter-spacing:2px;text-transform:uppercase;
+          color:var(--text3);
+      }
+      code{font-family:'IBM Plex Mono',monospace;font-size:13.5px}
+      :not(pre)>code{
+          background:var(--surface2);padding:2px 8px;border-radius:5px;
+          color:var(--green);font-size:13px;
+      }
+      .kw{color:#c792ea}.fn{color:#82aaff}.str{color:#c3e88d}
+      .cm{color:#4a5568;font-style:italic}.ty{color:#ffcb6b}
+      .num{color:#f78c6c}.mac{color:#89ddff}.lt{color:#f07178}
+      .at{color:#c792ea}
+
+      /* ═══════════ TABLE ═══════════ */
+      table{
+          width:100%;border-collapse:collapse;
+          margin:24px 0;font-size:14px;
+      }
+      th{
+          text-align:left;padding:14px 18px;
+          background:var(--surface);
+          border-bottom:2px solid var(--border2);
+          font-family:'IBM Plex Mono',monospace;
+          font-size:10px;text-transform:uppercase;letter-spacing:2px;color:var(--text3);
+      }
+      td{
+          padding:14px 18px;border-bottom:1px solid var(--border);color:var(--text2);
+      }
+      td:first-child{color:var(--text);font-weight:500}
+      tr:last-child td{border-bottom:none}
+
+      /* ═══════════ SEPARATOR ═══════════ */
+      .sep{
+          height:1px;margin:80px auto;max-width:120px;
+          background:var(--gradient);opacity:.4;border:none;
+      }
+
+      /* ═══════════ FOOTER ═══════════ */
+      .footer{
+          border-top:1px solid var(--border);
+          padding:48px 0;text-align:center;
+          color:var(--text3);font-size:13px;
+      }
+      .footer a{color:var(--sol);text-decoration:none}
+
+      /* ═══════════ ANIMATIONS ═══════════ */
+      .fade-in{opacity:0;transform:translateY(24px);transition:all .6s cubic-bezier(.16,1,.3,1)}
+      .fade-in.visible{opacity:1;transform:translateY(0)}
+
+      /* ═══════════ RESPONSIVE ═══════════ */
+      @media(max-width:600px){
+          .container,.wide{padding:0 18px}
+          .hero-stats{gap:28px}
+          pre{padding:16px 18px;font-size:12.5px}
+          .axiom{padding:24px}
+          .def{padding:20px}
+          .diagram{padding:20px}
+          .top-nav{padding:0 18px}
+          .nav-links{gap:16px}
+      }
+      @media(max-width:480px){
+          .nav-links .hide-mobile{display:none}
+      }
+  </style>
+</head>
+<body class="blog-page">
+
+<!-- ═══════════ TOP NAV ═══════════ -->
+<nav class="top-nav">
+    <a href="../blog/" class="nav-logo">
+        <span class="bracket">{</span> Ayoub <span class="bracket">}</span>
+    </a>
+    <div class="nav-links">
+        <a href="../index.html">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" style="vertical-align:-2px;margin-right:4px"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>Portfolio
+        </a>
+    </div>
+</nav>
+
+<div class="page">
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!--                      HERO                          -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <section class="hero">
+    <div class="hero-grid"></div>
+    <div class="hero-content">
+      <div class="hero-tag">Deep Dive Technical Guide</div>
+      <h1>Understanding<br><span class="grad">Solana Internals</span></h1>
+      <p class="hero-sub">A comprehensive guide to Solana's architecture, account model, program execution, consensus, security, and optimization — written for Rust developers ready to build on-chain.</p>
+      <div class="hero-stats">
+        <div class="hero-stat"><div class="val">~400ms</div><div class="lbl">Block Time</div></div>
+        <div class="hero-stat"><div class="val">65k+</div><div class="lbl">TPS Theoretical</div></div>
+        <div class="hero-stat"><div class="val">$0.00025</div><div class="lbl">Avg TX Cost</div></div>
+        <div class="hero-stat"><div class="val">~6.4s</div><div class="lbl">Finality</div></div>
+      </div>
+    </div>
+    <div class="scroll-hint">Scroll to explore ↓</div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!--                TABLE OF CONTENTS                   -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <section class="toc-section">
+    <div class="wide">
+      <div class="chapter-num">Guide Structure</div>
+      <h2>What We Will Cover</h2>
+      <div class="toc-grid">
+        <a class="toc-card" href="#mental-model">
+          <div class="num">01</div>
+          <div class="title">The Mental Model</div>
+          <div class="desc">Everything is an account. Programs are stateless. This changes everything.</div>
+        </a>
+        <a class="toc-card" href="#accounts">
+          <div class="num">02</div>
+          <div class="title">Accounts Deep Dive</div>
+          <div class="desc">Data layout, ownership, rent, account types, and the rules that govern them.</div>
+        </a>
+        <a class="toc-card" href="#programs">
+          <div class="num">03</div>
+          <div class="title">Programs &amp; Execution</div>
+          <div class="desc">How programs process instructions, BPF runtime, native programs, Anchor.</div>
+        </a>
+        <a class="toc-card" href="#transactions">
+          <div class="num">04</div>
+          <div class="title">Transactions</div>
+          <div class="desc">Anatomy, lifecycle, versioned TXs, ALTs, blockhash, and compute budget.</div>
+        </a>
+        <a class="toc-card" href="#consensus">
+          <div class="num">05</div>
+          <div class="title">Consensus &amp; PoH</div>
+          <div class="desc">Proof of History, Tower BFT, leader schedule, Turbine, Gulf Stream.</div>
+        </a>
+        <a class="toc-card" href="#pdas">
+          <div class="num">06</div>
+          <div class="title">PDAs &amp; CPIs</div>
+          <div class="desc">Program Derived Addresses, Cross-Program Invocation, composability.</div>
+        </a>
+        <a class="toc-card" href="#tokens">
+          <div class="num">07</div>
+          <div class="title">SPL Tokens &amp; NFTs</div>
+          <div class="desc">Mint, token accounts, ATAs, Token-2022, Metaplex, compressed NFTs.</div>
+        </a>
+        <a class="toc-card" href="#security">
+          <div class="num">08</div>
+          <div class="title">Security</div>
+          <div class="desc">Vulnerability patterns, exploits, validation, and how to write safe programs.</div>
+        </a>
+        <a class="toc-card" href="#optimization">
+          <div class="num">09</div>
+          <div class="title">Optimization</div>
+          <div class="desc">Compute units, data packing, zero-copy, stack vs heap, CU reduction.</div>
+        </a>
+        <a class="toc-card" href="#building">
+          <div class="num">10</div>
+          <div class="title">Building Real Programs</div>
+          <div class="desc">Complete vault example, testing, client integration, deployment.</div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!--             01 — THE MENTAL MODEL                  -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <section class="chapter" id="mental-model">
+    <div class="container">
+      <div class="chapter-num">Chapter 01</div>
+      <h2>The Mental Model</h2>
+      <p class="lead">If you only take one thing from this guide, take this: Solana is a database of accounts. Everything — wallets, tokens, NFTs, smart contracts, on-chain state — is just an account. Programs read and write to accounts. That is the entire model.</p>
+
+      <div class="axiom">
+        <div class="tag">Core Axiom</div>
+        <h5>Everything Is an Account</h5>
+        <p>Solana's global state is a gigantic key-value store. The key is a 32-byte public key (address). The value is an account — a struct holding lamports, a data byte array, an owner program ID, and some flags. There is nothing else. No storage slots, no contract state, no special objects. Just accounts.</p>
+      </div>
+
+      <div class="axiom">
+        <div class="tag">Core Axiom</div>
+        <h5>Programs Are Stateless</h5>
+        <p>Unlike Ethereum where a contract stores its own state, Solana programs store <strong>zero state</strong>. A program is just compiled code living in an executable account. All state lives in separate data accounts that the program owns. When a transaction invokes a program, it passes in the accounts the program needs to read or write. The program processes them and returns.</p>
+        <p>This separation of code and state is what enables Sealevel's parallel execution — the runtime knows exactly which memory each transaction touches because accounts are passed explicitly.</p>
+      </div>
+
+      <div class="diagram">
+        <div class="cap">The Solana Model vs Ethereum Model</div>
+        <div class="mermaid">
+          graph LR
+          subgraph ETH["Ethereum Model"]
+          C1["Contract A"]
+          C1 --- S1["storage slot 0"]
+          C1 --- S2["storage slot 1"]
+          C1 --- S3["storage slot N"]
+          end
+
+          subgraph SOL["Solana Model"]
+          P1["Program X<br/>code only, no state"]
+          P1 -.->|reads/writes| A1["Account 1<br/>owned by X"]
+          P1 -.->|reads/writes| A2["Account 2<br/>owned by X"]
+          P1 -.->|reads/writes| A3["Account N<br/>owned by X"]
+          end
+
+          style ETH fill:#1a1218,stroke:#FF4466,color:#e4e4f0
+          style SOL fill:#0f1a14,stroke:#14F195,color:#e4e4f0
+          style P1 fill:#1a1230,stroke:#9945FF,color:#e4e4f0
+          style A1 fill:#0f1a1a,stroke:#00D4FF,color:#e4e4f0
+          style A2 fill:#0f1a1a,stroke:#00D4FF,color:#e4e4f0
+          style A3 fill:#0f1a1a,stroke:#00D4FF,color:#e4e4f0
+        </div>
+      </div>
+
+      <p>This distinction has profound implications. On Ethereum, you call a contract and it reads its own storage. On Solana, you tell the runtime <em>which accounts</em> to load, then the program processes them. This means the runtime can schedule non-overlapping transactions in parallel — if Transaction A writes to Account 1 and Transaction B writes to Account 2, they execute simultaneously.</p>
+
+      <h3>Why This Matters for You</h3>
+      <p>As a Rust developer building on Solana, your entire job boils down to three things:</p>
+
+      <div class="g3">
+        <div class="def">
+          <div class="tag g-t">Task 1</div>
+          <h5>Design Accounts</h5>
+          <p>Define the data layout of your on-chain state. What fields? How many bytes? Which program owns them?</p>
+        </div>
+        <div class="def">
+          <div class="tag g-t">Task 2</div>
+          <h5>Write Instructions</h5>
+          <p>Write program logic that validates, reads, and writes account data in response to user instructions.</p>
+        </div>
+        <div class="def">
+          <div class="tag g-t">Task 3</div>
+          <h5>Validate Everything</h5>
+          <p>Ensure every account passed to your program is exactly what you expect. This is where security lives or dies.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!--             02 — ACCOUNTS DEEP DIVE                -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <section class="chapter" id="accounts">
+    <div class="container">
+      <div class="chapter-num g">Chapter 02</div>
+      <h2>Accounts Deep Dive</h2>
+      <p class="lead">An account is Solana's atomic unit of state. Every single byte of data that exists on-chain lives inside an account. Understanding their structure and rules is non-negotiable.</p>
+
+      <div class="def">
+        <div class="tag">Definition</div>
+        <h5>Account</h5>
+        <p>A record in Solana's global state indexed by a 32-byte <strong>public key</strong>. Contains six fields: <strong>lamports</strong> (u64 balance), <strong>data</strong> (byte array of arbitrary content), <strong>owner</strong> (program ID that controls it), <strong>executable</strong> (bool flag), <strong>rent_epoch</strong> (u64), and the implicit <strong>key</strong> (its address). Maximum data size: <strong>10 MB</strong>. Minimum balance determined by rent exemption.</p>
+      </div>
+
+      <div class="diagram">
+        <div class="cap">Account Memory Layout</div>
+        <div class="mermaid">
+          graph TB
+          subgraph ACC["Account at Address: 7xKX...9fG2"]
+          KEY["key: Pubkey  — 32 bytes, the address itself"]
+          LAM["lamports: u64  — balance in lamports, 1 SOL = 10^9"]
+          DATA["data: Vec of u8  — arbitrary bytes, your program state"]
+          OWNER["owner: Pubkey  — the program that controls this account"]
+          EXEC["executable: bool  — if true, this account contains runnable BPF code"]
+          RENT["rent_epoch: u64  — last epoch rent was collected"]
+          end
+          KEY --- LAM --- DATA --- OWNER --- EXEC --- RENT
+
+          style ACC fill:#12121e,stroke:#9945FF,color:#e4e4f0
+          style KEY fill:#1a1230,stroke:#9945FF,color:#e4e4f0
+          style DATA fill:#0f1a1a,stroke:#00D4FF,color:#e4e4f0
+          style OWNER fill:#0f1a14,stroke:#14F195,color:#e4e4f0
+        </div>
+      </div>
+
+      <h3>The Five Iron Rules of Accounts</h3>
+      <p>These rules are enforced by the Solana runtime. Violating them causes your transaction to fail. Understand them deeply — they define what is and is not possible on Solana.</p>
+
+      <div class="axiom">
+        <div class="tag">Rule 1</div>
+        <h5>Only the Owner Can Modify Data</h5>
+        <p>If an account's <code>owner</code> field is set to Program X, then <strong>only Program X</strong> can change the <code>data</code> bytes. Any other program's attempt to write to that account will be rejected by the runtime. However, any program can <strong>read</strong> any account's data — there is no read protection on Solana. All on-chain data is public.</p>
+      </div>
+
+      <div class="axiom">
+        <div class="tag">Rule 2</div>
+        <h5>Only the System Program Can Debit Lamports</h5>
+        <p>Transferring SOL (debiting lamports) from an account requires the System Program. However, any program <strong>can credit</strong> lamports to any account — you can always add money, but only the System Program (or the owning program for PDAs) can take it out.</p>
+      </div>
+
+      <div class="axiom">
+        <div class="tag">Rule 3</div>
+        <h5>Only the Owner Can Assign a New Owner</h5>
+        <p>Ownership transfer is one-way and permanent. Once you assign an account to a different program, only that new program can change it back. This is how account creation works: the System Program creates the account (owns it initially), then assigns ownership to your program.</p>
+      </div>
+
+      <div class="axiom">
+        <div class="tag">Rule 4</div>
+        <h5>Accounts Must Be Rent-Exempt</h5>
+        <p>Every account must hold enough lamports to cover approximately <strong>2 years of rent</strong> (~6,960 lamports per byte). Accounts below this threshold can be garbage-collected. In practice, you always make accounts rent-exempt at creation. The rent deposit is recoverable — when you close an account, you get the lamports back.</p>
+      </div>
+
+      <div class="axiom">
+        <div class="tag">Rule 5</div>
+        <h5>Account Data Must Be Pre-Allocated</h5>
+        <p>Unlike Ethereum's dynamic storage, Solana accounts have a <strong>fixed size</strong> declared at creation. You cannot resize an account after creation (except via <code>realloc</code>, which has limitations). You must know your data layout upfront and allocate sufficient space, including padding for future fields.</p>
+      </div>
+
+      <h3>Account Types in Practice</h3>
+      <div class="g2">
+        <div class="def">
+          <div class="tag sol-t">Type</div>
+          <h5>System Account (Wallet)</h5>
+          <p>Owned by the System Program (<code>11111...1111</code>). Has a lamport balance and empty data. This is what a keypair generates. The holder of the private key can sign transactions to transfer SOL.</p>
+        </div>
+        <div class="def">
+          <div class="tag sol-t">Type</div>
+          <h5>Program Account</h5>
+          <p>Stores compiled BPF bytecode. Marked <code>executable: true</code>. Owned by the BPF Loader. Immutable once deployed (unless using an upgrade authority). A program's code and its data are always separate accounts.</p>
+        </div>
+        <div class="def">
+          <div class="tag sol-t">Type</div>
+          <h5>Data Account</h5>
+          <p>Holds serialized state for a program. Owned by the program that created it. This is where your application's state lives — vault balances, user profiles, game state, anything. Anchor accounts always start with an 8-byte discriminator.</p>
+        </div>
+        <div class="def">
+          <div class="tag sol-t">Type</div>
+          <h5>PDA (Program Derived Address)</h5>
+          <p>A special address derived deterministically from seeds + program ID. No private key exists. Only the deriving program can sign for it. The backbone of program-controlled vaults, escrows, and autonomous on-chain logic.</p>
+        </div>
+      </div>
+
+      <h3>Data Serialization — How Bytes Map to Structs</h3>
+      <p>Solana accounts store raw bytes. Your program must serialize (write) and deserialize (read) structs to/from those bytes. The standard is <strong>Borsh</strong> (Binary Object Representation Serializer for Hashing) — a deterministic, schema-based binary format.</p>
+
+      <pre><span class="lang">Rust</span>
+<span class="cm">// Your Anchor account struct</span>
+<span class="at">#[account]</span>
+<span class="at">#[derive(InitSpace)]</span>
+<span class="kw">pub struct</span> <span class="ty">Vault</span> {
+    <span class="kw">pub</span> owner: <span class="ty">Pubkey</span>,       <span class="cm">// 32 bytes</span>
+    <span class="kw">pub</span> balance: <span class="ty">u64</span>,       <span class="cm">// 8 bytes</span>
+    <span class="kw">pub</span> created_at: <span class="ty">i64</span>,    <span class="cm">// 8 bytes</span>
+    <span class="kw">pub</span> is_locked: <span class="ty">bool</span>,    <span class="cm">// 1 byte</span>
+    <span class="kw">pub</span> bump: <span class="ty">u8</span>,           <span class="cm">// 1 byte</span>
+}
+<span class="cm">// Total: 8 (discriminator) + 32 + 8 + 8 + 1 + 1 = 58 bytes</span>
+<span class="cm">// The Anchor discriminator (first 8 bytes) = SHA256("account:Vault")[..8]</span>
+<span class="cm">// Rent-exempt minimum ≈ 58 × 6,960 = ~403,680 lamports ≈ 0.0004 SOL</span></pre>
+
+      <table>
+        <tr><th>Rust Type</th><th>Borsh Size</th><th>Solana Usage</th></tr>
+        <tr><td><code>bool</code></td><td>1 byte</td><td>Flags, initialization state</td></tr>
+        <tr><td><code>u8</code> / <code>i8</code></td><td>1 byte</td><td>Bumps, enum discriminators</td></tr>
+        <tr><td><code>u32</code> / <code>i32</code></td><td>4 bytes</td><td>Short counters</td></tr>
+        <tr><td><code>u64</code> / <code>i64</code></td><td>8 bytes</td><td>Lamports, timestamps, token amounts</td></tr>
+        <tr><td><code>u128</code></td><td>16 bytes</td><td>Large math, price accumulators</td></tr>
+        <tr><td><code>Pubkey</code></td><td>32 bytes</td><td>Addresses, owner references</td></tr>
+        <tr><td><code>String</code></td><td>4 + len</td><td>Metadata (4-byte length prefix)</td></tr>
+        <tr><td><code>Vec&lt;T&gt;</code></td><td>4 + (n × size(T))</td><td>Dynamic lists (pre-allocate max!)</td></tr>
+        <tr><td><code>Option&lt;T&gt;</code></td><td>1 + size(T)</td><td>Optional fields (1-byte tag)</td></tr>
+        <tr><td>Anchor discriminator</td><td>8 bytes</td><td>First 8 bytes of every Anchor account</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!--             03 — PROGRAMS & EXECUTION              -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <section class="chapter" id="programs">
+    <div class="container">
+      <div class="chapter-num c">Chapter 03</div>
+      <h2>Programs &amp; Execution</h2>
+      <p class="lead">A Solana program is a stateless function: it takes in a list of accounts and instruction data, executes logic, mutates account state, and returns success or failure. That's it.</p>
+
+      <div class="def">
+        <div class="tag">Definition</div>
+        <h5>Program</h5>
+        <p>Compiled BPF/SBF bytecode stored in an executable account. A program exposes a single <strong>entrypoint function</strong> that receives three arguments: <code>program_id</code> (its own address), <code>accounts</code> (array of account references), and <code>instruction_data</code> (opaque bytes). The program deserializes the instruction data, validates accounts, executes logic, and writes back to accounts.</p>
+      </div>
+
+      <div class="diagram">
+        <div class="cap">Program Execution Pipeline</div>
+        <div class="mermaid">
+          sequenceDiagram
+          participant C as Client
+          participant R as RPC Node
+          participant RT as Sealevel Runtime
+          participant P as Your Program
+          participant A as Accounts DB
+
+          C->>R: Submit signed transaction
+          R->>RT: Forward to leader validator
+          RT->>RT: Verify all signatures
+          RT->>A: Load referenced accounts
+          RT->>P: entrypoint(program_id, accounts, data)
+          P->>P: Deserialize instruction data
+          P->>P: Validate accounts and constraints
+          P->>A: Read current state
+          P->>P: Execute business logic
+          P->>A: Write updated state
+          P-->>RT: Return Ok or ProgramError
+          RT->>RT: Commit changes if Ok, rollback if Err
+          RT-->>R: Confirmation
+          R-->>C: Transaction result
+        </div>
+      </div>
+
+      <h3>The Raw Entrypoint vs Anchor</h3>
+      <p>You can write programs at two levels. The raw entrypoint gives you maximum control. Anchor gives you maximum productivity. Here's the same logic at both levels:</p>
+
+      <pre><span class="lang">Raw Solana</span>
+<span class="cm">// Raw entrypoint — you handle EVERYTHING manually</span>
+<span class="kw">use</span> solana_program::{
+    account_info::{next_account_info, AccountInfo},
+    entrypoint, entrypoint::ProgramResult,
+    msg, program_error::ProgramError, pubkey::Pubkey,
+};
+
+entrypoint!(process_instruction);
+
+<span class="kw">fn</span> <span class="fn">process_instruction</span>(
+    program_id: &amp;<span class="ty">Pubkey</span>,
+    accounts: &amp;[<span class="ty">AccountInfo</span>],
+    instruction_data: &amp;[<span class="ty">u8</span>],
+) -> <span class="ty">ProgramResult</span> {
+    <span class="kw">let</span> accounts_iter = &amp;<span class="kw">mut</span> accounts.iter();
+    <span class="kw">let</span> vault = next_account_info(accounts_iter)?;
+    <span class="kw">let</span> user = next_account_info(accounts_iter)?;
+
+    <span class="cm">// YOU must manually check: is the user a signer?</span>
+    <span class="kw">if</span> !user.is_signer {
+        <span class="kw">return</span> <span class="ty">Err</span>(<span class="ty">ProgramError</span>::MissingRequiredSignature);
+    }
+    <span class="cm">// YOU must check: does this program own the vault?</span>
+    <span class="kw">if</span> vault.owner != program_id {
+        <span class="kw">return</span> <span class="ty">Err</span>(<span class="ty">ProgramError</span>::IncorrectProgramId);
+    }
+    <span class="cm">// YOU must deserialize, validate, process, serialize...</span>
+    <span class="mac">msg!</span>(<span class="str">"Processing instruction"</span>);
+    <span class="ty">Ok</span>(())
+}</pre>
+
+      <pre><span class="lang">Anchor</span>
+<span class="cm">// Anchor — declarative constraints handle validation automatically</span>
+<span class="kw">use</span> anchor_lang::prelude::*;
+
+<span class="at">#[program]</span>
+<span class="kw">pub mod</span> vault {
+    <span class="kw">use super</span>::*;
+
+    <span class="kw">pub fn</span> <span class="fn">deposit</span>(ctx: <span class="ty">Context</span>&lt;<span class="ty">Deposit</span>&gt;, amount: <span class="ty">u64</span>) -> <span class="ty">Result</span>&lt;()&gt; {
+        <span class="cm">// Signer check? Anchor did it (Signer type).</span>
+        <span class="cm">// Owner check? Anchor did it (Account type).</span>
+        <span class="cm">// PDA derivation? Anchor did it (seeds + bump).</span>
+        <span class="cm">// Deserialization? Anchor did it.</span>
+        <span class="cm">// You just write the business logic:</span>
+        ctx.accounts.vault.balance = ctx.accounts.vault.balance
+            .checked_add(amount)
+            .ok_or(<span class="ty">VaultError</span>::Overflow)?;
+        <span class="ty">Ok</span>(())
+    }
+}
+
+<span class="at">#[derive(Accounts)]</span>
+<span class="kw">pub struct</span> <span class="ty">Deposit</span>&lt;'info&gt; {
+    <span class="at">#[account(</span>
+        <span class="kw">mut</span>,
+        seeds = [<span class="str">b"vault"</span>, user.key().as_ref()],
+        bump = vault.bump,
+    <span class="at">)]</span>
+    <span class="kw">pub</span> vault: <span class="ty">Account</span>&lt;'info, <span class="ty">Vault</span>&gt;,
+    <span class="at">#[account(mut)]</span>
+    <span class="kw">pub</span> user: <span class="ty">Signer</span>&lt;'info&gt;,
+    <span class="kw">pub</span> system_program: <span class="ty">Program</span>&lt;'info, <span class="ty">System</span>&gt;,
+}</pre>
+
+      <h3>Native Programs — Solana's Built-in Infrastructure</h3>
+      <p>Solana ships with programs that handle core functionality. Your programs interact with them via CPI.</p>
+
+      <table>
+        <tr><th>Program</th><th>Address Prefix</th><th>Responsibility</th></tr>
+        <tr><td>System Program</td><td><code>1111...1111</code></td><td>Create accounts, transfer SOL, assign owners, allocate space</td></tr>
+        <tr><td>SPL Token</td><td><code>TokenkegQ...</code></td><td>Create/transfer/burn fungible and non-fungible tokens</td></tr>
+        <tr><td>Token-2022</td><td><code>TokenzQdB...</code></td><td>Extended token program: transfer fees, metadata, confidential transfers</td></tr>
+        <tr><td>Associated Token</td><td><code>ATokenGPv...</code></td><td>Derive deterministic token account addresses per wallet per mint</td></tr>
+        <tr><td>BPF Loader v2</td><td><code>BPFLoade...</code></td><td>Deploy and upgrade user programs</td></tr>
+        <tr><td>Compute Budget</td><td><code>ComputeB...</code></td><td>Request additional CU, set priority fees</td></tr>
+        <tr><td>Address Lookup Table</td><td><code>AddressL...</code></td><td>Create/manage ALTs for versioned transactions</td></tr>
+        <tr><td>Sysvars</td><td>Various</td><td>Clock (timestamp), Rent (min balance), EpochSchedule, SlotHashes</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!--             04 — TRANSACTIONS                      -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <section class="chapter" id="transactions">
+    <div class="container">
+      <div class="chapter-num y">Chapter 04</div>
+      <h2>Transactions</h2>
+      <p class="lead">A transaction is an atomic bundle of instructions. All succeed or all fail. Understanding their structure, limits, and lifecycle is critical for building production systems.</p>
+
+      <div class="def">
+        <div class="tag">Definition</div>
+        <h5>Transaction</h5>
+        <p>An atomic, ordered set of one or more <strong>instructions</strong> submitted to the network for execution. Contains: an array of Ed25519 <strong>signatures</strong>, and a <strong>message</strong> comprising a header, account address array, recent blockhash, and instruction array. Hard-capped at <strong>1,232 bytes</strong>.</p>
+      </div>
+
+      <div class="diagram">
+        <div class="cap">Transaction Structure</div>
+        <div class="mermaid">
+          graph TB
+          subgraph TX["Transaction  — max 1,232 bytes"]
+          subgraph SIG["Signatures"]
+          S1["Ed25519 Sig 1 — fee payer"]
+          S2["Ed25519 Sig 2 — co-signer"]
+          end
+          subgraph MSG["Message"]
+          H["Header: num_required_sigs, num_readonly_signed, num_readonly_unsigned"]
+          K["Account Keys: ordered array of all Pubkeys"]
+          BH["Recent Blockhash: 32 bytes, prevents replay, expires in ~60-90s"]
+          subgraph IXS["Instructions"]
+          I1["IX 1: program_id_index, account_indices, data_bytes"]
+          I2["IX 2: program_id_index, account_indices, data_bytes"]
+          end
+          end
+          end
+
+          style TX fill:#12121e,stroke:#FFCF36,color:#e4e4f0
+          style SIG fill:#1a1a10,stroke:#FFCF36,color:#e4e4f0
+          style MSG fill:#0f1a1a,stroke:#00D4FF,color:#e4e4f0
+          style IXS fill:#0f1a14,stroke:#14F195,color:#e4e4f0
+        </div>
+      </div>
+
+      <div class="def">
+        <div class="tag">Definition</div>
+        <h5>Instruction</h5>
+        <p>The atomic unit of execution. Each instruction invokes exactly one program and specifies: which program to call (by index into the account keys array), which accounts the program needs (each tagged as signer and/or writable), and opaque data bytes that the program interprets as its payload (e.g., instruction variant + arguments).</p>
+      </div>
+
+      <div class="def">
+        <div class="tag">Definition</div>
+        <h5>Recent Blockhash</h5>
+        <p>A 32-byte hash of a recent block, included in every transaction. It serves two purposes: <strong>replay protection</strong> (the network deduplicates transactions by signature, and the blockhash ensures the same logical transaction produces a different signature each time) and <strong>expiry</strong> (transactions are dropped if the blockhash is older than ~150 slots / ~60 seconds).</p>
+      </div>
+
+      <h3>Transaction Lifecycle</h3>
+      <div class="diagram">
+        <div class="cap">From Creation to Finality</div>
+        <div class="mermaid">
+          graph LR
+          A["Build TX"] --> B["Sign with<br/>private key"]
+          B --> C["Submit to<br/>RPC node"]
+          C --> D["Forwarded to<br/>current leader"]
+          D --> E["Leader includes<br/>in block"]
+          E --> F["Validators<br/>replay and vote"]
+          F --> G["Processed"]
+          G --> H["Confirmed<br/>1+ votes"]
+          H --> I["Finalized<br/>31+ votes"]
+
+          style A fill:#1a1230,stroke:#9945FF,color:#e4e4f0
+          style E fill:#0f1a14,stroke:#14F195,color:#e4e4f0
+          style I fill:#0f1a1a,stroke:#00D4FF,color:#e4e4f0
+        </div>
+      </div>
+
+      <h3>Account Tags — The Key to Parallelism</h3>
+      <p>Every account referenced in a transaction is tagged with metadata. The runtime uses these tags to schedule parallel execution:</p>
+
+      <table>
+        <tr><th>Tag</th><th>Meaning</th><th>Runtime Impact</th></tr>
+        <tr><td><code>is_signer: true</code></td><td>Transaction must include a valid Ed25519 signature from this key</td><td>Signature verification before execution</td></tr>
+        <tr><td><code>is_writable: true</code></td><td>The instruction may modify this account's data or lamports</td><td>Write-locked — no other TX can write simultaneously</td></tr>
+        <tr><td>Read-only</td><td>Neither signer nor writable</td><td>Read-shared — multiple TXs can read in parallel</td></tr>
+      </table>
+
+      <div class="tip">
+        <p><strong>Parallelism insight:</strong> Two transactions that only overlap on <em>read-only</em> accounts execute in parallel. Transactions that share a <em>writable</em> account must be serialized. This is why popular accounts (like a DEX pool) can become bottlenecks — every swap writes to the same account, forcing sequential execution.</p>
+      </div>
+
+      <h3>Versioned Transactions &amp; Address Lookup Tables</h3>
+      <div class="def">
+        <div class="tag y-t">Definition</div>
+        <h5>Versioned Transaction (v0)</h5>
+        <p>An enhanced transaction format that supports <strong>Address Lookup Tables</strong> (ALTs). Legacy transactions include every account address inline (32 bytes each), limiting them to ~35 accounts. Versioned transactions reference ALT entries by 1-byte index, allowing up to <strong>256 accounts</strong> per transaction while staying within the 1,232-byte limit.</p>
+      </div>
+
+      <div class="def">
+        <div class="tag y-t">Definition</div>
+        <h5>Address Lookup Table (ALT)</h5>
+        <p>An on-chain account storing a list of up to 256 public keys. Transactions reference these keys by index (1 byte) instead of inline (32 bytes). ALTs are essential for complex DeFi transactions that touch many accounts — swaps across multiple pools, liquidation bots, and batch operations.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!--             05 — CONSENSUS & PoH                   -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <section class="chapter" id="consensus">
+    <div class="container">
+      <div class="chapter-num">Chapter 05</div>
+      <h2>Consensus — PoH &amp; Tower BFT</h2>
+      <p class="lead">Solana doesn't use a single consensus mechanism. It uses a combination of Proof of History (a verifiable clock), Tower BFT (a PBFT variant), and several propagation innovations to achieve sub-second block times.</p>
+
+      <div class="def">
+        <div class="tag">Definition</div>
+        <h5>Proof of History (PoH)</h5>
+        <p>A sequential chain of SHA-256 hashes where each hash includes the previous hash as input: <code>hash_n = SHA256(hash_n-1)</code>. Because SHA-256 is inherently sequential (you cannot parallelize it), the number of hashes between two events proves that real wall-clock time has elapsed. Transactions are mixed into the hash chain, giving them a cryptographic timestamp <strong>before</strong> consensus.</p>
+        <p>PoH is NOT a consensus mechanism — it's a <strong>clock</strong>. It provides a globally-consistent ordering of events, allowing validators to agree on transaction order without communicating. This removes the most expensive part of traditional BFT consensus.</p>
+      </div>
+
+      <div class="diagram">
+        <div class="cap">Proof of History Hash Chain</div>
+        <div class="mermaid">
+          graph LR
+          H1["SHA256<br/>hash_1"] --> H2["SHA256<br/>hash_2"]
+          H2 --> H3["SHA256<br/>hash_3"]
+          H3 --> TX["TX inserted<br/>at hash_3"]
+          TX --> H4["SHA256<br/>hash_3 + TX"]
+          H4 --> H5["SHA256<br/>hash_5"]
+          H5 --> H6["SHA256<br/>hash_6"]
+
+          style TX fill:#0f1a14,stroke:#14F195,color:#e4e4f0
+          style H1 fill:#1a1230,stroke:#9945FF,color:#e4e4f0
+          style H2 fill:#1a1230,stroke:#9945FF,color:#e4e4f0
+          style H3 fill:#1a1230,stroke:#9945FF,color:#e4e4f0
+          style H4 fill:#1a1230,stroke:#9945FF,color:#e4e4f0
+          style H5 fill:#1a1230,stroke:#9945FF,color:#e4e4f0
+          style H6 fill:#1a1230,stroke:#9945FF,color:#e4e4f0
+        </div>
+      </div>
+
+      <div class="def">
+        <div class="tag">Definition</div>
+        <h5>Tower BFT</h5>
+        <p>Solana's consensus algorithm — a PBFT (Practical Byzantine Fault Tolerance) variant optimized with PoH. Validators vote on the PoH-ordered ledger. Key innovation: <strong>exponential lockouts</strong>. Each consecutive vote on the same fork doubles the lockout period (the time the validator must wait to switch forks). After 32 votes, the lockout is ~2^32 slots — effectively permanent. This creates rapid economic finality without the O(n²) message complexity of traditional PBFT.</p>
+      </div>
+
+      <div class="diagram">
+        <div class="cap">Tower BFT Voting with Exponential Lockout</div>
+        <div class="mermaid">
+          sequenceDiagram
+          participant L as Leader
+          participant PH as PoH Generator
+          participant V1 as Validator A
+          participant V2 as Validator B
+          participant V3 as Validator C
+
+          L->>PH: Produce PoH stream with ordered TXs
+          PH->>V1: Shreds via Turbine tree
+          PH->>V2: Shreds via Turbine tree
+          PH->>V3: Shreds via Turbine tree
+          Note over V1,V3: Each validator replays and verifies
+          V1->>L: Vote slot N, lockout=2
+          V2->>L: Vote slot N, lockout=2
+          V3->>L: Vote slot N, lockout=2
+          V1->>L: Vote slot N+1, lockout=4
+          V2->>L: Vote slot N+1, lockout=4
+          Note over V1,V3: Lockout doubles each vote: 2, 4, 8, 16, 32...
+          Note over L: 2/3 stake voted on slot N = CONFIRMED
+        </div>
+      </div>
+
+      <h3>The Eight Innovations</h3>
+      <div class="g2">
+        <div class="def">
+          <div class="tag g-t">Innovation</div>
+          <h5>Sealevel</h5>
+          <p>Parallel smart contract runtime. Transactions declare which accounts they read/write. Non-overlapping transactions execute simultaneously on separate cores. This is Solana's throughput multiplier.</p>
+        </div>
+        <div class="def">
+          <div class="tag g-t">Innovation</div>
+          <h5>Turbine</h5>
+          <p>Block propagation protocol inspired by BitTorrent. The leader breaks blocks into small packets called <strong>shreds</strong> and distributes them through a tree of validators. Each node only needs to forward a fraction of the data, eliminating the leader as a bottleneck.</p>
+        </div>
+        <div class="def">
+          <div class="tag g-t">Innovation</div>
+          <h5>Gulf Stream</h5>
+          <p>Mempool-less transaction forwarding. Transactions are pushed directly to the expected next leaders, not held in a global mempool. This reduces confirmation latency and memory pressure across the network.</p>
+        </div>
+        <div class="def">
+          <div class="tag g-t">Innovation</div>
+          <h5>Cloudbreak</h5>
+          <p>Horizontally-scaled accounts database using memory-mapped files. Supports concurrent reads and writes across SSDs, enabling the throughput needed for Sealevel's parallel execution.</p>
+        </div>
+      </div>
+
+      <div class="g2">
+        <div class="def">
+          <div class="tag">Definition</div>
+          <h5>Slot</h5>
+          <p>A ~400ms window during which one leader produces a block. A leader gets <strong>4 consecutive slots</strong> (~1.6s). If the leader fails to produce, the slot is skipped.</p>
+        </div>
+        <div class="def">
+          <div class="tag">Definition</div>
+          <h5>Epoch</h5>
+          <p>A period of ~432,000 slots (~2-3 days). Stake delegations, validator rewards, and the leader schedule are recalculated at epoch boundaries. Leader schedule is known 2 epochs ahead.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!--             06 — PDAs & CPIs                       -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <section class="chapter" id="pdas">
+    <div class="container">
+      <div class="chapter-num g">Chapter 06</div>
+      <h2>PDAs &amp; Cross-Program Invocations</h2>
+      <p class="lead">PDAs and CPIs are the composability primitives of Solana. PDAs let programs own accounts autonomously. CPIs let programs call other programs. Together, they enable the entire DeFi stack.</p>
+
+      <div class="def">
+        <div class="tag">Definition</div>
+        <h5>PDA (Program Derived Address)</h5>
+        <p>An address computed from <code>SHA256(seeds + program_id + bump)</code> that is guaranteed to <strong>not lie on the Ed25519 curve</strong>. Because it's off-curve, no private key exists — nobody can produce a valid signature for it externally. Only the deriving program can authorize operations on behalf of the PDA by providing the seeds and bump in a CPI signer context. The <strong>bump</strong> (also called nonce) is the highest value 0-255 that pushes the hash off the curve.</p>
+      </div>
+
+      <div class="diagram">
+        <div class="cap">PDA Derivation</div>
+        <div class="mermaid">
+          graph LR
+          S["Seeds: b_vault + user_pubkey"] --> SHA["SHA256 hash"]
+          P["Program ID"] --> SHA
+          B["Bump: 253"] --> SHA
+          SHA --> CHECK{"On Ed25519 curve?"}
+          CHECK -->|Yes| RETRY["Decrement bump, retry"]
+          RETRY --> SHA
+          CHECK -->|No| PDA["Valid PDA Address"]
+
+          style S fill:#0f1a1a,stroke:#00D4FF,color:#e4e4f0
+          style P fill:#0f1a14,stroke:#14F195,color:#e4e4f0
+          style PDA fill:#1a1230,stroke:#9945FF,color:#e4e4f0
+          style CHECK fill:#1a1a10,stroke:#FFCF36,color:#e4e4f0
+        </div>
+      </div>
+
+      <pre><span class="lang">Rust — PDA in Anchor</span>
+<span class="cm">// Finding a PDA: deterministic from seeds + program_id</span>
+<span class="kw">let</span> (vault_pda, bump) = <span class="ty">Pubkey</span>::find_program_address(
+    &amp;[<span class="str">b"vault"</span>, user.key().as_ref()],
+    program_id,
+);
+
+<span class="cm">// Anchor constraint — validates PDA derivation automatically</span>
+<span class="at">#[account(</span>
+    init,
+    payer = user,
+    space = <span class="num">8</span> + <span class="ty">Vault</span>::INIT_SPACE,
+    seeds = [<span class="str">b"vault"</span>, user.key().as_ref()],
+    bump,
+<span class="at">)]</span>
+<span class="kw">pub</span> vault: <span class="ty">Account</span>&lt;'info, <span class="ty">Vault</span>&gt;,
+
+<span class="cm">// On subsequent calls, verify the PDA:</span>
+<span class="at">#[account(</span>
+    <span class="kw">mut</span>,
+    seeds = [<span class="str">b"vault"</span>, user.key().as_ref()],
+    bump = vault.bump, <span class="cm">// stored bump for efficiency</span>
+<span class="at">)]</span>
+<span class="kw">pub</span> vault: <span class="ty">Account</span>&lt;'info, <span class="ty">Vault</span>&gt;,</pre>
+
+      <div class="tip">
+        <p><strong>Best practice:</strong> Always store the bump in the account data. Re-deriving with <code>find_program_address</code> costs ~500 CU per call because it iterates bump values. Using a stored bump with <code>create_program_address</code> costs ~20 CU.</p>
+      </div>
+
+      <div class="def">
+        <div class="tag">Definition</div>
+        <h5>CPI (Cross-Program Invocation)</h5>
+        <p>When program A calls program B during execution. For example, your vault program calling the SPL Token Program to transfer tokens. CPIs allow programs to compose like building blocks. Maximum nesting depth: <strong>4 levels</strong>. The calling program can pass its PDA signer seeds so the target program sees the PDA as a signer — this is how programs authorize token transfers from their vaults.</p>
+      </div>
+
+      <pre><span class="lang">Rust — CPI Token Transfer from PDA</span>
+<span class="kw">use</span> anchor_spl::token::{self, <span class="ty">Transfer</span>, <span class="ty">Token</span>};
+
+<span class="kw">pub fn</span> <span class="fn">withdraw_tokens</span>(ctx: <span class="ty">Context</span>&lt;<span class="ty">Withdraw</span>&gt;, amount: <span class="ty">u64</span>) -> <span class="ty">Result</span>&lt;()&gt; {
+    <span class="cm">// PDA signer seeds — the runtime verifies these derive the PDA</span>
+    <span class="kw">let</span> seeds = &amp;[
+        <span class="str">b"vault"</span>,
+        ctx.accounts.user.key.as_ref(),
+        &amp;[ctx.accounts.vault.bump],
+    ];
+    <span class="kw">let</span> signer = &amp;[&amp;seeds[..]];
+
+    <span class="cm">// CPI: call Token Program's transfer instruction</span>
+    <span class="kw">let</span> cpi_ctx = <span class="ty">CpiContext</span>::new_with_signer(
+        ctx.accounts.token_program.to_account_info(),
+        <span class="ty">Transfer</span> {
+            from: ctx.accounts.vault_token_account.to_account_info(),
+            to: ctx.accounts.user_token_account.to_account_info(),
+            authority: ctx.accounts.vault.to_account_info(), <span class="cm">// PDA authority</span>
+        },
+        signer, <span class="cm">// PDA seeds prove the vault authorizes this</span>
+    );
+    token::transfer(cpi_ctx, amount)?;
+    <span class="ty">Ok</span>(())
+}</pre>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!--             07 — SPL TOKENS & NFTs                 -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <section class="chapter" id="tokens">
+    <div class="container">
+      <div class="chapter-num c">Chapter 07</div>
+      <h2>SPL Tokens &amp; NFTs</h2>
+      <p class="lead">Unlike Ethereum, Solana uses a single shared Token Program for ALL tokens. This means token logic is not duplicated across thousands of contracts — it's one battle-tested program managing every fungible and non-fungible token through separate accounts.</p>
+
+      <div class="diagram">
+        <div class="cap">SPL Token Architecture</div>
+        <div class="mermaid">
+          graph TB
+          TP["SPL Token Program<br/>single program, all tokens"] -->|owns| M["Mint Account<br/>supply: 1000000<br/>decimals: 6<br/>mint_authority: Alice"]
+          TP -->|owns| TA1["Alice Token Account<br/>mint: USDC<br/>owner: Alice wallet<br/>amount: 500000"]
+          TP -->|owns| TA2["Bob Token Account<br/>mint: USDC<br/>owner: Bob wallet<br/>amount: 250000"]
+
+          M -.->|tracks supply of| TA1
+          M -.->|tracks supply of| TA2
+
+          style TP fill:#0f1a14,stroke:#14F195,color:#e4e4f0
+          style M fill:#1a1230,stroke:#9945FF,color:#e4e4f0
+          style TA1 fill:#0f1a1a,stroke:#00D4FF,color:#e4e4f0
+          style TA2 fill:#0f1a1a,stroke:#00D4FF,color:#e4e4f0
+        </div>
+      </div>
+
+      <div class="g2">
+        <div class="def">
+          <div class="tag">Definition</div>
+          <h5>Mint Account</h5>
+          <p>Defines a token type. Stores: total <strong>supply</strong>, <strong>decimals</strong> (6 for USDC, 9 for SOL), <strong>mint authority</strong> (can create new tokens, or null for fixed supply), and <strong>freeze authority</strong> (can freeze token accounts). One mint per token type.</p>
+        </div>
+        <div class="def">
+          <div class="tag">Definition</div>
+          <h5>Token Account</h5>
+          <p>Holds a user's balance of one specific token. Stores: which <strong>mint</strong> it belongs to, the <strong>owner</strong> wallet that controls it, and the <strong>amount</strong>. Each user needs a separate token account for each token they hold. Owned by the Token Program.</p>
+        </div>
+        <div class="def">
+          <div class="tag">Definition</div>
+          <h5>Associated Token Account (ATA)</h5>
+          <p>A deterministically derived token account address from <code>PDA(wallet_pubkey, token_program, mint_pubkey)</code>. Convention: every wallet has exactly one ATA per mint. You can compute anyone's ATA address client-side without querying the chain.</p>
+        </div>
+        <div class="def">
+          <div class="tag">Definition</div>
+          <h5>Token-2022 (Token Extensions)</h5>
+          <p>Next-gen token program with modular extensions: transfer fees, non-transferable (soulbound) tokens, interest-bearing tokens, confidential transfers, on-mint metadata, permanent delegate, default account state, and more.</p>
+        </div>
+      </div>
+
+      <h3>NFTs on Solana</h3>
+      <div class="def">
+        <div class="tag sol-t">Definition</div>
+        <h5>NFT</h5>
+        <p>An SPL token with <strong>supply = 1</strong>, <strong>decimals = 0</strong>, plus a Metaplex Metadata account. The metadata stores: name, symbol, URI (pointing to off-chain JSON with image, attributes), seller fee basis points (royalties), and verified creator list. Compressed NFTs (cNFTs) use Merkle trees to store millions of NFTs at ~$0.0005 each vs ~$2 for standard NFTs.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!--             08 — SECURITY                          -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <section class="chapter" id="security">
+    <div class="container">
+      <div class="chapter-num r">Chapter 08</div>
+      <h2>Security — The Hard Part</h2>
+      <p class="lead">The majority of Solana exploits share one root cause: insufficient account validation. Your program receives arbitrary accounts from arbitrary callers. If you don't verify every single assumption about those accounts, attackers will pass in crafted accounts that subvert your logic.</p>
+
+      <div class="axiom">
+        <div class="tag">Security Axiom</div>
+        <h5>Trust Nothing. Validate Everything.</h5>
+        <p>Every account passed to your program is user-supplied. The runtime guarantees signatures and basic ownership — everything else is your responsibility. An attacker can pass any account address, any data, any program. Your program must verify that every account is exactly what it expects.</p>
+      </div>
+
+      <h3>The Vulnerability Catalog</h3>
+
+      <div class="def">
+        <div class="tag r-t">Vulnerability #1</div>
+        <h5>Missing Signer Check</h5>
+        <p><strong>What happens:</strong> Your program modifies state without verifying that the caller actually signed the transaction. An attacker calls your withdraw function and passes someone else's vault — and since you never checked that the vault owner signed, the transaction succeeds.</p>
+        <p><strong>Fix:</strong> Always use <code>Signer&lt;'info&gt;</code> in Anchor, or manually verify <code>account.is_signer</code> in raw programs. Never trust that an account is who it claims to be without a signature.</p>
+      </div>
+
+      <pre><span class="lang">Vulnerable</span>
+<span class="cm">// BAD: Anyone can call this, no signer verification</span>
+<span class="kw">pub fn</span> <span class="fn">withdraw</span>(ctx: <span class="ty">Context</span>&lt;<span class="ty">Withdraw</span>&gt;, amount: <span class="ty">u64</span>) -> <span class="ty">Result</span>&lt;()&gt; {
+    <span class="kw">let</span> vault = &amp;<span class="kw">mut</span> ctx.accounts.vault;
+    vault.balance -= amount; <span class="cm">// ← No check that the caller owns this vault!</span>
+    <span class="ty">Ok</span>(())
+}</pre>
+
+      <pre><span class="lang">Secure</span>
+<span class="cm">// GOOD: Anchor verifies signer + has_one constraint</span>
+<span class="at">#[derive(Accounts)]</span>
+<span class="kw">pub struct</span> <span class="ty">Withdraw</span>&lt;'info&gt; {
+    <span class="at">#[account(</span>
+        <span class="kw">mut</span>,
+        seeds = [<span class="str">b"vault"</span>, owner.key().as_ref()],
+        bump = vault.bump,
+        has_one = owner @ <span class="ty">VaultError</span>::Unauthorized, <span class="cm">// ← verifies vault.owner == owner.key()</span>
+    <span class="at">)]</span>
+    <span class="kw">pub</span> vault: <span class="ty">Account</span>&lt;'info, <span class="ty">Vault</span>&gt;,
+    <span class="at">#[account(mut)]</span>
+    <span class="kw">pub</span> owner: <span class="ty">Signer</span>&lt;'info&gt;, <span class="cm">// ← must have signed the TX</span>
+}</pre>
+
+      <div class="def">
+        <div class="tag r-t">Vulnerability #2</div>
+        <h5>Missing Owner Check</h5>
+        <p><strong>What happens:</strong> Your program deserializes an account without verifying that the expected program owns it. An attacker creates their own account with fake data that matches your struct layout, passes it in, and your program treats it as legitimate.</p>
+        <p><strong>Fix:</strong> Anchor's <code>Account&lt;'info, T&gt;</code> automatically verifies the account owner matches the declaring program AND checks the 8-byte discriminator. In raw programs, always check <code>account.owner == expected_program_id</code>.</p>
+      </div>
+
+      <div class="def">
+        <div class="tag r-t">Vulnerability #3</div>
+        <h5>Integer Overflow / Underflow</h5>
+        <p><strong>What happens:</strong> Using standard arithmetic (<code>+</code>, <code>-</code>, <code>*</code>) can silently wrap around. A balance of 1 minus 2 wraps to <code>u64::MAX</code> (18,446,744,073,709,551,615 lamports). An attacker turns 1 lamport into 18 billion SOL.</p>
+        <p><strong>Fix:</strong> Use <code>checked_add</code>, <code>checked_sub</code>, <code>checked_mul</code>, <code>checked_div</code> for ALL arithmetic. Return an error on overflow instead of wrapping.</p>
+      </div>
+
+      <pre><span class="lang">Safe Arithmetic</span>
+<span class="cm">// ALWAYS use checked math on-chain</span>
+vault.balance = vault.balance
+    .checked_sub(amount)
+    .ok_or(<span class="ty">VaultError</span>::Overflow)?;
+
+user_balance = user_balance
+    .checked_add(amount)
+    .ok_or(<span class="ty">VaultError</span>::Overflow)?;
+
+<span class="cm">// For complex math, use u128 intermediate values</span>
+<span class="kw">let</span> fee = (amount <span class="kw">as</span> <span class="ty">u128</span>)
+    .checked_mul(fee_bps <span class="kw">as</span> <span class="ty">u128</span>).unwrap()
+    .checked_div(<span class="num">10_000</span>).unwrap() <span class="kw">as</span> <span class="ty">u64</span>;</pre>
+
+      <div class="def">
+        <div class="tag r-t">Vulnerability #4</div>
+        <h5>Reinitialization Attack</h5>
+        <p><strong>What happens:</strong> An attacker calls your initialize instruction on an account that's already been initialized, resetting its state. If your vault held 100 SOL and the balance gets reset to 0, those funds are effectively stolen.</p>
+        <p><strong>Fix:</strong> Anchor's <code>#[account(init)]</code> uses a discriminator and will fail if the account already has one. In raw programs, always check an <code>is_initialized</code> flag and reject if already set.</p>
+      </div>
+
+      <div class="def">
+        <div class="tag r-t">Vulnerability #5</div>
+        <h5>PDA Substitution</h5>
+        <p><strong>What happens:</strong> An attacker passes a PDA derived with different seeds than expected. Your program assumes the PDA matches certain seeds (e.g., <code>["vault", user_key]</code>) but never verifies the derivation. The attacker passes a PDA derived from <code>["vault", attacker_key]</code> and accesses someone else's vault.</p>
+        <p><strong>Fix:</strong> Always re-derive the PDA in your validation. Anchor's <code>seeds = [...], bump</code> constraint does this automatically.</p>
+      </div>
+
+      <div class="def">
+        <div class="tag r-t">Vulnerability #6</div>
+        <h5>Closing Account Without Zeroing Data</h5>
+        <p><strong>What happens:</strong> When closing an account, if you only transfer lamports without zeroing the data, the account can be re-opened in the same transaction (by another instruction that sends it lamports before the runtime garbage-collects it). The stale data is now live again.</p>
+        <p><strong>Fix:</strong> Use Anchor's <code>#[account(close = recipient)]</code> which automatically zeroes data, transfers lamports, and sets the discriminator to a closed state. In raw code, always memset data to zero before transferring lamports out.</p>
+      </div>
+
+      <div class="def">
+        <div class="tag r-t">Vulnerability #7</div>
+        <h5>Arbitrary CPI Target</h5>
+        <p><strong>What happens:</strong> Your program makes a CPI to a program address passed by the user without verifying it's the expected program. An attacker passes their own malicious program that mimics the interface but does something different — like approving unlimited token spending.</p>
+        <p><strong>Fix:</strong> Use Anchor's <code>Program&lt;'info, Token&gt;</code> which verifies the program ID. In raw code, hardcode expected program IDs and compare: <code>if token_program.key() != spl_token::ID</code>.</p>
+      </div>
+
+      <h3>Security Checklist</h3>
+      <div class="warn">
+        <p><strong>Before every deployment, verify:</strong></p>
+        <p>&#10003; Every signer is checked (Anchor: <code>Signer</code> type) &#8226; Every account owner is validated (Anchor: <code>Account&lt;T&gt;</code>) &#8226; Every PDA derivation is verified (<code>seeds + bump</code>) &#8226; All arithmetic uses checked operations &#8226; <code>has_one</code> constraints link accounts to their owners &#8226; Close instructions zero data before lamport transfer &#8226; CPI targets are hardcoded or validated &#8226; No reinitialization possible &#8226; Token account mints are verified &#8226; No unchecked account casting or raw deserialization</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!--             09 — OPTIMIZATION                      -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <section class="chapter" id="optimization">
+    <div class="container">
+      <div class="chapter-num y">Chapter 09</div>
+      <h2>Optimization</h2>
+      <p class="lead">Solana programs run in a constrained environment: limited compute units, limited stack, limited transaction size. Optimized programs are cheaper, faster, and less likely to hit runtime limits.</p>
+
+      <div class="def">
+        <div class="tag y-t">Definition</div>
+        <h5>Compute Units (CU)</h5>
+        <p>Solana's measure of computational cost. Default budget: <strong>200,000 CU</strong> per transaction. Maximum: <strong>1,400,000 CU</strong> (requested via ComputeBudget instruction). Every BPF instruction, syscall, memory access, and CPI costs CU. Exceeding the budget fails the transaction. Priority fees are priced per CU: <code>total_fee = base_fee + (CU_price × CU_consumed)</code>.</p>
+      </div>
+
+      <h3>Compute Unit Costs — Know Your Budget</h3>
+      <table>
+        <tr><th>Operation</th><th>Approx CU Cost</th><th>Optimization</th></tr>
+        <tr><td>SHA-256 hash (64 bytes)</td><td>~100 CU</td><td>Minimize hashing in loops</td></tr>
+        <tr><td><code>find_program_address</code></td><td>~1,500 CU</td><td>Store bump, use <code>create_program_address</code> (~20 CU)</td></tr>
+        <tr><td>CPI call</td><td>~1,000+ CU overhead</td><td>Batch operations, reduce CPI count</td></tr>
+        <tr><td>Borsh deserialize</td><td>~200-1,000 CU</td><td>Use zero-copy for large accounts</td></tr>
+        <tr><td><code>msg!</code> logging</td><td>~100 CU per call</td><td>Remove in production</td></tr>
+        <tr><td>Create account (CPI to System)</td><td>~5,000 CU</td><td>Pre-create accounts off-chain when possible</td></tr>
+        <tr><td>Token transfer (CPI to Token)</td><td>~4,500 CU</td><td>Batch transfers, use Transfer checked</td></tr>
+        <tr><td>Memory allocation (heap)</td><td>~50 CU / allocation</td><td>Reuse buffers, prefer stack</td></tr>
+      </table>
+
+      <h3>Optimization Techniques</h3>
+
+      <h4>1. Store the PDA Bump</h4>
+      <pre><span class="lang">Rust</span>
+<span class="cm">// SLOW: re-derives bump every time (~1,500 CU)</span>
+<span class="kw">let</span> (pda, bump) = <span class="ty">Pubkey</span>::find_program_address(&amp;[<span class="str">b"vault"</span>, user.as_ref()], pid);
+
+<span class="cm">// FAST: use stored bump (~20 CU)</span>
+<span class="kw">let</span> pda = <span class="ty">Pubkey</span>::create_program_address(
+    &amp;[<span class="str">b"vault"</span>, user.as_ref(), &amp;[stored_bump]],
+    pid
+)?;</pre>
+
+      <h4>2. Zero-Copy Deserialization for Large Accounts</h4>
+      <pre><span class="lang">Rust</span>
+<span class="cm">// Normal: copies entire account data into a struct (~1,000 CU for big accounts)</span>
+<span class="at">#[account]</span>
+<span class="kw">pub struct</span> <span class="ty">BigState</span> { <span class="cm">/* fields */</span> }
+
+<span class="cm">// Zero-copy: maps directly onto the account data buffer (near-zero CU)</span>
+<span class="at">#[account(zero_copy)]</span>
+<span class="at">#[repr(C)]</span>  <span class="cm">// Required: C memory layout, no padding surprises</span>
+<span class="kw">pub struct</span> <span class="ty">BigState</span> {
+    <span class="kw">pub</span> entries: [<span class="ty">Entry</span>; <span class="num">256</span>],  <span class="cm">// Fixed-size arrays, no Vec</span>
+}
+
+<span class="cm">// In account constraint:</span>
+<span class="at">#[account(mut)]</span>
+<span class="kw">pub</span> state: <span class="ty">AccountLoader</span>&lt;'info, <span class="ty">BigState</span>&gt;, <span class="cm">// Not Account, but AccountLoader</span></pre>
+
+      <h4>3. Pack Multiple Values Into Fewer Bytes</h4>
+      <pre><span class="lang">Rust</span>
+<span class="cm">// Instead of separate bools (1 byte each):</span>
+<span class="kw">pub</span> is_initialized: <span class="ty">bool</span>,  <span class="cm">// 1 byte</span>
+<span class="kw">pub</span> is_locked: <span class="ty">bool</span>,       <span class="cm">// 1 byte</span>
+<span class="kw">pub</span> is_frozen: <span class="ty">bool</span>,       <span class="cm">// 1 byte = 3 bytes total</span>
+
+<span class="cm">// Pack into a single u8 bitflag (1 byte total, saves rent):</span>
+<span class="kw">pub</span> flags: <span class="ty">u8</span>,  <span class="cm">// bit 0 = initialized, bit 1 = locked, bit 2 = frozen</span>
+
+<span class="cm">// Helpers:</span>
+<span class="kw">const</span> INITIALIZED: <span class="ty">u8</span> = <span class="num">1</span> << <span class="num">0</span>;
+<span class="kw">const</span> LOCKED: <span class="ty">u8</span> = <span class="num">1</span> << <span class="num">1</span>;
+<span class="kw">fn</span> <span class="fn">is_initialized</span>(&amp;<span class="kw">self</span>) -> <span class="ty">bool</span> { <span class="kw">self</span>.flags &amp; INITIALIZED != <span class="num">0</span> }</pre>
+
+      <h4>4. Reduce Transaction Size</h4>
+      <div class="tip">
+        <p><strong>Transaction size is 1,232 bytes — every byte counts.</strong> Use Address Lookup Tables for transactions referencing many accounts. Use short instruction data (prefer enums over strings). Use PDAs instead of passing extra accounts. Combine multiple operations into single instructions where safe.</p>
+      </div>
+
+      <h4>5. Minimize CPI Calls</h4>
+      <pre><span class="lang">Rust</span>
+<span class="cm">// BAD: Two separate CPIs (~9,000 CU)</span>
+token::transfer(ctx1, amount_a)?;  <span class="cm">// ~4,500 CU</span>
+token::transfer(ctx2, amount_b)?;  <span class="cm">// ~4,500 CU</span>
+
+<span class="cm">// BETTER: Single CPI if your architecture allows it</span>
+<span class="cm">// Or use direct lamport manipulation for SOL transfers:</span>
+**source.try_borrow_mut_lamports()? -= amount;
+**dest.try_borrow_mut_lamports()? += amount;
+<span class="cm">// This costs ~200 CU vs ~4,500 for CPI</span></pre>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════════════════════════ -->
+  <!--             10 — BUILDING REAL PROGRAMS            -->
+  <!-- ═══════════════════════════════════════════════════ -->
+  <section class="chapter" id="building">
+    <div class="container">
+      <div class="chapter-num g">Chapter 10</div>
+      <h2>Building Real Programs</h2>
+      <p class="lead">Here is a complete, production-style vault program demonstrating every concept from this guide: accounts, PDAs, CPIs, security validation, and optimization.</p>
+
+      <h3>Environment Setup</h3>
+      <pre><span class="lang">Shell</span>
+<span class="cm"># Install Rust, Solana CLI, and Anchor</span>
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+sh -c "$(curl -sSfL https://release.anza.xyz/stable/install)"
+cargo install --git https://github.com/coral-xyz/anchor avm --force
+avm install latest &amp;&amp; avm use latest
+
+<span class="cm"># Configure for devnet</span>
+solana config set --url devnet
+solana-keygen new
+solana airdrop 5
+
+<span class="cm"># Create project</span>
+anchor init sol-vault &amp;&amp; cd sol-vault</pre>
+
+      <h3>Complete Vault Program</h3>
+      <pre><span class="lang">Rust — programs/sol-vault/src/lib.rs</span>
+<span class="kw">use</span> anchor_lang::prelude::*;
+<span class="kw">use</span> anchor_lang::system_program;
+
+declare_id!(<span class="str">"YOUR_PROGRAM_ID"</span>);
+
+<span class="at">#[program]</span>
+<span class="kw">pub mod</span> sol_vault {
+    <span class="kw">use super</span>::*;
+
+    <span class="kw">pub fn</span> <span class="fn">initialize</span>(ctx: <span class="ty">Context</span>&lt;<span class="ty">Initialize</span>&gt;) -> <span class="ty">Result</span>&lt;()&gt; {
+        <span class="kw">let</span> vault = &amp;<span class="kw">mut</span> ctx.accounts.vault;
+        vault.owner = ctx.accounts.owner.key();
+        vault.balance = <span class="num">0</span>;
+        vault.created_at = <span class="ty">Clock</span>::get()?.unix_timestamp;
+        vault.bump = ctx.bumps.vault;
+        <span class="ty">Ok</span>(())
+    }
+
+    <span class="kw">pub fn</span> <span class="fn">deposit</span>(ctx: <span class="ty">Context</span>&lt;<span class="ty">Deposit</span>&gt;, amount: <span class="ty">u64</span>) -> <span class="ty">Result</span>&lt;()&gt; {
+        require!(amount > <span class="num">0</span>, <span class="ty">VaultError</span>::ZeroAmount);
+
+        <span class="cm">// CPI to System Program to transfer SOL</span>
+        system_program::transfer(
+            <span class="ty">CpiContext</span>::new(
+                ctx.accounts.system_program.to_account_info(),
+                system_program::<span class="ty">Transfer</span> {
+                    from: ctx.accounts.owner.to_account_info(),
+                    to: ctx.accounts.vault.to_account_info(),
+                },
+            ),
+            amount,
+        )?;
+
+        <span class="kw">let</span> vault = &amp;<span class="kw">mut</span> ctx.accounts.vault;
+        vault.balance = vault.balance
+            .checked_add(amount)
+            .ok_or(<span class="ty">VaultError</span>::Overflow)?;
+        <span class="ty">Ok</span>(())
+    }
+
+    <span class="kw">pub fn</span> <span class="fn">withdraw</span>(ctx: <span class="ty">Context</span>&lt;<span class="ty">Withdraw</span>&gt;, amount: <span class="ty">u64</span>) -> <span class="ty">Result</span>&lt;()&gt; {
+        require!(amount > <span class="num">0</span>, <span class="ty">VaultError</span>::ZeroAmount);
+        <span class="kw">let</span> vault = &amp;<span class="kw">mut</span> ctx.accounts.vault;
+        require!(vault.balance >= amount, <span class="ty">VaultError</span>::InsufficientBalance);
+
+        vault.balance = vault.balance
+            .checked_sub(amount)
+            .ok_or(<span class="ty">VaultError</span>::Overflow)?;
+
+        <span class="cm">// Direct lamport transfer from PDA — cheaper than CPI</span>
+        **vault.to_account_info().try_borrow_mut_lamports()? -= amount;
+        **ctx.accounts.owner.to_account_info().try_borrow_mut_lamports()? += amount;
+
+        <span class="ty">Ok</span>(())
+    }
+
+    <span class="kw">pub fn</span> <span class="fn">close_vault</span>(ctx: <span class="ty">Context</span>&lt;<span class="ty">CloseVault</span>&gt;) -> <span class="ty">Result</span>&lt;()&gt; {
+        <span class="cm">// Anchor's close constraint handles:</span>
+        <span class="cm">// 1. Zeroing the account data</span>
+        <span class="cm">// 2. Transferring all lamports to owner</span>
+        <span class="cm">// 3. Setting discriminator to closed state</span>
+        <span class="ty">Ok</span>(())
+    }
+}
+
+<span class="cm">// ═══════════ ACCOUNT VALIDATION STRUCTS ═══════════</span>
+
+<span class="at">#[derive(Accounts)]</span>
+<span class="kw">pub struct</span> <span class="ty">Initialize</span>&lt;'info&gt; {
+    <span class="at">#[account(</span>
+        init,
+        payer = owner,
+        space = <span class="num">8</span> + <span class="ty">Vault</span>::INIT_SPACE,
+        seeds = [<span class="str">b"vault"</span>, owner.key().as_ref()],
+        bump,
+    <span class="at">)]</span>
+    <span class="kw">pub</span> vault: <span class="ty">Account</span>&lt;'info, <span class="ty">Vault</span>&gt;,
+    <span class="at">#[account(mut)]</span>
+    <span class="kw">pub</span> owner: <span class="ty">Signer</span>&lt;'info&gt;,
+    <span class="kw">pub</span> system_program: <span class="ty">Program</span>&lt;'info, <span class="ty">System</span>&gt;,
+}
+
+<span class="at">#[derive(Accounts)]</span>
+<span class="kw">pub struct</span> <span class="ty">Deposit</span>&lt;'info&gt; {
+    <span class="at">#[account(</span>
+        <span class="kw">mut</span>,
+        seeds = [<span class="str">b"vault"</span>, owner.key().as_ref()],
+        bump = vault.bump,
+        has_one = owner @ <span class="ty">VaultError</span>::Unauthorized,
+    <span class="at">)]</span>
+    <span class="kw">pub</span> vault: <span class="ty">Account</span>&lt;'info, <span class="ty">Vault</span>&gt;,
+    <span class="at">#[account(mut)]</span>
+    <span class="kw">pub</span> owner: <span class="ty">Signer</span>&lt;'info&gt;,
+    <span class="kw">pub</span> system_program: <span class="ty">Program</span>&lt;'info, <span class="ty">System</span>&gt;,
+}
+
+<span class="at">#[derive(Accounts)]</span>
+<span class="kw">pub struct</span> <span class="ty">Withdraw</span>&lt;'info&gt; {
+    <span class="at">#[account(</span>
+        <span class="kw">mut</span>,
+        seeds = [<span class="str">b"vault"</span>, owner.key().as_ref()],
+        bump = vault.bump,
+        has_one = owner @ <span class="ty">VaultError</span>::Unauthorized,
+    <span class="at">)]</span>
+    <span class="kw">pub</span> vault: <span class="ty">Account</span>&lt;'info, <span class="ty">Vault</span>&gt;,
+    <span class="at">#[account(mut)]</span>
+    <span class="kw">pub</span> owner: <span class="ty">Signer</span>&lt;'info&gt;,
+}
+
+<span class="at">#[derive(Accounts)]</span>
+<span class="kw">pub struct</span> <span class="ty">CloseVault</span>&lt;'info&gt; {
+    <span class="at">#[account(</span>
+        <span class="kw">mut</span>,
+        seeds = [<span class="str">b"vault"</span>, owner.key().as_ref()],
+        bump = vault.bump,
+        has_one = owner @ <span class="ty">VaultError</span>::Unauthorized,
+        close = owner, <span class="cm">// ← zeros data + sends lamports to owner</span>
+    <span class="at">)]</span>
+    <span class="kw">pub</span> vault: <span class="ty">Account</span>&lt;'info, <span class="ty">Vault</span>&gt;,
+    <span class="at">#[account(mut)]</span>
+    <span class="kw">pub</span> owner: <span class="ty">Signer</span>&lt;'info&gt;,
+}
+
+<span class="cm">// ═══════════ STATE ═══════════</span>
+
+<span class="at">#[account]</span>
+<span class="at">#[derive(InitSpace)]</span>
+<span class="kw">pub struct</span> <span class="ty">Vault</span> {
+    <span class="kw">pub</span> owner: <span class="ty">Pubkey</span>,        <span class="cm">// 32 bytes</span>
+    <span class="kw">pub</span> balance: <span class="ty">u64</span>,        <span class="cm">//  8 bytes</span>
+    <span class="kw">pub</span> created_at: <span class="ty">i64</span>,     <span class="cm">//  8 bytes</span>
+    <span class="kw">pub</span> bump: <span class="ty">u8</span>,            <span class="cm">//  1 byte  = 49 + 8 discriminator = 57 bytes</span>
+}
+
+<span class="cm">// ═══════════ ERRORS ═══════════</span>
+
+<span class="at">#[error_code]</span>
+<span class="kw">pub enum</span> <span class="ty">VaultError</span> {
+    <span class="at">#[msg("Insufficient vault balance")]</span>
+    InsufficientBalance,
+    <span class="at">#[msg("Arithmetic overflow")]</span>
+    Overflow,
+    <span class="at">#[msg("Unauthorized: you do not own this vault")]</span>
+    Unauthorized,
+    <span class="at">#[msg("Amount must be greater than zero")]</span>
+    ZeroAmount,
+}</pre>
+
+      <h3>TypeScript Client</h3>
+      <pre><span class="lang">TypeScript</span>
+<span class="kw">import</span> * <span class="kw">as</span> anchor <span class="kw">from</span> <span class="str">"@coral-xyz/anchor"</span>;
+<span class="kw">import</span> { PublicKey, SystemProgram } <span class="kw">from</span> <span class="str">"@solana/web3.js"</span>;
+
+<span class="kw">const</span> provider = anchor.AnchorProvider.env();
+anchor.setProvider(provider);
+<span class="kw">const</span> program = anchor.workspace.SolVault;
+<span class="kw">const</span> owner = provider.wallet.publicKey;
+
+<span class="cm">// Derive PDA client-side — deterministic, no RPC call needed</span>
+<span class="kw">const</span> [vaultPda, bump] = PublicKey.findProgramAddressSync(
+    [Buffer.from(<span class="str">"vault"</span>), owner.toBuffer()],
+    program.programId
+);
+
+<span class="cm">// Initialize</span>
+<span class="kw">await</span> program.methods.initialize()
+    .accounts({ vault: vaultPda, owner, systemProgram: SystemProgram.programId })
+    .rpc();
+
+<span class="cm">// Deposit 1 SOL</span>
+<span class="kw">await</span> program.methods.deposit(<span class="kw">new</span> anchor.BN(<span class="num">1_000_000_000</span>))
+    .accounts({ vault: vaultPda, owner, systemProgram: SystemProgram.programId })
+    .rpc();
+
+<span class="cm">// Withdraw 0.5 SOL</span>
+<span class="kw">await</span> program.methods.withdraw(<span class="kw">new</span> anchor.BN(<span class="num">500_000_000</span>))
+    .accounts({ vault: vaultPda, owner })
+    .rpc();
+
+<span class="cm">// Read state</span>
+<span class="kw">const</span> vault = <span class="kw">await</span> program.account.vault.fetch(vaultPda);
+console.log(<span class="str">`Balance: ${vault.balance.toNumber() / 1e9} SOL`</span>);</pre>
+
+      <h3>Essential Resources</h3>
+      <table>
+        <tr><th>Resource</th><th>Purpose</th></tr>
+        <tr><td>solana.com/docs</td><td>Official documentation — accounts, runtime, RPC API</td></tr>
+        <tr><td>book.anchor-lang.com</td><td>Anchor framework reference and tutorials</td></tr>
+        <tr><td>solanacookbook.com</td><td>Practical recipes for common patterns</td></tr>
+        <tr><td>beta.solpg.io</td><td>Browser-based Solana IDE — deploy without local setup</td></tr>
+        <tr><td>docs.helius.dev</td><td>RPC, webhooks, DAS API for NFTs and tokens</td></tr>
+        <tr><td>soldev.app</td><td>Curated tutorials, courses, and project ideas</td></tr>
+        <tr><td>github.com/coral-xyz/anchor</td><td>Anchor source — read the examples folder</td></tr>
+        <tr><td>sec3.dev</td><td>Security auditing tools and vulnerability database</td></tr>
+      </table>
+
+      <div class="axiom">
+        <div class="tag">Final Thought</div>
+        <h5>Build, Deploy, Break, Repeat</h5>
+        <p>Everything in Solana reduces to: design your accounts, write instructions that validate and mutate them, secure every assumption, and optimize for the compute budget. The account model is the foundation. PDAs give programs autonomy. CPIs give them composability. Security is non-negotiable. Now go deploy something to devnet.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="sep">
+
+  <footer class="footer">
+    <div class="container">
+      <p>Written by <a href="../index.html">Ayoub Idel</a> as a technical reference for Rust developers entering the Solana ecosystem.</p>
+      <p style="margin-top:12px"><a href="../blog/">← Back to all articles</a></p>
+    </div>
+  </footer>
+
+</div><!-- /.page -->
+
+<script>
+  mermaid.initialize({
+    startOnLoad: true,
+    theme: 'dark',
+    themeVariables: {
+      darkMode: true,
+      background: '#12121e',
+      primaryColor: '#1a1230',
+      primaryTextColor: '#e4e4f0',
+      primaryBorderColor: '#9945FF',
+      lineColor: '#9945FF',
+      secondaryColor: '#0f1a14',
+      tertiaryColor: '#0f1a1a',
+      noteBkgColor: '#12121e',
+      noteTextColor: '#e4e4f0',
+      noteBorderColor: '#9945FF',
+      textColor: '#e4e4f0',
+      mainBkg: '#1a1230',
+      nodeBorder: '#9945FF',
+      clusterBkg: '#0a0a0f',
+      clusterBorder: '#1e1e32',
+      titleColor: '#e4e4f0',
+      edgeLabelBackground: '#0a0a0f',
+      fontFamily: 'Outfit, sans-serif',
+      fontSize: '13px'
+    },
+    flowchart: { curve: 'basis', padding: 20, htmlLabels: true },
+    sequence: { mirrorActors: false, actorMargin: 60, messageMargin: 40 }
+  });
+
+  // Scroll reveal
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible') });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.def, .axiom, .diagram, .warn, .tip, pre, table').forEach(el => {
+    el.classList.add('fade-in');
+    obs.observe(el);
+  });
+
+  // Smooth scroll for TOC
+  document.querySelectorAll('.toc-card').forEach(card => {
+    card.addEventListener('click', (e) => {
+      e.preventDefault();
+      const target = document.querySelector(card.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Ultra-detailed guide to Kubernetes pod creation — every phase from API processing to health monitoring, with cgroups, namespaces, CNI, and CRI internals">
+  <title>Kubernetes Pod Creation Internals — The Complete Sequence | Ayoub Idel</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/mermaid/10.6.1/mermaid.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Newsreader:ital,opsz,wght@0,6..72,300;0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  <link rel="stylesheet" href="../css/blog.css">
+  <style>
+      :root {
+          --bg: #050507;
+          --bg2: #0a0a0f;
+          --bg3: #0f0f18;
+          --surface: #12121e;
+          --surface2: #181828;
+          --border: #1e1e32;
+          --border2: #2a2a44;
+          --text: #e4e4f0;
+          --text2: #b0b0cc;
+          --text3: #6e6e8c;
+          --sol: #326CE5;
+          --sol2: #2856b8;
+          --green: #14F195;
+          --green2: #0bc47a;
+          --cyan: #00D4FF;
+          --rust: #F74C00;
+          --yellow: #FFCF36;
+          --red: #FF4466;
+          --gradient: linear-gradient(135deg, #326CE5, #14F195);
+          --gradient2: linear-gradient(135deg, #14F195, #00D4FF);
+          --gradient3: linear-gradient(135deg, #326CE5, #00D4FF);
+          --glow-sol: 0 0 60px rgba(50,108,229,0.15);
+          --glow-green: 0 0 60px rgba(20,241,149,0.1);
+      }
+
+      /* ═══════════ LAYOUT ═══════════ */
+      .page{width:100%;overflow-x:hidden;padding-top:60px}
+      .container{max-width:840px;margin:0 auto;padding:0 32px}
+      .wide{max-width:1080px;margin:0 auto;padding:0 32px}
+
+      /* ═══════════ HERO ═══════════ */
+      .hero{
+          min-height:100vh;
+          display:flex;align-items:center;justify-content:center;
+          text-align:center;position:relative;overflow:hidden;
+      }
+      .hero::before{
+          content:'';position:absolute;inset:0;
+          background:
+              radial-gradient(ellipse 60% 50% at 50% 40%, rgba(50,108,229,0.08), transparent),
+              radial-gradient(ellipse 40% 30% at 30% 70%, rgba(20,241,149,0.04), transparent),
+              radial-gradient(ellipse 40% 30% at 70% 60%, rgba(0,212,255,0.03), transparent);
+          pointer-events:none;
+      }
+      .hero-grid{
+          position:absolute;inset:0;
+          background-image:
+              linear-gradient(rgba(50,108,229,0.03) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(50,108,229,0.03) 1px, transparent 1px);
+          background-size:60px 60px;
+          mask-image:radial-gradient(ellipse 70% 60% at 50% 50%, black, transparent);
+      }
+      .hero-content{position:relative;z-index:1}
+      .hero-tag{
+          font-family:'IBM Plex Mono',monospace;font-size:12px;
+          letter-spacing:4px;text-transform:uppercase;color:var(--green);
+          margin-bottom:28px;display:inline-block;
+          padding:6px 18px;border:1px solid rgba(20,241,149,0.2);border-radius:100px;
+      }
+      .hero h1{
+          font-family:'Newsreader',serif;
+          font-size:clamp(38px,5.5vw,72px);font-weight:700;
+          line-height:1.08;margin-bottom:28px;letter-spacing:-1.5px;
+      }
+      .hero h1 .grad{
+          background:var(--gradient);
+          -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+      }
+      .hero-sub{
+          font-size:clamp(16px,2vw,20px);color:var(--text2);
+          max-width:620px;margin:0 auto 40px;font-weight:300;line-height:1.7;
+      }
+      .hero-stats{display:flex;gap:48px;justify-content:center;flex-wrap:wrap}
+      .hero-stat{text-align:center}
+      .hero-stat .val{
+          font-family:'IBM Plex Mono',monospace;font-size:28px;font-weight:600;
+          background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;
+      }
+      .hero-stat .lbl{font-size:12px;color:var(--text3);text-transform:uppercase;letter-spacing:2px;margin-top:4px}
+      .scroll-hint{
+          position:absolute;bottom:40px;left:50%;transform:translateX(-50%);
+          font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text3);
+          letter-spacing:2px;text-transform:uppercase;animation:pulse 2s ease-in-out infinite;
+      }
+      @keyframes pulse{0%,100%{opacity:.4}50%{opacity:1}}
+
+      /* ═══════════ TOC ═══════════ */
+      .toc-section{border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:64px 0;background:var(--bg2)}
+      .toc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;margin-top:32px}
+      .toc-card{
+          background:var(--surface);border:1px solid var(--border);border-radius:12px;
+          padding:24px;text-decoration:none;transition:all .25s;cursor:pointer;display:block;
+      }
+      .toc-card:hover{border-color:var(--sol);transform:translateY(-2px);box-shadow:var(--glow-sol)}
+      .toc-card .num{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--green);letter-spacing:2px;margin-bottom:8px}
+      .toc-card .title{font-family:'Newsreader',serif;font-size:18px;font-weight:600;color:var(--text);margin-bottom:6px}
+      .toc-card .desc{font-size:13px;color:var(--text3);line-height:1.5}
+
+      /* ═══════════ SECTIONS ═══════════ */
+      .chapter{padding:100px 0 40px;position:relative}
+      .chapter + .chapter{border-top:1px solid var(--border)}
+      .chapter-num{
+          font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:4px;
+          text-transform:uppercase;color:var(--sol);margin-bottom:12px;
+      }
+      .chapter-num.g{color:var(--green)}
+      .chapter-num.c{color:var(--cyan)}
+      .chapter-num.y{color:var(--yellow)}
+      .chapter-num.r{color:var(--red)}
+
+      h2{font-family:'Newsreader',serif;font-size:clamp(32px,4vw,48px);font-weight:700;line-height:1.15;margin-bottom:20px;letter-spacing:-0.5px}
+      h3{font-family:'Newsreader',serif;font-size:clamp(22px,3vw,30px);font-weight:600;line-height:1.25;margin:56px 0 16px}
+      h4{font-size:18px;font-weight:600;margin:36px 0 12px;color:var(--text)}
+      p{margin-bottom:18px;color:var(--text2);font-size:16.5px}
+      p strong{color:var(--text);font-weight:600}
+
+      /* ═══════════ SPECIAL BLOCKS ═══════════ */
+      .lead{font-size:20px;color:var(--text2);line-height:1.7;margin-bottom:28px;font-weight:300;border-left:3px solid var(--sol);padding-left:24px}
+
+      .axiom{
+          background:linear-gradient(135deg, rgba(50,108,229,0.06), rgba(20,241,149,0.04));
+          border:1px solid rgba(50,108,229,0.15);border-radius:16px;
+          padding:36px 40px;margin:36px 0;position:relative;overflow:hidden;
+      }
+      .axiom::before{content:'';position:absolute;top:0;left:0;width:4px;height:100%;background:var(--gradient);border-radius:4px 0 0 4px}
+      .axiom .tag{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--green);margin-bottom:10px}
+      .axiom h5{font-family:'Newsreader',serif;font-size:22px;font-weight:600;margin-bottom:10px;color:var(--text)}
+      .axiom p{margin-bottom:0;font-size:15.5px}
+      .axiom p + p{margin-top:12px}
+
+      .def{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:26px 30px;margin:22px 0}
+      .def .tag{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--cyan);margin-bottom:6px}
+      .def .tag.sol-t{color:var(--sol)}
+      .def .tag.g-t{color:var(--green)}
+      .def .tag.y-t{color:var(--yellow)}
+      .def .tag.r-t{color:var(--red)}
+      .def h5{font-family:'Newsreader',serif;font-size:20px;font-weight:600;margin-bottom:8px;color:var(--text)}
+      .def p{margin-bottom:0;font-size:15px}
+      .def p + p{margin-top:10px}
+
+      .warn{background:rgba(255,68,102,0.05);border:1px solid rgba(255,68,102,0.15);border-left:3px solid var(--red);border-radius:0 10px 10px 0;padding:20px 24px;margin:24px 0}
+      .warn strong{color:var(--red)}
+      .warn p{margin-bottom:0;font-size:14.5px}
+
+      .tip{background:rgba(20,241,149,0.04);border:1px solid rgba(20,241,149,0.12);border-left:3px solid var(--green);border-radius:0 10px 10px 0;padding:20px 24px;margin:24px 0}
+      .tip strong{color:var(--green)}
+      .tip p{margin-bottom:0;font-size:14.5px}
+
+      /* ═══════════ GRID ═══════════ */
+      .g2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:24px 0}
+      .g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:18px;margin:24px 0}
+      .g4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:18px;margin:24px 0}
+      @media(max-width:700px){.g2,.g3,.g4{grid-template-columns:1fr}}
+
+      /* ═══════════ DIAGRAM ═══════════ */
+      .diagram{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:32px;margin:32px 0;overflow-x:auto}
+      .diagram .cap{font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text3);margin-bottom:20px}
+      .mermaid{display:flex;justify-content:center}
+      .mermaid svg{max-width:100%!important;height:auto!important}
+
+      /* ═══════════ CODE ═══════════ */
+      pre{
+          background:var(--bg3);border:1px solid var(--border);border-radius:12px;
+          padding:24px 28px;overflow-x:auto;margin:22px 0;
+          font-family:'IBM Plex Mono',monospace;font-size:13.5px;line-height:1.75;
+          color:#c0c0d8;position:relative;
+      }
+      pre .lang{position:absolute;top:12px;right:16px;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--text3)}
+      code{font-family:'IBM Plex Mono',monospace;font-size:13.5px}
+      :not(pre)>code{background:var(--surface2);padding:2px 8px;border-radius:5px;color:var(--green);font-size:13px}
+      .kw{color:#c792ea}.fn{color:#82aaff}.str{color:#c3e88d}
+      .cm{color:#4a5568;font-style:italic}.ty{color:#ffcb6b}
+      .num{color:#f78c6c}.mac{color:#89ddff}.lt{color:#f07178}
+
+      /* ═══════════ STATUS CARDS ═══════════ */
+      .status-card{
+          background:var(--surface);border:1px solid var(--border);border-radius:12px;
+          padding:24px;transition:all .25s;
+      }
+      .status-card:hover{border-color:var(--sol);box-shadow:var(--glow-sol)}
+      .status-card h5{font-family:'Newsreader',serif;font-size:18px;font-weight:600;color:var(--text);margin-bottom:10px}
+      .status-card p{font-size:14px;margin-bottom:0}
+      .status-card.pending{border-left:3px solid var(--yellow)}
+      .status-card.running{border-left:3px solid var(--green)}
+      .status-card.succeeded{border-left:3px solid var(--cyan)}
+      .status-card.failed{border-left:3px solid var(--red)}
+      .status-card.unknown{border-left:3px solid var(--text3)}
+
+      /* ═══════════ COMPONENT BOXES ═══════════ */
+      .component-box{
+          background:var(--surface);border:1px solid var(--border);border-radius:12px;
+          padding:24px;text-align:left;transition:all .25s;
+      }
+      .component-box:hover{border-color:var(--sol);box-shadow:var(--glow-sol)}
+      .component-box h5{font-family:'IBM Plex Mono',monospace;font-size:13px;letter-spacing:1px;color:var(--sol);margin-bottom:12px}
+      .component-box p{font-size:13.5px;color:var(--text2);margin-bottom:4px}
+      .component-box code{font-size:12px}
+
+      /* ═══════════ SEPARATOR ═══════════ */
+      .sep{height:1px;margin:80px auto;max-width:120px;background:var(--gradient);opacity:.4;border:none}
+
+      /* ═══════════ FOOTER ═══════════ */
+      .footer{border-top:1px solid var(--border);padding:48px 0;text-align:center;color:var(--text3);font-size:13px}
+      .footer a{color:var(--sol);text-decoration:none}
+
+      /* ═══════════ ANIMATIONS ═══════════ */
+      .fade-in{opacity:0;transform:translateY(24px);transition:all .6s cubic-bezier(.16,1,.3,1)}
+      .fade-in.visible{opacity:1;transform:translateY(0)}
+
+      /* ═══════════ RESPONSIVE ═══════════ */
+      @media(max-width:600px){
+          .container,.wide{padding:0 18px}
+          .hero-stats{gap:28px}
+          pre{padding:16px 18px;font-size:12.5px}
+          .axiom{padding:24px}
+          .def{padding:20px}
+          .diagram{padding:20px}
+          .top-nav{padding:0 18px}
+          .nav-links{gap:16px}
+      }
+      @media(max-width:480px){
+          .nav-links .hide-mobile{display:none}
+      }
+  </style>
+</head>
+<body class="blog-page">
+
+<!-- ═══════════ TOP NAV ═══════════ -->
+<nav class="top-nav">
+    <a href="../blog/" class="nav-logo">
+        <span class="bracket">{</span> Ayoub <span class="bracket">}</span>
+    </a>
+    <div class="nav-links">
+        <a href="../index.html">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14" style="vertical-align:-2px;margin-right:4px"><path d="M19 12H5M12 19l-7-7 7-7"></path></svg>Portfolio
+        </a>
+    </div>
+</nav>
+
+<div class="page">
+
+  <!-- ═══════════ HERO ═══════════ -->
+  <section class="hero">
+    <div class="hero-grid"></div>
+    <div class="hero-content">
+      <div class="hero-tag">Deep Dive Technical Guide</div>
+      <h1>Understanding<br><span class="grad">Kubernetes Pod Creation</span></h1>
+      <p class="hero-sub">The complete under-the-hood sequence — from <code>kubectl apply</code> to a running container, covering API processing, scheduling, cgroups, namespaces, CNI, CRI, and health probes.</p>
+      <div class="hero-stats">
+        <div class="hero-stat"><div class="val">11</div><div class="lbl">Phases</div></div>
+        <div class="hero-stat"><div class="val">12+</div><div class="lbl">Components</div></div>
+        <div class="hero-stat"><div class="val">~2s</div><div class="lbl">Pod Startup</div></div>
+        <div class="hero-stat"><div class="val">5</div><div class="lbl">Namespaces</div></div>
+      </div>
+    </div>
+    <div class="scroll-hint">Scroll to explore &#8595;</div>
+  </section>
+
+  <!-- ═══════════ TABLE OF CONTENTS ═══════════ -->
+  <section class="toc-section">
+    <div class="wide">
+      <div class="chapter-num">Guide Structure</div>
+      <h2>What We Will Cover</h2>
+      <div class="toc-grid">
+        <a class="toc-card" href="#api-processing">
+          <div class="num">01</div>
+          <div class="title">API Processing</div>
+          <div class="desc">Validation, authentication, RBAC, admission controllers, and etcd persistence.</div>
+        </a>
+        <a class="toc-card" href="#scheduling">
+          <div class="num">02</div>
+          <div class="title">Scheduling</div>
+          <div class="desc">Filter phase, score phase, and the binding decision that assigns pods to nodes.</div>
+        </a>
+        <a class="toc-card" href="#kubelet">
+          <div class="num">03</div>
+          <div class="title">Kubelet Processing</div>
+          <div class="desc">Pod spec validation, resource checks, and status updates on the assigned node.</div>
+        </a>
+        <a class="toc-card" href="#images">
+          <div class="num">04</div>
+          <div class="title">Image Management</div>
+          <div class="desc">Registry auth, layer pulling, content-addressable storage, and pull policies.</div>
+        </a>
+        <a class="toc-card" href="#runtime">
+          <div class="num">05</div>
+          <div class="title">Container Runtime</div>
+          <div class="desc">CRI, namespace creation, cgroup hierarchy, and security context setup.</div>
+        </a>
+        <a class="toc-card" href="#networking">
+          <div class="num">06</div>
+          <div class="title">Networking &amp; CNI</div>
+          <div class="desc">Network namespace, veth pairs, IP allocation, routes, and DNS configuration.</div>
+        </a>
+        <a class="toc-card" href="#volumes">
+          <div class="num">07</div>
+          <div class="title">Volumes &amp; Mounts</div>
+          <div class="desc">PV/PVC, CSI drivers, ConfigMaps, Secrets, and mount namespace setup.</div>
+        </a>
+        <a class="toc-card" href="#container-start">
+          <div class="num">08</div>
+          <div class="title">Container Start</div>
+          <div class="desc">runc/kata execution, namespace joining, init process, and the Running phase.</div>
+        </a>
+        <a class="toc-card" href="#health">
+          <div class="num">09</div>
+          <div class="title">Health Probes</div>
+          <div class="desc">Startup, liveness, readiness probes — execution, thresholds, and restart logic.</div>
+        </a>
+        <a class="toc-card" href="#status">
+          <div class="num">10</div>
+          <div class="title">Pod Status Lifecycle</div>
+          <div class="desc">Pending, Running, Succeeded, Failed, Unknown — conditions and transitions.</div>
+        </a>
+        <a class="toc-card" href="#failures">
+          <div class="num">11</div>
+          <div class="title">Failure Scenarios</div>
+          <div class="desc">Image pull errors, OOM kills, probe failures, restart policies, and backoff.</div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════ FULL SEQUENCE DIAGRAM ═══════════ -->
+  <div class="chapter container" id="api-processing">
+    <div class="chapter-num">Phase 01</div>
+    <h2>API Processing &amp; Validation</h2>
+    <p class="lead">Every pod begins its life as a POST request to the API server. Before anything is scheduled, Kubernetes validates, authenticates, authorizes, and mutates the request through a pipeline of admission controllers.</p>
+
+    <div class="diagram">
+      <div class="cap">API Server Processing Pipeline</div>
+      <div class="mermaid">
+        sequenceDiagram
+            participant User
+            participant APIServer as API Server
+            participant etcd
+
+            User->>APIServer: POST /api/v1/namespaces/default/pods
+            Note over User: kubectl apply -f pod.yaml
+            APIServer->>APIServer: Parse YAML/JSON
+            APIServer->>APIServer: Schema validation
+            APIServer->>APIServer: Authentication (certificates/tokens)
+            APIServer->>APIServer: Authorization (RBAC checks)
+            loop Admission Controllers
+                APIServer->>APIServer: Mutating admission (add defaults)
+                Note over APIServer: ResourceQuota, LimitRange, SecurityContext
+                APIServer->>APIServer: Validating admission (final checks)
+                Note over APIServer: NetworkPolicies, PodSecurityPolicies
+            end
+            APIServer->>etcd: Store pod spec (phase: Pending, nodeName: null)
+            etcd-->>APIServer: Confirm stored with resourceVersion
+            APIServer-->>User: 201 Created + Pod UID
+      </div>
+    </div>
+
+    <div class="axiom">
+      <div class="tag">Key Concept</div>
+      <h5>The Admission Controller Pipeline</h5>
+      <p>Admission controllers are plugins that intercept requests to the API server <strong>after</strong> authentication and authorization but <strong>before</strong> the object is persisted to etcd. They run in two phases:</p>
+      <p><strong>Mutating</strong> controllers modify the object (e.g., injecting default resource limits, adding sidecar containers). <strong>Validating</strong> controllers reject invalid objects (e.g., enforcing security policies). This is where tools like Istio inject sidecars and OPA/Gatekeeper enforce policies.</p>
+    </div>
+  </div>
+
+  <hr class="sep">
+
+  <!-- ═══════════ SCHEDULING ═══════════ -->
+  <div class="chapter container" id="scheduling">
+    <div class="chapter-num g">Phase 02</div>
+    <h2>Scheduling Decision</h2>
+    <p class="lead">The scheduler watches for unscheduled pods, evaluates every node through a filter-then-score pipeline, and binds the pod to the highest-scoring node.</p>
+
+    <div class="diagram">
+      <div class="cap">Scheduler Pipeline</div>
+      <div class="mermaid">
+        sequenceDiagram
+            participant Scheduler
+            participant APIServer as API Server
+            participant etcd
+
+            Scheduler->>APIServer: Watch unscheduled pods (HTTP long-poll)
+            APIServer-->>Scheduler: Event: Pod created (nodeName: null)
+            Scheduler->>APIServer: GET /api/v1/nodes
+            APIServer-->>Scheduler: Node list with allocatable resources
+            Scheduler->>Scheduler: Filter Phase
+            Note over Scheduler: Resource reqs, NodeSelector, Affinity, Taints
+            Scheduler->>Scheduler: Score Phase (0-100 per node)
+            Note over Scheduler: ResourceFit, BalancedAlloc, SelectorSpread
+            Scheduler->>Scheduler: Select highest-scoring node
+            Scheduler->>APIServer: PATCH pod.spec.nodeName = "worker-1"
+            APIServer->>etcd: Update pod with binding
+      </div>
+    </div>
+
+    <div class="g2">
+      <div class="def">
+        <div class="tag g-t">Filter Phase</div>
+        <h5>Predicate Evaluation</h5>
+        <p>Eliminates nodes that <strong>cannot</strong> run the pod: insufficient CPU/memory, missing node selectors, unmatched taints/tolerations, port conflicts, volume zone constraints.</p>
+      </div>
+      <div class="def">
+        <div class="tag sol-t">Score Phase</div>
+        <h5>Priority Functions</h5>
+        <p>Scores remaining nodes 0–100 on factors like resource balance, spreading across zones, affinity preferences, and image locality. The highest total score wins.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="sep">
+
+  <!-- ═══════════ KUBELET ═══════════ -->
+  <div class="chapter container" id="kubelet">
+    <div class="chapter-num c">Phase 03</div>
+    <h2>Kubelet Processing</h2>
+    <p class="lead">Once the pod is bound to a node, the kubelet on that node picks it up via its API server watch, validates it locally, and begins orchestrating the container lifecycle.</p>
+
+    <div class="diagram">
+      <div class="cap">Kubelet Watch &amp; Validation</div>
+      <div class="mermaid">
+        sequenceDiagram
+            participant kubelet
+            participant APIServer as API Server
+
+            kubelet->>APIServer: Watch assigned pods for this node
+            APIServer-->>kubelet: Event: Pod assigned to worker-1
+            kubelet->>kubelet: Validate pod spec against node
+            kubelet->>kubelet: Check resource availability
+            kubelet->>APIServer: Update status (phase: Pending, PodScheduled=True)
+      </div>
+    </div>
+
+    <div class="tip">
+      <p><strong>The kubelet is the node agent.</strong> It doesn't create containers directly — it delegates to the Container Runtime Interface (CRI). Think of it as the orchestrator on each node: it manages the full pod lifecycle, health probes, volume mounts, and status reporting.</p>
+    </div>
+  </div>
+
+  <hr class="sep">
+
+  <!-- ═══════════ IMAGE MANAGEMENT ═══════════ -->
+  <div class="chapter container" id="images">
+    <div class="chapter-num y">Phase 04</div>
+    <h2>Image Management</h2>
+    <p class="lead">Before any container can start, its image must be available locally. The kubelet checks the local image store, and if missing, pulls layers from the registry.</p>
+
+    <div class="diagram">
+      <div class="cap">Image Pull Workflow</div>
+      <div class="mermaid">
+        sequenceDiagram
+            participant kubelet
+            participant ImageStore as Image Store
+            participant Registry as Container Registry
+
+            kubelet->>ImageStore: Check if image exists locally
+            alt Image not found
+                kubelet->>Registry: Authenticate with registry
+                Note over Registry: docker.io, gcr.io, private registry
+                kubelet->>Registry: Pull image layers
+                Registry-->>kubelet: Stream compressed layers
+                kubelet->>ImageStore: Decompress and store layers
+                kubelet->>ImageStore: Create image manifest
+            else Image exists
+                kubelet->>ImageStore: Use cached image
+            end
+      </div>
+    </div>
+
+    <pre><span class="lang">filesystem</span>
+<span class="cm"># Content-addressable image storage</span>
+/var/lib/containerd/
+├── io.containerd.content.v1.content/     <span class="cm"># Content-addressable store</span>
+│   ├── ingest/                           <span class="cm"># Temporary during pull</span>
+│   └── blobs/                            <span class="cm"># Actual layer data</span>
+├── io.containerd.metadata.v1.bolt/       <span class="cm"># Metadata database</span>
+└── io.containerd.snapshotter.v1.overlayfs/  <span class="cm"># Filesystem snapshots</span></pre>
+
+    <div class="g3">
+      <div class="def">
+        <div class="tag g-t">Always</div>
+        <h5>Pull Every Time</h5>
+        <p>Pull on every pod creation. Ensures latest image but adds latency.</p>
+      </div>
+      <div class="def">
+        <div class="tag sol-t">IfNotPresent</div>
+        <h5>Pull If Missing</h5>
+        <p>Only pull if not cached locally. Default for tagged images.</p>
+      </div>
+      <div class="def">
+        <div class="tag y-t">Never</div>
+        <h5>Local Only</h5>
+        <p>Never pull. Fails if image isn't already on the node.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="sep">
+
+  <!-- ═══════════ CONTAINER RUNTIME ═══════════ -->
+  <div class="chapter container" id="runtime">
+    <div class="chapter-num">Phase 05</div>
+    <h2>Container Runtime Preparation</h2>
+    <p class="lead">The CRI creates isolated environments using Linux primitives: network namespaces for network isolation, mount namespaces for filesystem isolation, and cgroups for resource limits.</p>
+
+    <div class="diagram">
+      <div class="cap">CRI &amp; Namespace/CGroup Setup</div>
+      <div class="mermaid">
+        sequenceDiagram
+            participant kubelet
+            participant CRI as Container Runtime
+            participant CGroupMgr as CGroup Manager
+            participant NetNS as Network NS
+            participant MountNS as Mount NS
+
+            kubelet->>CRI: CreateContainer request
+            CRI->>CRI: Generate container config
+            Note over CRI: Env vars, volume mounts, security context
+            CRI->>NetNS: Create network namespace
+            CRI->>MountNS: Create mount namespace
+            CRI->>CGroupMgr: Create cgroup hierarchy
+            CGroupMgr->>CGroupMgr: Set memory limits
+            CGroupMgr->>CGroupMgr: Set CPU limits
+            CGroupMgr->>CGroupMgr: Set PID limits
+            CGroupMgr-->>CRI: Cgroup paths created
+      </div>
+    </div>
+
+    <h3>CGroup Hierarchy</h3>
+    <pre><span class="lang">filesystem</span>
+<span class="cm"># CGroup hierarchy for a pod</span>
+/sys/fs/cgroup/
+├── memory/kubepods/burstable/pod{uid}/
+│   ├── memory.limit_in_bytes      <span class="cm"># Memory limit</span>
+│   ├── memory.usage_in_bytes      <span class="cm"># Current usage</span>
+│   └── container{id}/             <span class="cm"># Per container</span>
+├── cpu/kubepods/burstable/pod{uid}/
+│   ├── cpu.cfs_quota_us           <span class="cm"># CPU quota</span>
+│   ├── cpu.cfs_period_us          <span class="cm"># CPU period</span>
+│   └── cpu.shares                 <span class="cm"># CPU weight</span>
+└── pids/kubepods/burstable/pod{uid}/
+    └── pids.max                   <span class="cm"># Max processes</span></pre>
+
+    <div class="g3">
+      <div class="def">
+        <div class="tag g-t">Guaranteed</div>
+        <h5>QoS Class</h5>
+        <p>Requests == Limits. Path: <code>/kubepods/pod{uid}/</code></p>
+      </div>
+      <div class="def">
+        <div class="tag y-t">Burstable</div>
+        <h5>QoS Class</h5>
+        <p>Requests &lt; Limits. Path: <code>/kubepods/burstable/pod{uid}/</code></p>
+      </div>
+      <div class="def">
+        <div class="tag r-t">BestEffort</div>
+        <h5>QoS Class</h5>
+        <p>No limits set. Path: <code>/kubepods/besteffort/pod{uid}/</code></p>
+      </div>
+    </div>
+
+    <h3>Component Details</h3>
+    <div class="g4">
+      <div class="component-box">
+        <h5>CGroup Manager</h5>
+        <p>Part of kubelet</p>
+        <p>Path: <code>/sys/fs/cgroup/</code></p>
+        <p>Types: systemd, cgroupfs</p>
+        <p>Controls: CPU, Memory, PID, I/O</p>
+      </div>
+      <div class="component-box">
+        <h5>Image Store</h5>
+        <p>Container runtime</p>
+        <p>Path: <code>/var/lib/containerd/</code></p>
+        <p>Format: OCI image</p>
+        <p>Content-addressable</p>
+      </div>
+      <div class="component-box">
+        <h5>CNI Plugin</h5>
+        <p>Location: <code>/opt/cni/bin/</code></p>
+        <p>Config: <code>/etc/cni/net.d/</code></p>
+        <p>Types: bridge, calico, flannel</p>
+        <p>Function: Pod networking</p>
+      </div>
+      <div class="component-box">
+        <h5>Namespaces</h5>
+        <p>PID, Network, Mount, IPC, UTS</p>
+        <p>Creation: <code>clone()</code> syscall</p>
+        <p>Isolation: Process, Net, FS</p>
+        <p>Managed by runtime</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="sep">
+
+  <!-- ═══════════ NETWORKING ═══════════ -->
+  <div class="chapter container" id="networking">
+    <div class="chapter-num g">Phase 06</div>
+    <h2>Networking &amp; CNI Setup</h2>
+    <p class="lead">The CNI plugin creates a network namespace, allocates an IP, sets up a veth pair connecting the pod to the host, and configures routes and DNS.</p>
+
+    <div class="diagram">
+      <div class="cap">CNI Network Setup</div>
+      <div class="mermaid">
+        sequenceDiagram
+            participant kubelet
+            participant CNI as CNI Plugin
+            participant NetNS as Network NS
+
+            kubelet->>CNI: Setup network for pod
+            CNI->>CNI: Allocate IP from CIDR pool
+            CNI->>NetNS: Configure veth pair
+            CNI->>NetNS: Set IP address and routes
+            CNI->>CNI: Update IPAM database
+            CNI-->>kubelet: Network ready (IP: 10.244.1.5)
+      </div>
+    </div>
+
+    <pre><span class="lang">network</span>
+<span class="cm"># Network namespace creation step by step</span>
+1. CNI plugin creates network namespace: ip netns add {netns-id}
+2. Creates veth pair:   ip link add veth0 type veth peer name eth0
+3. Moves eth0 to pod:   ip link set eth0 netns {netns-id}
+4. Assigns IP:          ip addr add 10.244.1.5/24 dev eth0
+5. Sets routes:         ip route add default via 10.244.1.1
+6. Updates IPAM:        Store IP allocation in etcd/file
+
+<span class="cm"># Result: Pod network configuration</span>
+Pod Network Namespace:
+├── lo (loopback):  127.0.0.1/8
+└── eth0:           10.244.1.5/24
+    ├── Gateway:    10.244.1.1
+    ├── DNS:        10.96.0.10 (CoreDNS)
+    └── Routes:     default via 10.244.1.1</pre>
+
+    <div class="axiom">
+      <div class="tag">Key Concept</div>
+      <h5>CNI Plugin Chain</h5>
+      <p><strong>Main plugin</strong> creates the interface (bridge, calico, cilium). <strong>IPAM plugin</strong> handles IP address management (host-local, dhcp). <strong>Meta plugins</strong> add features like bandwidth shaping and firewall rules.</p>
+      <p>Each pod gets its own network namespace. Containers in the same pod <strong>share</strong> the network namespace — they communicate over <code>localhost</code>. Different pods have separate network stacks.</p>
+    </div>
+  </div>
+
+  <hr class="sep">
+
+  <!-- ═══════════ VOLUMES ═══════════ -->
+  <div class="chapter container" id="volumes">
+    <div class="chapter-num c">Phase 07</div>
+    <h2>Volume Mounting</h2>
+    <p class="lead">Persistent volumes are attached via CSI drivers, and ConfigMaps/Secrets are projected into the mount namespace as files with the correct permissions.</p>
+
+    <div class="g2">
+      <div class="def">
+        <div class="tag sol-t">Persistent Volumes</div>
+        <h5>CSI Attachment</h5>
+        <p>kubelet calls the CSI driver to attach and mount the volume into the container's filesystem. Supports EBS, GCE PD, NFS, Ceph, and more.</p>
+      </div>
+      <div class="def">
+        <div class="tag g-t">ConfigMaps &amp; Secrets</div>
+        <h5>Projected Volumes</h5>
+        <p>Mounted as files into the mount namespace with configurable file permissions. Secrets are stored in tmpfs (memory-backed) for security.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="sep">
+
+  <!-- ═══════════ CONTAINER START ═══════════ -->
+  <div class="chapter container" id="container-start">
+    <div class="chapter-num y">Phase 08</div>
+    <h2>Container Creation &amp; Start</h2>
+    <p class="lead">The container runtime (runc/kata) creates the container process, joins it to all the prepared namespaces and cgroups, applies the security context, and starts the init process.</p>
+
+    <div class="diagram">
+      <div class="cap">Container Start Sequence</div>
+      <div class="mermaid">
+        sequenceDiagram
+            participant CRI as Container Runtime
+            participant kubelet
+            participant APIServer as API Server
+
+            CRI->>CRI: Create container with runc/kata
+            CRI->>CRI: Configure namespaces (pid, net, mnt, ipc, uts)
+            CRI->>CRI: Apply security context (user, capabilities)
+            CRI->>CRI: Join container to cgroups
+            CRI->>CRI: Start container init process
+            CRI-->>kubelet: Container created and started
+            kubelet->>APIServer: Update pod status (phase: Running, startTime)
+      </div>
+    </div>
+
+    <div class="tip">
+      <p><strong>At this point the pod is Running.</strong> The container process is live, network is configured, volumes are mounted. But "Running" does not mean "Ready for traffic" — that requires passing readiness probes. The kubelet now enters the health monitoring phase.</p>
+    </div>
+  </div>
+
+  <hr class="sep">
+
+  <!-- ═══════════ HEALTH PROBES ═══════════ -->
+  <div class="chapter container" id="health">
+    <div class="chapter-num">Phase 09 &ndash; 10</div>
+    <h2>Health Probes &amp; Monitoring</h2>
+    <p class="lead">Kubernetes runs three types of probes in parallel: startup (gates the others), liveness (restarts unhealthy containers), and readiness (controls traffic routing). Resource monitoring via cgroups runs continuously.</p>
+
+    <div class="diagram">
+      <div class="cap">Health Probe Lifecycle</div>
+      <div class="mermaid">
+        sequenceDiagram
+            participant kubelet
+            participant CRI as Container Runtime
+            participant APIServer as API Server
+
+            Note over kubelet,APIServer: Startup Probe Phase
+            alt Startup Probe Configured
+                kubelet->>kubelet: DISABLE liveness & readiness probes
+                loop Until success or failure threshold
+                    kubelet->>CRI: Execute startup probe
+                    alt Success
+                        CRI-->>kubelet: HTTP 200 / exit 0
+                        kubelet->>kubelet: ENABLE liveness & readiness probes
+                    else Failure threshold exceeded
+                        kubelet->>CRI: SIGTERM → SIGKILL → Restart
+                        kubelet->>APIServer: Update (restartCount++)
+                    end
+                end
+            end
+
+            Note over kubelet,APIServer: Continuous Monitoring (Parallel)
+            par Liveness
+                loop Every 30s
+                    kubelet->>CRI: Liveness probe
+                    alt 3 failures
+                        kubelet->>CRI: Kill & restart container
+                    end
+                end
+            and Readiness
+                loop Every 5s
+                    kubelet->>CRI: Readiness probe
+                    alt Failing
+                        kubelet->>APIServer: Ready=False → remove from endpoints
+                    else Passing
+                        kubelet->>APIServer: Ready=True → add to endpoints
+                    end
+                end
+            and Resources
+                loop Continuous
+                    kubelet->>kubelet: Check cgroup memory/CPU/PID
+                    alt OOM
+                        kubelet->>CRI: SIGKILL (OOMKilled)
+                    end
+                end
+            end
+      </div>
+    </div>
+
+    <div class="warn">
+      <p><strong>Ready &#8800; Running.</strong> A pod can be Running but not Ready if readiness probes fail. Running means the process is alive. Ready means "accept traffic." The readiness probe controls whether the pod's IP appears in Service endpoints — failing it removes the pod from load balancer rotation without killing it.</p>
+    </div>
+
+    <h3>Probe Types</h3>
+    <div class="g3">
+      <div class="def">
+        <div class="tag y-t">Startup</div>
+        <h5>Startup Probe</h5>
+        <p>Gates liveness &amp; readiness. Protects slow-starting containers. Failure restarts the container.</p>
+      </div>
+      <div class="def">
+        <div class="tag r-t">Liveness</div>
+        <h5>Liveness Probe</h5>
+        <p>Detects deadlocks and hangs. Failure <strong>kills and restarts</strong> the container. Runs every <code>periodSeconds</code>.</p>
+      </div>
+      <div class="def">
+        <div class="tag g-t">Readiness</div>
+        <h5>Readiness Probe</h5>
+        <p>Controls traffic routing. Failure removes pod from Service endpoints. Container keeps running.</p>
+      </div>
+    </div>
+  </div>
+
+  <hr class="sep">
+
+  <!-- ═══════════ POD STATUS LIFECYCLE ═══════════ -->
+  <div class="chapter container" id="status">
+    <div class="chapter-num g">Phase 11</div>
+    <h2>Pod Status Lifecycle</h2>
+    <p class="lead">A pod transitions through well-defined phases. Each phase has sub-conditions that provide granular insight into exactly what's happening.</p>
+
+    <div class="g2">
+      <div class="status-card pending">
+        <h5>Pending</h5>
+        <p>Pod accepted but not running. Waiting for scheduling, image pull, or volume attachment.</p>
+      </div>
+      <div class="status-card running">
+        <h5>Running</h5>
+        <p>Bound to a node, at least one container running. Health probes actively monitored.</p>
+      </div>
+      <div class="status-card succeeded">
+        <h5>Succeeded</h5>
+        <p>All containers exited with code 0. Typical for Jobs and CronJobs. No restarts.</p>
+      </div>
+      <div class="status-card failed">
+        <h5>Failed</h5>
+        <p>Container exit code &#8800; 0, OOMKilled, image pull failure, or liveness probe exceeded.</p>
+      </div>
+    </div>
+
+    <div class="status-card unknown" style="margin-top:18px">
+      <h5>Unknown</h5>
+      <p>Pod state cannot be determined — node communication lost, kubelet not responding, or network partition. Pods may still be running. Manual intervention often required.</p>
+    </div>
+
+    <h3>Pod Conditions</h3>
+    <pre><span class="lang">yaml</span>
+conditions:
+  - type: PodScheduled
+    status: "True"
+    reason: "PodScheduled"
+    message: "Successfully assigned default/my-pod to worker-1"
+
+  - type: Initialized
+    status: "True"
+    reason: "PodCompleted"
+    message: "All init containers completed successfully"
+
+  - type: ContainersReady
+    status: "False"
+    reason: "ContainersNotReady"
+    message: "containers with unready status: [app]"
+
+  - type: Ready
+    status: "False"
+    reason: "ContainersNotReady"
+    message: "containers with unready status: [app]"</pre>
+  </div>
+
+  <hr class="sep">
+
+  <!-- ═══════════ FAILURE SCENARIOS ═══════════ -->
+  <div class="chapter container" id="failures">
+    <div class="chapter-num r">Failure Scenarios</div>
+    <h2>Common Failures &amp; Recovery</h2>
+    <p class="lead">Understanding failure modes is critical for debugging production issues. Here are the most common scenarios with their error signatures and recovery behavior.</p>
+
+    <div class="diagram">
+      <div class="cap">Failure Scenarios</div>
+      <div class="mermaid">
+        sequenceDiagram
+            participant kubelet
+            participant CRI as Container Runtime
+            participant Registry
+            participant CGroupMgr as CGroup Manager
+            participant APIServer as API Server
+
+            Note over kubelet,APIServer: Image Pull Failure
+            kubelet->>CRI: Pull private-registry.com/app:latest
+            CRI->>Registry: Auth required
+            Registry-->>CRI: 401 Unauthorized
+            alt Credentials provided
+                CRI->>Registry: Retry with credentials
+                alt Valid
+                    Registry-->>CRI: Image layers
+                else Invalid
+                    CRI-->>kubelet: ErrImagePull
+                    kubelet->>APIServer: Pending (ImagePullBackOff)
+                end
+            else No credentials
+                CRI-->>kubelet: ImagePullBackOff
+                Note over kubelet: Backoff: 10s, 20s, 40s, 80s, 160s, 300s max
+            end
+
+            Note over kubelet,APIServer: OOM Kill
+            CGroupMgr->>CGroupMgr: Memory limit exceeded
+            CGroupMgr->>CRI: SIGKILL (OOM)
+            CRI-->>kubelet: Terminated (OOMKilled, exit 137)
+            kubelet->>CRI: Restart (if policy allows)
+            kubelet->>APIServer: restartCount++
+      </div>
+    </div>
+
+    <h3>Restart Policy &amp; Backoff</h3>
+    <pre><span class="lang">yaml</span>
+restartPolicy: Always      <span class="cm"># Default for Deployments</span>
+restartPolicy: OnFailure   <span class="cm"># Default for Jobs</span>
+restartPolicy: Never       <span class="cm"># One-shot containers</span>
+
+<span class="cm"># Exponential backoff calculation</span>
+delay = min(300, 2^restartCount * 10)
+<span class="cm"># → 10s, 20s, 40s, 80s, 160s, 300s (max)</span>
+
+<span class="cm"># Reset: 10 minutes of successful running resets restartCount to 0</span></pre>
+
+    <h3>Critical Failure Points</h3>
+    <div class="g3">
+      <div class="def">
+        <div class="tag r-t">Node Resources</div>
+        <h5>Resource Exhaustion</h5>
+        <p><strong>Memory:</strong> OOM killer terminates pods. <strong>Disk:</strong> Image GC + pod eviction. <strong>PID:</strong> No new processes.</p>
+      </div>
+      <div class="def">
+        <div class="tag y-t">Network</div>
+        <h5>Network Failures</h5>
+        <p><strong>CNI failure:</strong> Stuck in ContainerCreating. <strong>IP exhaustion:</strong> No IPs for new pods. <strong>DNS:</strong> Service discovery broken.</p>
+      </div>
+      <div class="def">
+        <div class="tag sol-t">Runtime</div>
+        <h5>Runtime Issues</h5>
+        <p><strong>containerd crash:</strong> All pods affected. <strong>Image corruption:</strong> Creation fails. <strong>Storage driver:</strong> Cannot create layers.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════ FOOTER ═══════════ -->
+  <footer class="footer">
+    <div class="container">
+      <p>Written by <a href="../index.html">Ayoub Idel</a> &middot; <a href="../blog/">Back to all articles</a></p>
+    </div>
+  </footer>
+
+</div>
+
+<script>
+    mermaid.initialize({
+        startOnLoad: true,
+        theme: 'dark',
+        securityLevel: 'loose',
+        themeVariables: {
+            primaryColor: '#12121e',
+            primaryTextColor: '#e4e4f0',
+            primaryBorderColor: '#2a2a44',
+            lineColor: '#326CE5',
+            secondaryColor: '#181828',
+            tertiaryColor: '#0f0f18',
+            noteBkgColor: '#181828',
+            noteTextColor: '#b0b0cc',
+            noteBorderColor: '#2a2a44',
+            actorBkg: '#12121e',
+            actorBorder: '#326CE5',
+            actorTextColor: '#e4e4f0',
+            signalColor: '#e4e4f0',
+            labelBoxBkgColor: '#12121e',
+            labelBoxBorderColor: '#2a2a44',
+            labelTextColor: '#e4e4f0',
+            loopTextColor: '#b0b0cc',
+            activationBorderColor: '#326CE5',
+            activationBkgColor: '#181828',
+            sequenceNumberColor: '#14F195'
+        },
+        sequence: {
+            diagramMarginX: 30,
+            diagramMarginY: 10,
+            boxTextMargin: 5,
+            noteMargin: 10,
+            messageMargin: 35,
+            width: 150,
+            useMaxWidth: true
+        }
+    });
+
+    // Scroll-reveal
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.chapter, .diagram, .axiom, .def, .tip, .warn, .status-card, .component-box').forEach(el => {
+        el.classList.add('fade-in');
+        observer.observe(el);
+    });
+</script>
+</body>
+</html>

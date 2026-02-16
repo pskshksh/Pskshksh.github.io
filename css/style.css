@@ -3567,6 +3567,135 @@ input, textarea {
     margin-top: var(--space-2xl);
 }
 
+.blog-banner {
+    display: block;
+    position: relative;
+    border-radius: var(--radius-lg);
+    overflow: hidden;
+    text-decoration: none;
+    color: #e4e4f0;
+    background: #050507;
+    border: 1px solid #1e1e32;
+    transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+}
+
+.blog-banner:hover {
+    border-color: #9945FF;
+    box-shadow: 0 0 60px rgba(153, 69, 255, 0.15), 0 0 120px rgba(20, 241, 149, 0.06);
+    transform: translateY(-3px);
+}
+
+.blog-banner-bg {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+}
+
+.blog-banner-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+        linear-gradient(rgba(153, 69, 255, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(153, 69, 255, 0.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black, transparent);
+}
+
+.blog-banner-glow {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.5;
+    transition: opacity 0.4s;
+}
+
+.blog-banner:hover .blog-banner-glow { opacity: 0.8; }
+
+.blog-banner-glow-1 {
+    width: 300px;
+    height: 300px;
+    top: -80px;
+    right: -40px;
+    background: rgba(153, 69, 255, 0.15);
+}
+
+.blog-banner-glow-2 {
+    width: 250px;
+    height: 250px;
+    bottom: -60px;
+    left: -30px;
+    background: rgba(20, 241, 149, 0.1);
+}
+
+.blog-banner-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    padding: 56px 32px;
+}
+
+.blog-banner-tag {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: #14F195;
+    display: inline-block;
+    padding: 4px 14px;
+    border: 1px solid rgba(20, 241, 149, 0.2);
+    border-radius: 100px;
+    margin-bottom: 20px;
+}
+
+.blog-banner-title {
+    font-size: clamp(1.6rem, 3.5vw, 2.4rem);
+    font-weight: 700;
+    margin-bottom: 8px;
+    background: linear-gradient(135deg, #9945FF, #14F195);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.blog-banner-desc {
+    font-size: 0.95rem;
+    color: #b0b0cc;
+    margin-bottom: 24px;
+    font-weight: 300;
+}
+
+.blog-banner-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 28px;
+    border-radius: 100px;
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    color: #fff;
+    background: linear-gradient(135deg, #9945FF, #14F195);
+    transition: box-shadow 0.3s;
+}
+
+.blog-banner:hover .blog-banner-btn {
+    box-shadow: 0 0 30px rgba(153, 69, 255, 0.4);
+}
+
+.blog-banner:hover .blog-banner-btn svg {
+    transform: translateX(4px);
+}
+
+.blog-banner-btn svg {
+    transition: transform 0.3s;
+}
+
+@media (max-width: 600px) {
+    .blog-banner-content {
+        padding: 40px 20px;
+    }
+}
+
 /* ============================================
    Contact Section
    ============================================ */
