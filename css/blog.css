@@ -105,6 +105,35 @@
     letter-spacing: 0.5px;
 }
 
+/* Back to Portfolio – styled like hero CTA */
+.back-to-portfolio {
+    display: inline-flex !important;
+    align-items: center;
+    gap: 8px;
+    background: linear-gradient(135deg, #9945FF, #14F195);
+    color: #fff !important;
+    padding: 10px 24px;
+    border-radius: 999px;
+    font-size: 14px !important;
+    font-weight: 600;
+    text-decoration: none;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    letter-spacing: 0.02em;
+}
+
+.back-to-portfolio:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 32px rgba(153, 69, 255, 0.4);
+}
+
+.back-to-portfolio svg {
+    transition: transform 0.3s ease;
+}
+
+.back-to-portfolio:hover svg {
+    transform: translateX(-4px);
+}
+
 /* ═══════════ BLOG CONTAINER ═══════════ */
 .blog-container {
     max-width: 1080px;
