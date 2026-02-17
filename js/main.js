@@ -23,7 +23,8 @@ document.addEventListener('DOMContentLoaded', () => {
     initParallax();
     initMagneticButtons();
     initTextAnimations();
-    initExpandableExperience();
+    initSnakeTimeline();
+    initSnakeExpand();
     initEasterEggs();
     initConsoleMessage();
     initSectionEffects();
@@ -37,8 +38,7 @@ const translations = {
         // Navigation
         nav_home: "Home",
         nav_about: "About",
-        nav_experience: "Experience",
-        nav_education: "Education",
+        nav_journey: "Journey",
         nav_skills: "Skills",
         nav_projects: "Projects",
         nav_blog: "Blog",
@@ -64,8 +64,7 @@ const translations = {
         download_resume: "Download Resume",
 
         // Section titles
-        experience_title: "Work Experience",
-        education_title: "Education",
+        journey_title: "My Journey",
         skills_title: "Technical Skills",
         projects_title: "Featured Projects",
         projects_subtitle: "Building scalable solutions that make an impact",
@@ -149,8 +148,7 @@ const translations = {
         // Navigation
         nav_home: "Accueil",
         nav_about: "À propos",
-        nav_experience: "Expérience",
-        nav_education: "Formation",
+        nav_journey: "Parcours",
         nav_skills: "Compétences",
         nav_projects: "Projets",
         nav_blog: "Blog",
@@ -176,8 +174,7 @@ const translations = {
         download_resume: "Télécharger CV",
 
         // Section titles
-        experience_title: "Expérience Professionnelle",
-        education_title: "Formation",
+        journey_title: "Mon Parcours",
         skills_title: "Compétences Techniques",
         projects_title: "Projets Phares",
         projects_subtitle: "Construire des solutions évolutives qui font la différence",
@@ -510,13 +507,13 @@ function initScrollAnimations() {
         { selector: '.section-header', class: 'fade-in' },
         { selector: '.about-image', class: 'fade-in-left' },
         { selector: '.about-text', class: 'fade-in-right' },
-        { selector: '.timeline-item', class: 'fade-in' },
+        { selector: '.snake-item', class: 'fade-in' },
         { selector: '.skill-category', class: 'scale-in' },
         { selector: '.project-card', class: 'fade-in' },
         { selector: '.blog-card', class: 'fade-in' },
         { selector: '.contact-info', class: 'fade-in-left' },
         { selector: '.contact-form', class: 'fade-in-right' },
-        { selector: '.education-card', class: 'fade-in' }
+        { selector: '.snake-card', class: 'fade-in' }
     ];
 
     animateElements.forEach(({ selector, class: className }) => {
@@ -953,19 +950,170 @@ document.querySelectorAll('.project-card, .skill-category, .blog-card').forEach(
 });
 
 // ============================================
-// Intersection Observer for Timeline Animation
+// Snake Timeline - Grid Layout & SVG Path
 // ============================================
-const timelineObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('timeline-visible');
-        }
-    });
-}, { threshold: 0.2 });
+function initSnakeTimeline() {
+    const wrapper = document.querySelector('.snake-timeline-wrapper');
+    const grid = document.querySelector('.snake-timeline');
+    const svg = document.querySelector('.snake-connector');
+    const pathEl = document.querySelector('.snake-path-line');
+    const items = document.querySelectorAll('.snake-item');
 
-document.querySelectorAll('.timeline').forEach(timeline => {
-    timelineObserver.observe(timeline);
-});
+    if (!wrapper || !grid || !svg || !pathEl || items.length === 0) return;
+
+    function getColCount() {
+        const w = window.innerWidth;
+        if (w <= 600) return 1;
+        if (w <= 900) return 2;
+        return 3;
+    }
+
+    function layoutItems() {
+        const cols = getColCount();
+
+        items.forEach((item, i) => {
+            const row = Math.floor(i / cols);
+            const colIndex = i % cols;
+            // Even rows L→R, odd rows R→L (serpentine)
+            const col = (row % 2 === 0) ? colIndex : (cols - 1 - colIndex);
+
+            item.style.gridRow = row + 1;
+            item.style.gridColumn = col + 1;
+        });
+    }
+
+    function drawPath() {
+        const cols = getColCount();
+        if (cols === 1) {
+            // On mobile, hide SVG — we use CSS vertical line
+            pathEl.setAttribute('d', '');
+            return;
+        }
+
+        const wrapperRect = wrapper.getBoundingClientRect();
+        const nodes = [];
+
+        items.forEach(item => {
+            const node = item.querySelector('.snake-node');
+            if (!node) return;
+            const nodeRect = node.getBoundingClientRect();
+            nodes.push({
+                x: nodeRect.left + nodeRect.width / 2 - wrapperRect.left,
+                y: nodeRect.top + nodeRect.height / 2 - wrapperRect.top
+            });
+        });
+
+        if (nodes.length < 2) return;
+
+        // Resize SVG to cover wrapper
+        svg.setAttribute('width', wrapperRect.width);
+        svg.setAttribute('height', wrapperRect.height);
+        svg.style.width = wrapperRect.width + 'px';
+        svg.style.height = wrapperRect.height + 'px';
+
+        // Build path with smooth curves
+        let d = `M ${nodes[0].x} ${nodes[0].y}`;
+
+        for (let i = 1; i < nodes.length; i++) {
+            const prev = nodes[i - 1];
+            const curr = nodes[i];
+            const prevRow = Math.floor((i - 1) / cols);
+            const currRow = Math.floor(i / cols);
+
+            if (prevRow !== currRow) {
+                // U-turn: go down between rows
+                const midY = (prev.y + curr.y) / 2;
+                d += ` C ${prev.x} ${midY}, ${curr.x} ${midY}, ${curr.x} ${curr.y}`;
+            } else {
+                // Horizontal within same row
+                const dx = (curr.x - prev.x) / 2;
+                d += ` C ${prev.x + dx} ${prev.y}, ${curr.x - dx} ${curr.y}, ${curr.x} ${curr.y}`;
+            }
+        }
+
+        pathEl.setAttribute('d', d);
+
+        // Update dash animation based on path length
+        const pathLength = pathEl.getTotalLength();
+        pathEl.style.strokeDasharray = pathLength;
+        pathEl.style.strokeDashoffset = pathLength;
+    }
+
+    // Initial layout + draw
+    layoutItems();
+
+    // Observe wrapper for scroll-triggered animation
+    const wrapperObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                drawPath();
+
+                // Trigger snake draw animation
+                requestAnimationFrame(() => {
+                    wrapper.classList.add('snake-animated');
+                });
+
+                // Stagger item reveals
+                items.forEach((item, i) => {
+                    setTimeout(() => {
+                        item.classList.add('snake-visible');
+                    }, 150 * i);
+                });
+
+                wrapperObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.15 });
+
+    wrapperObserver.observe(wrapper);
+
+    // Recalculate on resize (debounced)
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(() => {
+            layoutItems();
+            drawPath();
+        }, 200);
+    });
+}
+
+// ============================================
+// Snake Timeline - Expand / Collapse Cards
+// ============================================
+function initSnakeExpand() {
+    const items = document.querySelectorAll('.snake-item');
+    const wrapper = document.querySelector('.snake-timeline-wrapper');
+    const pathEl = document.querySelector('.snake-path-line');
+
+    items.forEach(item => {
+        const card = item.querySelector('.snake-card');
+        if (!card) return;
+
+        card.addEventListener('click', (e) => {
+            if (e.target.closest('a') || e.target.closest('.tag')) return;
+
+            const isExpanded = item.classList.contains('expanded');
+
+            // Close all others
+            items.forEach(other => {
+                if (other !== item) other.classList.remove('expanded');
+            });
+
+            item.classList.toggle('expanded');
+
+            // Recalculate SVG path after expand/collapse animation
+            setTimeout(() => {
+                if (typeof initSnakeTimeline._redraw === 'function') {
+                    initSnakeTimeline._redraw();
+                } else {
+                    // Fallback: trigger resize-based recalc
+                    window.dispatchEvent(new Event('resize'));
+                }
+            }, 450);
+        });
+    });
+}
 
 // ============================================
 // Add ripple effect to buttons
@@ -987,41 +1135,6 @@ document.querySelectorAll('.btn').forEach(btn => {
     });
 });
 
-// ============================================
-// Expandable Experience Cards
-// ============================================
-function initExpandableExperience() {
-    const expandableItems = document.querySelectorAll('.timeline-item.expandable');
-
-    expandableItems.forEach(item => {
-        const content = item.querySelector('.timeline-content');
-        const expandBtn = item.querySelector('.expand-btn');
-
-        const toggleExpand = (e) => {
-            // Don't toggle if clicking on links or tags
-            if (e.target.closest('a') || e.target.closest('.tag')) return;
-
-            const isExpanded = item.classList.contains('expanded');
-
-            // Close all other expanded items
-            expandableItems.forEach(otherItem => {
-                if (otherItem !== item) {
-                    otherItem.classList.remove('expanded');
-                }
-            });
-
-            // Toggle current item
-            item.classList.toggle('expanded');
-
-            // Play sound effect (subtle click)
-            if (!isExpanded) {
-                playClickSound();
-            }
-        };
-
-        content.addEventListener('click', toggleExpand);
-    });
-}
 
 function playClickSound() {
     // Create a subtle click sound using Web Audio API

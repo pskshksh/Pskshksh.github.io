@@ -47,8 +47,7 @@
 
             <ul class="nav-menu">
                 <li><a href="#home" class="nav-link active" data-i18n="nav_home">Home</a></li>
-                <li><a href="#experience" class="nav-link" data-i18n="nav_experience">Experience</a></li>
-                <li><a href="#education" class="nav-link" data-i18n="nav_education">Education</a></li>
+                <li><a href="#journey" class="nav-link" data-i18n="nav_journey">Journey</a></li>
                 <li><a href="#skills" class="nav-link" data-i18n="nav_skills">Skills</a></li>
                 <li><a href="#projects" class="nav-link" data-i18n="nav_projects">Projects</a></li>
                 <li><a href="blog/" class="nav-link" data-i18n="nav_blog">Blog</a></li>
@@ -169,131 +168,185 @@
         </div>
     </section>
 
-    <!-- Experience Section -->
-    <section id="experience" class="section experience">
+    <!-- Journey Section (Experience + Education merged) -->
+    <section id="journey" class="section journey">
         <div class="container">
             <div class="section-header">
-                <span class="section-tag">&lt;experience&gt;</span>
-                <h2 class="section-title" data-i18n="experience_title">Work Experience</h2>
+                <span class="section-tag">&lt;journey&gt;</span>
+                <h2 class="section-title" data-i18n="journey_title">My Journey</h2>
             </div>
 
-            <div class="experience-timeline">
-                <div class="timeline-track"></div>
-                <svg class="timeline-snake" viewBox="0 0 100 800" preserveAspectRatio="none">
+            <div class="snake-timeline-wrapper">
+                <svg class="snake-connector" aria-hidden="true">
                     <defs>
-                        <linearGradient id="snakeGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                            <stop offset="0%" stop-color="#9945FF" stop-opacity="0.8"/>
-                            <stop offset="50%" stop-color="#7b32d9" stop-opacity="0.6"/>
-                            <stop offset="100%" stop-color="#9945FF" stop-opacity="0.4"/>
+                        <linearGradient id="snakePathGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stop-color="#10b981" stop-opacity="0.7"/>
+                            <stop offset="50%" stop-color="#9945FF" stop-opacity="0.7"/>
+                            <stop offset="100%" stop-color="#14F195" stop-opacity="0.7"/>
                         </linearGradient>
                     </defs>
-                    <path class="snake-path" d="M50 0 Q80 100 50 200 Q20 300 50 400 Q80 500 50 600 Q20 700 50 800"
-                          fill="none" stroke="url(#snakeGradient)" stroke-width="3" stroke-linecap="round"/>
+                    <path class="snake-path-line" fill="none" stroke="url(#snakePathGrad)" stroke-width="3" stroke-linecap="round"/>
                 </svg>
 
-                <div class="exp-row">
-                    <div class="exp-year">2024</div>
-                    <div class="exp-node current"></div>
-                    <div class="experience-card">
-                        <div class="exp-header">
-                            <img src="assets/companies/imagino.svg" alt="Imagino" class="exp-logo">
-                            <div class="exp-meta">
-                                <h3 class="exp-title">Software Engineer</h3>
-                                <span class="exp-company">Imagino</span>
-                                <span class="exp-date">Apr 2024 - Present</span>
+                <div class="snake-timeline">
+                    <!-- 1. CPGE (2014-2016) — Education -->
+                    <div class="snake-item" data-type="education">
+                        <span class="snake-year">2014</span>
+                        <div class="snake-node"></div>
+                        <div class="snake-card">
+                            <div class="snake-card-header">
+                                <img src="assets/companies/lycee-francois1er.svg" alt="Lycée François 1er" class="snake-card-logo">
+                                <div class="snake-card-meta">
+                                    <span class="snake-card-type badge-education">Education</span>
+                                    <span class="snake-card-date">2014 - 2016</span>
+                                </div>
                             </div>
-                        </div>
-                        <p class="exp-summary">Building a next-gen Customer Data Platform (CDP/CEP) enabling enterprises to unify data and activate it across channels in real time.</p>
-                        <ul class="exp-highlights">
-                            <li>Designed and optimized microservices & web services in Go</li>
-                            <li>Maintained Kubernetes clusters on Azure, CI/CD pipelines, Helm charts</li>
-                            <li>Mentored developers and conducted technical interviews</li>
-                        </ul>
-                        <div class="exp-tags">
-                            <span class="tag">Golang</span>
-                            <span class="tag">Kubernetes</span>
-                            <span class="tag">Azure</span>
-                            <span class="tag">PostgreSQL</span>
-                            <span class="tag">Helm</span>
+                            <h3 class="snake-card-title">CPGE - Classes Préparatoires</h3>
+                            <span class="snake-card-org">Lycée François 1er · Le Havre</span>
+                            <p class="snake-card-summary">Intensive two-year program in Mathematics, Physics, and Engineering Sciences with rigorous analytical training.</p>
+                            <div class="snake-card-tags">
+                                <span class="tag">Mathematics</span>
+                                <span class="tag">Physics</span>
+                                <span class="tag">Engineering Sciences</span>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="exp-row">
-                    <div class="exp-year">2020</div>
-                    <div class="exp-node"></div>
-                    <div class="experience-card">
-                        <div class="exp-header">
-                            <img src="assets/companies/addict-mobile.png" alt="Addict Mobile" class="exp-logo">
-                            <div class="exp-meta">
-                                <h3 class="exp-title">Cloud Architect & Software Engineer</h3>
-                                <span class="exp-company">Addict Mobile Technology</span>
-                                <span class="exp-date">Feb 2020 - Apr 2024</span>
+                    <!-- 2. Polytech Tours (2016-2019) — Education -->
+                    <div class="snake-item" data-type="education">
+                        <span class="snake-year">2016</span>
+                        <div class="snake-node"></div>
+                        <div class="snake-card">
+                            <div class="snake-card-header">
+                                <img src="assets/companies/polytech-tours.svg" alt="Polytech Tours" class="snake-card-logo">
+                                <div class="snake-card-meta">
+                                    <span class="snake-card-type badge-education">Education</span>
+                                    <span class="snake-card-date">2016 - 2019</span>
+                                </div>
                             </div>
-                        </div>
-                        <p class="exp-summary">Designed scalable backend architectures on AWS with focus on high availability and serverless solutions.</p>
-                        <ul class="exp-highlights">
-                            <li>Led architecture on AWS: Lambda, Step Functions, DynamoDB</li>
-                            <li>Built projects with AWS CDK, 24% cost reduction achieved</li>
-                            <li>Migrated Elasticsearch to OpenSearch, integrated Prometheus & Grafana</li>
-                        </ul>
-                        <div class="exp-tags">
-                            <span class="tag">AWS</span>
-                            <span class="tag">Golang</span>
-                            <span class="tag">AWS CDK</span>
-                            <span class="tag">Serverless</span>
-                            <span class="tag">Docker</span>
+                            <h3 class="snake-card-title">Engineering Degree in Computer Science</h3>
+                            <span class="snake-card-org">Polytech Tours · Tours</span>
+                            <p class="snake-card-summary">Specialized in software engineering, distributed systems, algorithms, and system architecture.</p>
+                            <div class="snake-card-tags">
+                                <span class="tag">Software Engineering</span>
+                                <span class="tag">Distributed Systems</span>
+                                <span class="tag">Algorithms</span>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="exp-row">
-                    <div class="exp-year">2019</div>
-                    <div class="exp-node"></div>
-                    <div class="experience-card">
-                        <div class="exp-header">
-                            <img src="assets/companies/astek.png" alt="Astek" class="exp-logo">
-                            <div class="exp-meta">
-                                <h3 class="exp-title">Backend Developer</h3>
-                                <span class="exp-company">Astek</span>
-                                <span class="exp-date">Aug 2019 - Feb 2020</span>
+                    <!-- 3. EDF Internship (2018) — Experience -->
+                    <div class="snake-item" data-type="experience">
+                        <span class="snake-year">2018</span>
+                        <div class="snake-node"></div>
+                        <div class="snake-card">
+                            <div class="snake-card-header">
+                                <img src="assets/companies/edf.svg" alt="EDF" class="snake-card-logo">
+                                <div class="snake-card-meta">
+                                    <span class="snake-card-type badge-experience">Experience</span>
+                                    <span class="snake-card-date">Feb 2018 - Aug 2018</span>
+                                </div>
                             </div>
-                        </div>
-                        <p class="exp-summary">Migrated internal microservices from REST to gRPC to enhance performance and scalability.</p>
-                        <ul class="exp-highlights">
-                            <li>Implemented gRPC communication layer in Golang</li>
-                            <li>Improved latency and throughput under high load</li>
-                        </ul>
-                        <div class="exp-tags">
-                            <span class="tag">Golang</span>
-                            <span class="tag">gRPC</span>
-                            <span class="tag">Docker</span>
-                            <span class="tag">Microservices</span>
+                            <h3 class="snake-card-title">Backend Developer (Internship)</h3>
+                            <span class="snake-card-org">EDF - Corsica Project</span>
+                            <p class="snake-card-summary">Improved issue reporting processes for hydroelectric and wind power plants.</p>
+                            <ul class="snake-card-highlights">
+                                <li>Developed backend features with Java Spring MVC</li>
+                                <li>Built web features with JavaScript for shift worker tools</li>
+                            </ul>
+                            <div class="snake-card-tags">
+                                <span class="tag">Java</span>
+                                <span class="tag">Spring MVC</span>
+                                <span class="tag">Oracle</span>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="exp-row">
-                    <div class="exp-year">2018</div>
-                    <div class="exp-node"></div>
-                    <div class="experience-card">
-                        <div class="exp-header">
-                            <img src="assets/companies/edf.svg" alt="EDF" class="exp-logo">
-                            <div class="exp-meta">
-                                <h3 class="exp-title">Backend Developer (Internship)</h3>
-                                <span class="exp-company">EDF - Corsica Project</span>
-                                <span class="exp-date">Feb 2018 - Aug 2018</span>
+                    <!-- 4. Astek (2019-2020) — Experience -->
+                    <div class="snake-item" data-type="experience">
+                        <span class="snake-year">2019</span>
+                        <div class="snake-node"></div>
+                        <div class="snake-card">
+                            <div class="snake-card-header">
+                                <img src="assets/companies/astek.png" alt="Astek" class="snake-card-logo">
+                                <div class="snake-card-meta">
+                                    <span class="snake-card-type badge-experience">Experience</span>
+                                    <span class="snake-card-date">Aug 2019 - Feb 2020</span>
+                                </div>
+                            </div>
+                            <h3 class="snake-card-title">Backend Developer</h3>
+                            <span class="snake-card-org">Astek</span>
+                            <p class="snake-card-summary">Migrated internal microservices from REST to gRPC to enhance performance and scalability.</p>
+                            <ul class="snake-card-highlights">
+                                <li>Implemented gRPC communication layer in Golang</li>
+                                <li>Improved latency and throughput under high load</li>
+                            </ul>
+                            <div class="snake-card-tags">
+                                <span class="tag">Golang</span>
+                                <span class="tag">gRPC</span>
+                                <span class="tag">Docker</span>
+                                <span class="tag">Microservices</span>
                             </div>
                         </div>
-                        <p class="exp-summary">Improved issue reporting processes for hydroelectric and wind power plants.</p>
-                        <ul class="exp-highlights">
-                            <li>Developed backend features with Java Spring MVC</li>
-                            <li>Built web features with JavaScript for shift worker tools</li>
-                        </ul>
-                        <div class="exp-tags">
-                            <span class="tag">Java</span>
-                            <span class="tag">Spring MVC</span>
-                            <span class="tag">Oracle</span>
+                    </div>
+
+                    <!-- 5. Addict Mobile (2020-2024) — Experience -->
+                    <div class="snake-item" data-type="experience">
+                        <span class="snake-year">2020</span>
+                        <div class="snake-node"></div>
+                        <div class="snake-card">
+                            <div class="snake-card-header">
+                                <img src="assets/companies/addict-mobile.png" alt="Addict Mobile" class="snake-card-logo">
+                                <div class="snake-card-meta">
+                                    <span class="snake-card-type badge-experience">Experience</span>
+                                    <span class="snake-card-date">Feb 2020 - Apr 2024</span>
+                                </div>
+                            </div>
+                            <h3 class="snake-card-title">Cloud Architect & Software Engineer</h3>
+                            <span class="snake-card-org">Addict Mobile Technology</span>
+                            <p class="snake-card-summary">Designed scalable backend architectures on AWS with focus on high availability and serverless solutions.</p>
+                            <ul class="snake-card-highlights">
+                                <li>Led architecture on AWS: Lambda, Step Functions, DynamoDB</li>
+                                <li>Built projects with AWS CDK, 24% cost reduction achieved</li>
+                                <li>Migrated Elasticsearch to OpenSearch, integrated Prometheus & Grafana</li>
+                            </ul>
+                            <div class="snake-card-tags">
+                                <span class="tag">AWS</span>
+                                <span class="tag">Golang</span>
+                                <span class="tag">AWS CDK</span>
+                                <span class="tag">Serverless</span>
+                                <span class="tag">Docker</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 6. Imagino (2024-Present) — Experience (current) -->
+                    <div class="snake-item current" data-type="experience">
+                        <span class="snake-year">2024</span>
+                        <div class="snake-node"></div>
+                        <div class="snake-card">
+                            <div class="snake-card-header">
+                                <img src="assets/companies/imagino.svg" alt="Imagino" class="snake-card-logo">
+                                <div class="snake-card-meta">
+                                    <span class="snake-card-type badge-experience">Experience</span>
+                                    <span class="snake-card-date">Apr 2024 - Present</span>
+                                </div>
+                            </div>
+                            <h3 class="snake-card-title">Software Engineer</h3>
+                            <span class="snake-card-org">Imagino</span>
+                            <p class="snake-card-summary">Building a next-gen Customer Data Platform (CDP/CEP) enabling enterprises to unify data and activate it across channels in real time.</p>
+                            <ul class="snake-card-highlights">
+                                <li>Designed and optimized microservices & web services in Go</li>
+                                <li>Maintained Kubernetes clusters on Azure, CI/CD pipelines, Helm charts</li>
+                                <li>Mentored developers and conducted technical interviews</li>
+                            </ul>
+                            <div class="snake-card-tags">
+                                <span class="tag">Golang</span>
+                                <span class="tag">Kubernetes</span>
+                                <span class="tag">Azure</span>
+                                <span class="tag">PostgreSQL</span>
+                                <span class="tag">Helm</span>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -319,80 +372,7 @@
                 </div>
             </div>
 
-            <span class="section-tag section-tag-close">&lt;/experience&gt;</span>
-        </div>
-    </section>
-
-    <!-- Education Section -->
-    <section id="education" class="section education">
-        <div class="container">
-            <div class="section-header">
-                <span class="section-tag">&lt;education&gt;</span>
-                <h2 class="section-title" data-i18n="education_title">Education</h2>
-            </div>
-
-            <div class="education-timeline">
-                <div class="timeline-track"></div>
-                <svg class="timeline-snake edu-snake" viewBox="0 0 100 400" preserveAspectRatio="none">
-                    <defs>
-                        <linearGradient id="eduSnakeGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-                            <stop offset="0%" stop-color="#10b981" stop-opacity="0.8"/>
-                            <stop offset="50%" stop-color="#818cf8" stop-opacity="0.6"/>
-                            <stop offset="100%" stop-color="#10b981" stop-opacity="0.4"/>
-                        </linearGradient>
-                    </defs>
-                    <path class="snake-path" d="M50 0 Q80 100 50 200 Q20 300 50 400"
-                          fill="none" stroke="url(#eduSnakeGradient)" stroke-width="3" stroke-linecap="round"/>
-                </svg>
-
-                <div class="edu-row">
-                    <div class="edu-year">2019</div>
-                    <div class="edu-node"></div>
-                    <div class="education-card-new">
-                        <div class="edu-icon">
-                            <img src="assets/companies/polytech-tours.svg" alt="Polytech Tours">
-                        </div>
-                        <div class="edu-content">
-                            <div class="edu-header">
-                                <h3 class="edu-degree">Engineering Degree in Computer Science</h3>
-                                <span class="edu-school">Polytech Tours</span>
-                            </div>
-                            <span class="edu-date">2016 - 2019 · Tours, France</span>
-                            <p class="edu-desc">Specialized in software engineering, distributed systems, algorithms, and system architecture.</p>
-                            <div class="edu-tags">
-                                <span class="tag">Software Engineering</span>
-                                <span class="tag">Distributed Systems</span>
-                                <span class="tag">Algorithms</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="edu-row">
-                    <div class="edu-year">2016</div>
-                    <div class="edu-node"></div>
-                    <div class="education-card-new">
-                        <div class="edu-icon">
-                            <img src="assets/companies/lycee-francois1er.svg" alt="Lycée François 1er">
-                        </div>
-                        <div class="edu-content">
-                            <div class="edu-header">
-                                <h3 class="edu-degree">CPGE - Classes Préparatoires</h3>
-                                <span class="edu-school">Lycée François 1er</span>
-                            </div>
-                            <span class="edu-date">2014 - 2016 · Le Havre, France</span>
-                            <p class="edu-desc">Intensive two-year program in Mathematics, Physics, and Engineering Sciences with rigorous analytical training.</p>
-                            <div class="edu-tags">
-                                <span class="tag">Mathematics</span>
-                                <span class="tag">Physics</span>
-                                <span class="tag">Engineering Sciences</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <span class="section-tag section-tag-close">&lt;/education&gt;</span>
+            <span class="section-tag section-tag-close">&lt;/journey&gt;</span>
         </div>
     </section>
 
