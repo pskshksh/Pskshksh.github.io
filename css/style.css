@@ -1672,58 +1672,124 @@ input, textarea {
    ============================================ */
 .snake-timeline-wrapper {
     position: relative;
-    margin: 0 auto;
-    padding: var(--space-xl) 0;
-    overflow: visible;
+    padding: var(--space-lg) 0;
+    overflow: hidden;
+    /* Break out of the container to use full viewport width */
+    width: 100vw;
+    margin-left: calc(-50vw + 50%);
 }
 
-/* SVG connector overlay */
-.snake-connector {
+/* Scroll fade indicators */
+.snake-timeline-wrapper::before,
+.snake-timeline-wrapper::after {
+    content: '';
     position: absolute;
     top: 0;
-    left: 0;
+    bottom: 0;
+    width: 60px;
+    z-index: 10;
     pointer-events: none;
-    z-index: 1;
-    overflow: visible;
+}
+
+.snake-timeline-wrapper::before {
+    left: 0;
+    background: linear-gradient(to right, var(--bg-primary), transparent);
+}
+
+.snake-timeline-wrapper::after {
+    right: 0;
+    background: linear-gradient(to left, var(--bg-primary), transparent);
+}
+
+/* SVG connector hidden – replaced by CSS horizontal line */
+.snake-connector {
+    display: none;
 }
 
 .snake-path-line {
-    stroke-dasharray: 2000;
-    stroke-dashoffset: 2000;
-    transition: stroke-dashoffset 0s;
+    display: none;
 }
 
-.snake-timeline-wrapper.snake-animated .snake-path-line {
-    animation: drawSnakePath 2.5s ease-out forwards;
+@keyframes drawTimeline {
+    from { clip-path: inset(0 100% 0 0); }
+    to { clip-path: inset(0 0 0 0); }
 }
 
-@keyframes drawSnakePath {
-    to { stroke-dashoffset: 0; }
-}
-
-/* Serpentine grid layout */
+/* Horizontal scrolling flex container */
 .snake-timeline {
+    display: flex;
+    overflow-x: auto;
+    overflow-y: visible;
+    gap: 12px;
+    padding: 20px 60px;
+    scroll-behavior: smooth;
+    scroll-snap-type: x proximity;
+    align-items: stretch;
+    position: relative;
+    min-height: 500px;
+    z-index: 2;
+    scrollbar-width: thin;
+    scrollbar-color: rgba(153, 69, 255, 0.3) transparent;
+    cursor: grab;
+}
+
+.snake-timeline:active {
+    cursor: grabbing;
+}
+
+.snake-timeline::-webkit-scrollbar {
+    height: 4px;
+}
+
+.snake-timeline::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.snake-timeline::-webkit-scrollbar-thumb {
+    background: rgba(153, 69, 255, 0.3);
+    border-radius: 4px;
+}
+
+/* Horizontal connecting line through center */
+.snake-timeline::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 40px;
+    right: 40px;
+    height: 3px;
+    background: linear-gradient(90deg, #10b981 0%, #9945FF 50%, #14F195 100%);
+    border-radius: 3px;
+    z-index: 1;
+    transform: translateY(-50%);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+.snake-timeline-wrapper.snake-animated .snake-timeline::before {
+    opacity: 0.5;
+    animation: drawTimeline 1.5s ease-out forwards;
+}
+
+/* Snake item – grid: [top-half] [node] [bottom-half] */
+.snake-item {
+    flex: 0 0 280px;
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: var(--space-lg);
+    grid-template-rows: 1fr 20px 1fr;
     position: relative;
     z-index: 2;
-    padding-bottom: var(--space-sm);
-}
-
-@media (max-width: 900px) {
-    .snake-timeline {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-/* Snake item */
-.snake-item {
-    position: relative;
-    padding-top: 48px;
+    scroll-snap-align: center;
     opacity: 0;
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.snake-item:nth-child(odd) {
+    transform: translateY(-20px);
+}
+
+.snake-item:nth-child(even) {
     transform: translateY(20px);
-    transition: opacity 0.5s ease, transform 0.5s ease;
 }
 
 .snake-item.snake-visible {
@@ -1731,18 +1797,53 @@ input, textarea {
     transform: translateY(0);
 }
 
-/* Year label above the node */
-.snake-year {
+/* Vertical connector from node to card */
+.snake-item::after {
+    content: '';
     position: absolute;
-    top: 0;
     left: 50%;
+    width: 2px;
+    z-index: 1;
     transform: translateX(-50%);
+    opacity: 0.25;
+    transition: opacity 0.3s ease;
+}
+
+.snake-item:nth-child(odd)::after {
+    bottom: calc(50% + 10px);
+    height: 16px;
+}
+
+.snake-item:nth-child(even)::after {
+    top: calc(50% + 10px);
+    height: 16px;
+}
+
+.snake-item[data-type="experience"]::after {
+    background: #9945FF;
+}
+
+.snake-item[data-type="education"]::after {
+    background: #10b981;
+}
+
+.snake-item.current::after {
+    background: #14F195;
+}
+
+.snake-item:hover::after {
+    opacity: 0.6;
+}
+
+/* Year label */
+.snake-year {
     font-family: var(--font-mono);
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     font-weight: 700;
-    color: var(--text-muted);
-    z-index: 4;
     white-space: nowrap;
+    z-index: 4;
+    letter-spacing: 0.05em;
+    text-align: center;
 }
 
 .snake-item[data-type="experience"] .snake-year {
@@ -1757,17 +1858,31 @@ input, textarea {
     color: #14F195;
 }
 
-/* Node dot between year and card */
+/* Odd items: year BELOW the line */
+.snake-item:nth-child(odd) .snake-year {
+    grid-row: 3;
+    align-self: start;
+    margin-top: 16px;
+}
+
+/* Even items: year ABOVE the line */
+.snake-item:nth-child(even) .snake-year {
+    grid-row: 1;
+    align-self: end;
+    margin-bottom: 16px;
+}
+
+/* Node dot on the horizontal line */
 .snake-node {
-    position: absolute;
-    top: 24px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 16px;
-    height: 16px;
+    grid-row: 2;
+    width: 18px;
+    height: 18px;
     border-radius: 50%;
-    z-index: 3;
-    transition: var(--transition-base);
+    z-index: 5;
+    align-self: center;
+    justify-self: center;
+    position: relative;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .snake-item[data-type="experience"] .snake-node {
@@ -1800,19 +1915,32 @@ input, textarea {
 
 @keyframes pulse-snake-node {
     0%, 100% { box-shadow: 0 0 0 0 rgba(20, 241, 149, 0.4); }
-    50% { box-shadow: 0 0 0 8px rgba(20, 241, 149, 0); }
+    50% { box-shadow: 0 0 0 10px rgba(20, 241, 149, 0); }
 }
 
 .snake-item:hover .snake-node {
-    transform: translateX(-50%) scale(1.3);
+    transform: scale(1.4);
 }
 
 .snake-item[data-type="experience"]:hover .snake-node {
-    box-shadow: 0 0 16px rgba(153, 69, 255, 0.5);
+    box-shadow: 0 0 20px rgba(153, 69, 255, 0.5);
 }
 
 .snake-item[data-type="education"]:hover .snake-node {
-    box-shadow: 0 0 16px rgba(16, 185, 129, 0.5);
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
+}
+
+/* Card positioning – alternating above/below */
+.snake-item:nth-child(odd) .snake-card {
+    grid-row: 1;
+    align-self: end;
+    margin-bottom: 16px;
+}
+
+.snake-item:nth-child(even) .snake-card {
+    grid-row: 3;
+    align-self: start;
+    margin-top: 16px;
 }
 
 /* Card */
@@ -1987,52 +2115,87 @@ input, textarea {
     padding: 2px 6px;
 }
 
-/* ---- Responsive: Mobile (single column vertical) ---- */
-@media (max-width: 600px) {
+/* ---- Responsive: Mobile (vertical timeline) ---- */
+@media (max-width: 768px) {
+    .snake-timeline-wrapper::before,
+    .snake-timeline-wrapper::after {
+        display: none;
+    }
+
     .snake-timeline {
-        grid-template-columns: 1fr;
-        padding-left: 24px;
+        flex-direction: column;
+        overflow-x: visible;
+        min-height: auto;
+        padding: 20px 0 20px 32px;
+        gap: var(--space-md);
+        cursor: default;
+    }
+
+    .snake-timeline::before {
+        top: 10px;
+        bottom: 10px;
+        left: 11px;
+        right: auto;
+        width: 3px;
+        height: auto;
+        transform: none;
+        opacity: 0.4 !important;
+        clip-path: none !important;
+        animation: none !important;
     }
 
     .snake-item {
-        padding-top: 0;
+        flex: none;
+        display: block;
+        min-height: auto;
+    }
+
+    .snake-item:nth-child(odd),
+    .snake-item:nth-child(even) {
+        transform: translateX(-20px);
+    }
+
+    .snake-item.snake-visible {
+        transform: translateX(0);
+    }
+
+    .snake-item::after {
+        display: none;
     }
 
     .snake-year {
-        position: static;
-        transform: none;
         display: block;
         margin-bottom: 4px;
     }
 
-    /* Vertical line fallback instead of SVG */
-    .snake-timeline::before {
-        content: '';
-        position: absolute;
-        left: 7px;
-        top: 10px;
-        bottom: 10px;
-        width: 3px;
-        background: linear-gradient(180deg, #10b981, #9945FF, #14F195);
-        border-radius: 3px;
-        opacity: 0.4;
-    }
-
-    .snake-connector {
-        display: none;
+    .snake-item:nth-child(odd) .snake-year,
+    .snake-item:nth-child(even) .snake-year {
+        grid-row: auto;
+        align-self: auto;
+        margin: 0 0 4px 0;
     }
 
     .snake-node {
         position: absolute;
-        left: -17px;
+        left: -25px;
         top: 12px;
-        transform: none;
         width: 14px;
         height: 14px;
     }
 
+    .snake-item:nth-child(odd) .snake-card,
+    .snake-item:nth-child(even) .snake-card {
+        grid-row: auto;
+        align-self: auto;
+        margin: 0;
+    }
+
     .snake-item:hover .snake-node {
         transform: scale(1.3);
+    }
+
+    .snake-connector {
+        display: none;
     }
 }
 

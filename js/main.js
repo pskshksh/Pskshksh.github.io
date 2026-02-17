@@ -954,101 +954,15 @@ document.querySelectorAll('.project-card, .skill-category, .blog-card').forEach(
 // ============================================
 function initSnakeTimeline() {
     const wrapper = document.querySelector('.snake-timeline-wrapper');
-    const grid = document.querySelector('.snake-timeline');
-    const svg = document.querySelector('.snake-connector');
-    const pathEl = document.querySelector('.snake-path-line');
+    const timeline = document.querySelector('.snake-timeline');
     const items = document.querySelectorAll('.snake-item');
 
-    if (!wrapper || !grid || !svg || !pathEl || items.length === 0) return;
-
-    function getColCount() {
-        const w = window.innerWidth;
-        if (w <= 600) return 1;
-        if (w <= 900) return 2;
-        return 3;
-    }
-
-    function layoutItems() {
-        const cols = getColCount();
-
-        items.forEach((item, i) => {
-            const row = Math.floor(i / cols);
-            const colIndex = i % cols;
-            // Even rows L→R, odd rows R→L (serpentine)
-            const col = (row % 2 === 0) ? colIndex : (cols - 1 - colIndex);
-
-            item.style.gridRow = row + 1;
-            item.style.gridColumn = col + 1;
-        });
-    }
-
-    function drawPath() {
-        const cols = getColCount();
-        if (cols === 1) {
-            // On mobile, hide SVG — we use CSS vertical line
-            pathEl.setAttribute('d', '');
-            return;
-        }
-
-        const wrapperRect = wrapper.getBoundingClientRect();
-        const nodes = [];
-
-        items.forEach(item => {
-            const node = item.querySelector('.snake-node');
-            if (!node) return;
-            const nodeRect = node.getBoundingClientRect();
-            nodes.push({
-                x: nodeRect.left + nodeRect.width / 2 - wrapperRect.left,
-                y: nodeRect.top + nodeRect.height / 2 - wrapperRect.top
-            });
-        });
-
-        if (nodes.length < 2) return;
-
-        // Resize SVG to cover wrapper
-        svg.setAttribute('width', wrapperRect.width);
-        svg.setAttribute('height', wrapperRect.height);
-        svg.style.width = wrapperRect.width + 'px';
-        svg.style.height = wrapperRect.height + 'px';
-
-        // Build path with smooth curves
-        let d = `M ${nodes[0].x} ${nodes[0].y}`;
-
-        for (let i = 1; i < nodes.length; i++) {
-            const prev = nodes[i - 1];
-            const curr = nodes[i];
-            const prevRow = Math.floor((i - 1) / cols);
-            const currRow = Math.floor(i / cols);
-
-            if (prevRow !== currRow) {
-                // U-turn: go down between rows
-                const midY = (prev.y + curr.y) / 2;
-                d += ` C ${prev.x} ${midY}, ${curr.x} ${midY}, ${curr.x} ${curr.y}`;
-            } else {
-                // Horizontal within same row
-                const dx = (curr.x - prev.x) / 2;
-                d += ` C ${prev.x + dx} ${prev.y}, ${curr.x - dx} ${curr.y}, ${curr.x} ${curr.y}`;
-            }
-        }
-
-        pathEl.setAttribute('d', d);
-
-        // Update dash animation based on path length
-        const pathLength = pathEl.getTotalLength();
-        pathEl.style.strokeDasharray = pathLength;
-        pathEl.style.strokeDashoffset = pathLength;
-    }
-
-    // Initial layout + draw
-    layoutItems();
+    if (!wrapper || !timeline || items.length === 0) return;
 
     // Observe wrapper for scroll-triggered animation
     const wrapperObserver = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
-                drawPath();
-
-                // Trigger snake draw animation
                 requestAnimationFrame(() => {
                     wrapper.classList.add('snake-animated');
                 });
@@ -1057,62 +971,51 @@ function initSnakeTimeline() {
                 items.forEach((item, i) => {
                     setTimeout(() => {
                         item.classList.add('snake-visible');
-                    }, 150 * i);
+                    }, 200 * i);
                 });
 
                 wrapperObserver.unobserve(entry.target);
             }
         });
-    }, { threshold: 0.15 });
+    }, { threshold: 0.1 });
 
     wrapperObserver.observe(wrapper);
 
-    // Recalculate on resize (debounced)
-    let resizeTimer;
-    window.addEventListener('resize', () => {
-        clearTimeout(resizeTimer);
-        resizeTimer = setTimeout(() => {
-            layoutItems();
-            drawPath();
-        }, 200);
+    // Drag-to-scroll for horizontal timeline
+    let isDown = false;
+    let startX;
+    let scrollLeft;
+
+    timeline.addEventListener('mousedown', (e) => {
+        if (e.target.closest('.snake-card')) return;
+        isDown = true;
+        startX = e.pageX - timeline.offsetLeft;
+        scrollLeft = timeline.scrollLeft;
+    });
+
+    timeline.addEventListener('mouseleave', () => {
+        isDown = false;
+    });
+
+    timeline.addEventListener('mouseup', () => {
+        isDown = false;
+    });
+
+    timeline.addEventListener('mousemove', (e) => {
+        if (!isDown) return;
+        e.preventDefault();
+        const x = e.pageX - timeline.offsetLeft;
+        const walk = (x - startX) * 1.5;
+        timeline.scrollLeft = scrollLeft - walk;
     });
 }
 
 // ============================================
-// Snake Timeline - Expand / Collapse Cards
+// Snake Timeline - Card interactions
 // ============================================
 function initSnakeExpand() {
-    const items = document.querySelectorAll('.snake-item');
-    const wrapper = document.querySelector('.snake-timeline-wrapper');
-    const pathEl = document.querySelector('.snake-path-line');
-
-    items.forEach(item => {
-        const card = item.querySelector('.snake-card');
-        if (!card) return;
-
-        card.addEventListener('click', (e) => {
-            if (e.target.closest('a') || e.target.closest('.tag')) return;
-
-            const isExpanded = item.classList.contains('expanded');
-
-            // Close all others
-            items.forEach(other => {
-                if (other !== item) other.classList.remove('expanded');
-            });
-
-            item.classList.toggle('expanded');
-
-            // Recalculate SVG path after expand/collapse animation
-            setTimeout(() => {
-                if (typeof initSnakeTimeline._redraw === 'function') {
-                    initSnakeTimeline._redraw();
-                } else {
-                    // Fallback: trigger resize-based recalc
-                    window.dispatchEvent(new Event('resize'));
-                }
-            }, 450);
-        });
-    });
+    // Cards are always fully visible in horizontal layout
+    // No expand/collapse needed
 }
 
 // ============================================
