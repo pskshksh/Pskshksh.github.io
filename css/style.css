@@ -55,13 +55,17 @@
     --code-function: var(--blue-400);
     --code-comment: var(--gray-500);
 
+    /* Solana Green */
+    --green-solana: #0bc47a;
+    --green-solana-glow: rgba(11, 196, 122, 0.4);
+
     /* Shadows - Ultra Soft */
     --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.15);
     --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2), 0 1px 2px rgba(0, 0, 0, 0.12);
     --shadow-md: 0 4px 20px rgba(0, 0, 0, 0.25), 0 2px 8px rgba(0, 0, 0, 0.15);
     --shadow-lg: 0 12px 48px rgba(0, 0, 0, 0.3), 0 4px 16px rgba(0, 0, 0, 0.2);
     --shadow-xl: 0 20px 60px rgba(0, 0, 0, 0.35), 0 8px 24px rgba(0, 0, 0, 0.25);
-    --shadow-glow: 0 0 50px rgba(153, 69, 255, 0.25);
+    --shadow-glow: 0 0 50px rgba(20, 241, 149, 0.25);
     --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.2), 0 2px 8px rgba(0, 0, 0, 0.12);
     --shadow-soft: 0 8px 32px rgba(0, 0, 0, 0.15);
 
@@ -255,7 +259,7 @@ input, textarea {
 }
 
 .logo-bracket {
-    color: #9945FF;
+    color: var(--green-solana);
 }
 
 .logo-text {
@@ -471,7 +475,7 @@ input, textarea {
 
 .btn-primary:hover {
     transform: translateY(-3px);
-    box-shadow: 0 10px 40px rgba(153, 69, 255, 0.4);
+    box-shadow: 0 10px 40px var(--green-solana-glow);
 }
 
 .btn-primary:hover::before {
@@ -497,7 +501,7 @@ input, textarea {
 
 .btn-outline:hover {
     background: var(--bg-tertiary);
-    border-color: #9945FF;
+    border-color: var(--green-solana);
 }
 
 .btn-download {
@@ -603,7 +607,7 @@ input, textarea {
 .greeting-text {
     font-family: var(--font-mono);
     font-size: 0.9rem;
-    color: var(--accent-primary);
+    color: var(--green-solana);
     letter-spacing: 0.1em;
     text-transform: uppercase;
 }
@@ -613,7 +617,7 @@ input, textarea {
     font-weight: 700;
     line-height: 1.1;
     margin-bottom: var(--space-md);
-    background: linear-gradient(90deg, var(--text-primary), var(--blue-400), var(--text-primary));
+    background: linear-gradient(90deg, var(--text-primary), var(--green-solana), var(--text-primary));
     background-size: 200% 100%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -643,7 +647,7 @@ input, textarea {
 
 .title-dynamic {
     font-family: var(--font-mono);
-    color: var(--accent-primary);
+    color: var(--green-solana);
 }
 
 .typing-cursor {
@@ -692,7 +696,7 @@ input, textarea {
     color: white;
     border-color: var(--accent-primary);
     transform: translateY(-5px) scale(1.1);
-    box-shadow: 0 10px 30px rgba(96, 165, 250, 0.4);
+    box-shadow: 0 10px 30px var(--green-solana-glow);
 }
 
 .social-link svg {
@@ -891,7 +895,7 @@ input, textarea {
     display: inline-block;
     font-family: var(--font-mono);
     font-size: 0.85rem;
-    color: #9945FF;
+    color: var(--green-solana);
     margin-bottom: var(--space-sm);
 }
 
@@ -907,6 +911,7 @@ input, textarea {
     font-size: clamp(1.5rem, 4vw, 2.2rem);
     font-weight: 700;
     margin-bottom: var(--space-xs);
+    color: var(--text-primary);
 }
 
 .section-subtitle {
@@ -1009,10 +1014,10 @@ input, textarea {
     height: 100%;
     border-radius: 50%;
     object-fit: cover;
-    border: 3px solid #9945FF;
+    border: 3px solid var(--green-solana);
     position: relative;
     z-index: 2;
-    box-shadow: 0 0 40px rgba(153, 69, 255, 0.3);
+    box-shadow: 0 0 40px var(--green-solana-glow);
 }
 
 .hero-ring {
@@ -1053,7 +1058,7 @@ input, textarea {
 .hero-greeting {
     font-family: var(--font-mono);
     font-size: 0.9rem;
-    color: #9945FF;
+    color: var(--green-solana);
     text-transform: uppercase;
     letter-spacing: 3px;
     margin-bottom: 4px;
@@ -1063,21 +1068,21 @@ input, textarea {
     font-size: clamp(2.2rem, 6vw, 3.5rem);
     font-weight: 700;
     margin: 0 0 8px;
-    background: linear-gradient(135deg, #9945FF 0%, #14F195 50%, #00D4FF 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: var(--text-primary);
     line-height: 1.1;
 }
 
 .hero-rust-role {
-    font-size: 1.15rem;
-    color: var(--text-secondary);
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    color: var(--green-solana);
+    text-transform: uppercase;
+    letter-spacing: 3px;
     margin: 0 0 8px;
 }
 
 .rust-accent {
-    color: #9945FF;
+    color: var(--green-solana);
     font-weight: 500;
 }
 
@@ -1091,7 +1096,7 @@ input, textarea {
 }
 
 .hero-rust-location svg {
-    color: #9945FF;
+    color: var(--green-solana);
 }
 
 /* Card section */
@@ -1180,7 +1185,7 @@ input, textarea {
 
 .btn-rust-primary:hover {
     transform: translateY(-3px);
-    box-shadow: 0 15px 40px rgba(153, 69, 255, 0.4);
+    box-shadow: 0 15px 40px var(--green-solana-glow);
 }
 
 .btn-rust-primary svg {
@@ -1195,17 +1200,17 @@ input, textarea {
     display: inline-flex;
     align-items: center;
     background: transparent;
-    color: #9945FF;
+    color: var(--green-solana);
     padding: 14px 32px;
     border-radius: var(--radius-full);
     font-weight: 600;
     text-decoration: none;
     transition: var(--transition-base);
-    border: 2px solid #9945FF;
+    border: 2px solid var(--green-solana);
 }
 
 .btn-rust-secondary:hover {
-    background: rgba(153, 69, 255, 0.1);
+    background: rgba(11, 196, 122, 0.1);
     transform: translateY(-3px);
 }
 
@@ -1230,11 +1235,11 @@ input, textarea {
 }
 
 .rust-social-link:hover {
-    background: #9945FF;
+    background: var(--green-solana);
     color: white;
-    border-color: #9945FF;
+    border-color: var(--green-solana);
     transform: translateY(-4px);
-    box-shadow: 0 10px 25px rgba(153, 69, 255, 0.3);
+    box-shadow: 0 10px 25px var(--green-solana-glow);
 }
 
 .rust-social-link svg {
@@ -1356,7 +1361,7 @@ input, textarea {
 .about-greeting {
     font-family: var(--font-mono);
     font-size: 0.85rem;
-    color: #9945FF;
+    color: var(--green-solana);
     text-transform: uppercase;
     letter-spacing: 2px;
 }
@@ -1365,10 +1370,7 @@ input, textarea {
     font-size: 2.5rem;
     font-weight: 700;
     margin: 4px 0 8px;
-    background: linear-gradient(135deg, #9945FF, #14F195);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
+    color: var(--text-primary);
 }
 
 .about-role {
@@ -1378,7 +1380,7 @@ input, textarea {
 }
 
 .rust-highlight {
-    color: #9945FF;
+    color: var(--green-solana);
     font-weight: 500;
 }
 
@@ -1392,7 +1394,7 @@ input, textarea {
 }
 
 .about-location svg {
-    color: #9945FF;
+    color: var(--green-solana);
 }
 
 /* Main card */
@@ -1468,7 +1470,7 @@ input, textarea {
     display: block;
     font-size: 2rem;
     font-weight: 700;
-    color: #9945FF;
+    color: var(--green-solana);
     line-height: 1;
 }
 
@@ -1499,7 +1501,7 @@ input, textarea {
 
 .about-quote-rust::before {
     content: '"';
-    color: #9945FF;
+    color: var(--green-solana);
     font-size: 1.5rem;
     font-weight: 700;
     margin-right: 4px;
@@ -1527,22 +1529,22 @@ input, textarea {
 
 .btn-rust:hover {
     transform: translateY(-2px);
-    box-shadow: 0 10px 30px rgba(153, 69, 255, 0.3);
+    box-shadow: 0 10px 30px var(--green-solana-glow);
 }
 
 .btn-rust-outline {
     background: transparent;
-    color: #9945FF;
+    color: var(--green-solana);
     padding: 12px 28px;
     border-radius: var(--radius-full);
     font-weight: 500;
     text-decoration: none;
     transition: var(--transition-base);
-    border: 2px solid #9945FF;
+    border: 2px solid var(--green-solana);
 }
 
 .btn-rust-outline:hover {
-    background: rgba(153, 69, 255, 0.1);
+    background: rgba(11, 196, 122, 0.1);
 }
 
 /* Mobile responsive */
@@ -1923,7 +1925,7 @@ input, textarea {
 }
 
 .snake-item[data-type="experience"]:hover .snake-node {
-    box-shadow: 0 0 20px rgba(153, 69, 255, 0.5);
+    box-shadow: 0 0 20px var(--green-solana-glow);
 }
 
 .snake-item[data-type="education"]:hover .snake-node {
@@ -1983,7 +1985,7 @@ input, textarea {
 }
 
 .snake-item[data-type="experience"] .snake-card:hover {
-    border-color: #9945FF;
+    border-color: var(--green-solana);
 }
 
 .snake-item[data-type="education"] .snake-card:hover {
@@ -2058,7 +2060,7 @@ input, textarea {
 }
 
 .snake-item[data-type="experience"] .snake-card-org {
-    color: #9945FF;
+    color: var(--green-solana);
 }
 
 .snake-item[data-type="education"] .snake-card-org {
@@ -2096,7 +2098,7 @@ input, textarea {
 }
 
 .snake-item[data-type="experience"] .snake-card-highlights li::before {
-    color: #9945FF;
+    color: var(--green-solana);
 }
 
 .snake-item[data-type="education"] .snake-card-highlights li::before {
@@ -2274,7 +2276,7 @@ input, textarea {
 .subsection-title svg {
     width: 24px;
     height: 24px;
-    color: var(--accent-primary);
+    color: var(--green-solana);
 }
 
 /* ============================================
@@ -2369,8 +2371,8 @@ input, textarea {
 }
 
 .skill-chip:hover {
-    border-color: #9945FF;
-    background: rgba(153, 69, 255, 0.1);
+    border-color: var(--green-solana);
+    background: rgba(11, 196, 122, 0.1);
     transform: scale(1.05);
 }
 
@@ -2381,8 +2383,8 @@ input, textarea {
 }
 
 .skill-chip.featured {
-    background: rgba(153, 69, 255, 0.15);
-    border-color: #9945FF;
+    background: rgba(11, 196, 122, 0.15);
+    border-color: var(--green-solana);
     color: #14F195;
 }
 
@@ -2421,7 +2423,7 @@ input, textarea {
 }
 
 .values-section .subsection-title svg {
-    color: #9945FF;
+    color: var(--green-solana);
 }
 
 .values-grid {
@@ -2440,7 +2442,7 @@ input, textarea {
 }
 
 .value-card:hover {
-    border-color: #9945FF;
+    border-color: var(--green-solana);
     transform: translateY(-3px);
 }
 
@@ -3146,7 +3148,7 @@ input, textarea {
 }
 
 .blog-title a:hover {
-    color: var(--accent-primary);
+    color: var(--green-solana);
 }
 
 .blog-excerpt {
@@ -3193,7 +3195,7 @@ input, textarea {
 }
 
 .blog-banner:hover {
-    border-color: #9945FF;
+    border-color: var(--green-solana);
     box-shadow: 0 0 60px rgba(153, 69, 255, 0.15), 0 0 120px rgba(20, 241, 149, 0.06);
     transform: translateY(-3px);
 }
@@ -3292,7 +3294,7 @@ input, textarea {
 }
 
 .blog-banner:hover .blog-banner-btn {
-    box-shadow: 0 0 30px rgba(153, 69, 255, 0.4);
+    box-shadow: 0 0 30px var(--green-solana-glow);
 }
 
 .blog-banner:hover .blog-banner-btn svg {
@@ -3539,7 +3541,7 @@ input, textarea {
 }
 
 .footer-mini-logo .logo-bracket {
-    color: #9945FF;
+    color: var(--green-solana);
 }
 
 .footer-mini-logo .logo-text {
@@ -4015,8 +4017,7 @@ input, textarea {
     top: -100%;
     font-family: var(--font-mono);
     font-size: 14px;
-    color: var(--accent-primary);
-    text-shadow: 0 0 10px var(--accent-primary);
+    color: var(--green-solana);
     animation: matrix-fall 5s linear infinite;
     opacity: 0.8;
 }
@@ -4298,8 +4299,8 @@ input, textarea {
 }
 
 @keyframes cta-icon-pulse {
-    0%, 100% { box-shadow: 0 0 0 0 rgba(96, 165, 250, 0.4); }
-    50% { box-shadow: 0 0 0 20px rgba(96, 165, 250, 0); }
+    0%, 100% { box-shadow: 0 0 0 0 var(--green-solana-glow); }
+    50% { box-shadow: 0 0 0 20px rgba(20, 241, 149, 0); }
 }
 
 .cta-content h4 {
@@ -4489,7 +4490,7 @@ body::after {
 }
 
 .about-stats .stat:hover .stat-number {
-    text-shadow: 0 0 30px var(--accent-primary);
+    color: var(--green-solana);
 }
 
 /* ============================================
@@ -5410,7 +5411,7 @@ body::after {
    ============================================ */
 .footer-amazigh {
     font-size: 1.1rem;
-    color: var(--accent-primary);
+    color: var(--green-solana);
     margin-top: var(--space-md);
     letter-spacing: 2px;
     opacity: 0.9;
@@ -5419,7 +5420,7 @@ body::after {
 
 .footer-amazigh:hover {
     opacity: 1;
-    text-shadow: 0 0 10px rgba(96, 165, 250, 0.5);
+    color: var(--green-solana);
 }
 
 /* ============================================
@@ -5508,13 +5509,13 @@ body::after {
     border: none;
     border-radius: var(--radius-full);
     cursor: pointer;
-    box-shadow: 0 4px 20px rgba(153, 69, 255, 0.4);
+    box-shadow: 0 4px 20px var(--green-solana-glow);
     transition: all 0.3s ease;
 }
 
 .contact-fab:hover {
     transform: translateY(-3px);
-    box-shadow: 0 8px 30px rgba(153, 69, 255, 0.5);
+    box-shadow: 0 8px 30px var(--green-solana-glow);
 }
 
 .contact-fab svg {
@@ -5612,7 +5613,7 @@ body::after {
 }
 
 .code-keyword {
-    color: #9945FF;
+    color: var(--green-solana);
     font-weight: 600;
 }
 
@@ -5738,7 +5739,7 @@ body::after {
 
 .cta-button-rust:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(153, 69, 255, 0.4);
+    box-shadow: 0 8px 25px var(--green-solana-glow);
 }
 
 .cta-button-rust svg {

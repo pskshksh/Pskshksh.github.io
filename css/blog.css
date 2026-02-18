@@ -123,7 +123,7 @@
 
 .back-to-portfolio:hover {
     transform: translateY(-3px);
-    box-shadow: 0 12px 32px rgba(153, 69, 255, 0.4);
+    box-shadow: 0 12px 32px rgba(20, 241, 149, 0.4);
 }
 
 .back-to-portfolio svg {
