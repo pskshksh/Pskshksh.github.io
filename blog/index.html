@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Technical articles on Solana, Golang, Rust, and software engineering by Ayoub Idel">
-    <title>Blog | Ayoub Idel — Technical Articles</title>
+    <meta name="description" content="Technical articles on Solana, Golang, Rust, Kubernetes and software engineering by Ayoub Idel">
+    <title>Blog | Ayoub Idel</title>
 
     <link rel="stylesheet" href="../css/blog.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,7 +14,7 @@
 </head>
 <body class="blog-page">
 
-<!-- ═══════════ TOP NAV ═══════════ -->
+<!-- TOP NAV -->
 <nav class="top-nav">
     <a href="../blog/" class="nav-logo">
         <span class="bracket">{</span> Ayoub <span class="bracket">}</span>
@@ -27,155 +27,175 @@
     </div>
 </nav>
 
-<!-- ═══════════ HERO ═══════════ -->
-<section class="blog-hub-hero">
-    <div class="hero-grid"></div>
-    <div class="hero-content">
-        <div class="blog-hero-tag">Technical Articles</div>
-        <h1><span class="grad">Blog</span></h1>
-        <p class="hero-sub">Whenever I discover something interesting worth explaining, I write about it.</p>
-    </div>
-</section>
+<!-- HEADER -->
+<header class="blog-header">
+    <h1>Blog</h1>
+    <p>Writing about things I learn along the way.</p>
+</header>
 
-<!-- ═══════════ CATEGORY FILTER ═══════════ -->
+<!-- FILTERS -->
 <div class="blog-filters">
     <button class="blog-filter-btn active" data-filter="all">All</button>
-    <button class="blog-filter-btn" data-filter="solana">Solana</button>
-    <button class="blog-filter-btn" data-filter="rust">Rust</button>
-    <button class="blog-filter-btn" data-filter="golang">Golang</button>
     <button class="blog-filter-btn" data-filter="kubernetes">Kubernetes</button>
+    <button class="blog-filter-btn" data-filter="golang">Go</button>
+    <button class="blog-filter-btn" data-filter="rust">Rust</button>
+    <button class="blog-filter-btn" data-filter="solana">Solana</button>
 </div>
 
-<!-- ═══════════ ARTICLE GRID ═══════════ -->
-<div class="blog-container">
-    <div class="blog-grid">
+<!-- POST LIST -->
+<main class="blog-list-container">
+    <ul class="blog-list">
 
-        <!-- Solana Internals -->
-        <a href="solana-internals.html" class="blog-listing-card blog-fade-in" data-categories="solana rust">
-            <div class="card-meta">
-                <span class="card-date">Feb 2026 &middot; 45 min read</span>
-                <span class="card-type article">Article</span>
-            </div>
-            <div class="card-title">Solana Internals — The Definitive Guide for Rust Developers</div>
-            <p class="card-excerpt">A comprehensive deep dive into Solana's architecture, account model, program execution, consensus, security, and optimization.</p>
-            <div class="card-tags">
-                <span>Solana</span>
-                <span>Rust</span>
-                <span>Blockchain</span>
-            </div>
-        </a>
+        <!-- Feb 2026 -->
+        <li class="blog-list-item blog-fade-in" data-categories="solana rust">
+            <a href="solana-internals.html" class="blog-list-link">
+                <div class="blog-list-main">
+                    <h2>Solana Internals — The Definitive Guide for Rust Developers</h2>
+                    <p>Architecture, account model, program execution, consensus, security, and optimization.</p>
+                </div>
+                <div class="blog-list-meta">
+                    <span class="blog-list-date">Feb 2026</span>
+                    <span class="blog-list-read">45 min</span>
+                    <div class="blog-list-tags">
+                        <span class="tag-solana">Solana</span>
+                        <span class="tag-rust">Rust</span>
+                        <span class="tag-blog">Blog</span>
+                    </div>
+                </div>
+            </a>
+        </li>
 
-        <!-- Kubernetes Pod Creation Internals -->
-        <a href="kubernetes-pod-creation.html" class="blog-listing-card blog-fade-in" data-categories="kubernetes">
-            <div class="card-meta">
-                <span class="card-date">Feb 2026 &middot; 30 min read</span>
-                <span class="card-type article">Article</span>
-            </div>
-            <div class="card-title">Kubernetes Pod Creation Internals — The Complete Sequence</div>
-            <p class="card-excerpt">The ultra-detailed under-the-hood process from kubectl apply to a running container — covering API processing, scheduling, cgroups, namespaces, CNI, CRI, and health probes.</p>
-            <div class="card-tags">
-                <span>Kubernetes</span>
-                <span>DevOps</span>
-                <span>Containers</span>
-            </div>
-        </a>
+        <!-- Feb 2026 -->
+        <li class="blog-list-item blog-fade-in" data-categories="kubernetes">
+            <a href="kubernetes-pod-creation.html" class="blog-list-link">
+                <div class="blog-list-main">
+                    <h2>Kubernetes Pod Creation Internals</h2>
+                    <p>From kubectl apply to a running container &mdash; API processing, scheduling, cgroups, namespaces, CNI, CRI.</p>
+                </div>
+                <div class="blog-list-meta">
+                    <span class="blog-list-date">Feb 2026</span>
+                    <span class="blog-list-read">30 min</span>
+                    <div class="blog-list-tags">
+                        <span class="tag-k8s">Kubernetes</span>
+                        <span class="tag-blog">Blog</span>
+                    </div>
+                </div>
+            </a>
+        </li>
 
-        <!-- Kubebuilder Best Practices -->
-        <a href="kubebuilder-best-practices.html" class="blog-listing-card blog-fade-in" data-categories="kubernetes golang">
-            <div class="card-meta">
-                <span class="card-date">Feb 2023 &middot; 35 min read</span>
-                <span class="card-type article">Article</span>
-            </div>
-            <div class="card-title">Kubebuilder Best Practices — Building Production Operators</div>
-            <p class="card-excerpt">A deep dive into Kubebuilder patterns — finalizers, idempotency, conflict resolution, webhooks, RBAC markers, and a complete reconcile template for shipping operators to production.</p>
-            <div class="card-tags">
-                <span>Kubernetes</span>
-                <span>Golang</span>
-                <span>Operators</span>
-            </div>
-        </a>
+        <!-- Dec 2024 -->
+        <li class="blog-list-item blog-fade-in" data-categories="golang">
+            <a href="https://medium.com/@pskshksh/mastering-io-pipe-in-go-ca8686150b5e" target="_blank" rel="noopener" class="blog-list-link">
+                <div class="blog-list-main">
+                    <h2>Mastering io.Pipe in Go
+                        <svg class="external-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                    </h2>
+                    <p>How io.Pipe works under the hood, practical patterns for streaming data, and real-world use cases.</p>
+                </div>
+                <div class="blog-list-meta">
+                    <span class="blog-list-date">Dec 2024</span>
+                    <span class="blog-list-read">8 min</span>
+                    <div class="blog-list-tags">
+                        <span class="tag-go">Go</span>
+                        <span class="tag-medium">Medium</span>
+                    </div>
+                </div>
+            </a>
+        </li>
 
-        <!-- Mastering io.Pipe in Go -->
-        <a href="https://medium.com/@pskshksh/mastering-io-pipe-in-go-ca8686150b5e" target="_blank" rel="noopener" class="blog-listing-card blog-fade-in" data-categories="golang">
-            <div class="card-meta">
-                <span class="card-date">Dec 2024 &middot; 8 min read</span>
-                <span class="card-type medium">Medium <svg class="card-external-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg></span>
-            </div>
-            <div class="card-title">Mastering io.Pipe in Go: Streaming Data Between Readers and Writers</div>
-            <p class="card-excerpt">A deep dive into Go's io.Pipe — how it works under the hood, practical patterns for streaming data, and real-world use cases for efficient I/O pipelines.</p>
-            <div class="card-tags">
-                <span>Golang</span>
-                <span>I/O</span>
-                <span>Streaming</span>
-            </div>
-        </a>
+        <!-- Dec 2024 -->
+        <li class="blog-list-item blog-fade-in" data-categories="golang">
+            <a href="https://medium.com/@pskshksh/efficient-data-duplication-in-go-simultaneous-reading-and-multiple-writing-d7afe0e7727a" target="_blank" rel="noopener" class="blog-list-link">
+                <div class="blog-list-main">
+                    <h2>Efficient Data Duplication in Go with io.TeeReader
+                        <svg class="external-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                    </h2>
+                    <p>Duplicating data streams for logging, hashing, and processing simultaneously without extra allocations.</p>
+                </div>
+                <div class="blog-list-meta">
+                    <span class="blog-list-date">Dec 2024</span>
+                    <span class="blog-list-read">6 min</span>
+                    <div class="blog-list-tags">
+                        <span class="tag-go">Go</span>
+                        <span class="tag-medium">Medium</span>
+                    </div>
+                </div>
+            </a>
+        </li>
 
-        <!-- Efficient Data Duplication in Go -->
-        <a href="https://medium.com/@pskshksh/efficient-data-duplication-in-go-simultaneous-reading-and-multiple-writing-d7afe0e7727a" target="_blank" rel="noopener" class="blog-listing-card blog-fade-in" data-categories="golang">
-            <div class="card-meta">
-                <span class="card-date">Dec 2024 &middot; 6 min read</span>
-                <span class="card-type medium">Medium <svg class="card-external-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg></span>
-            </div>
-            <div class="card-title">Efficient Data Duplication in Go: A Deep Dive into io.TeeReader</div>
-            <p class="card-excerpt">Understanding Go's io.TeeReader for duplicating data streams — patterns for logging, hashing, and processing data simultaneously without extra allocations.</p>
-            <div class="card-tags">
-                <span>Golang</span>
-                <span>I/O</span>
-                <span>Performance</span>
-            </div>
-        </a>
+        <!-- 2024 -->
+        <li class="blog-list-item blog-fade-in" data-categories="golang">
+            <a href="https://medium.com/@pskshksh/your-startup-doesnt-need-kafka-here-s-what-it-actually-needs-2b74fbe864c5" target="_blank" rel="noopener" class="blog-list-link">
+                <div class="blog-list-main">
+                    <h2>Your Startup Doesn't Need Kafka
+                        <svg class="external-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                    </h2>
+                    <p>Why most startups are over-engineering their messaging infrastructure, and simpler alternatives.</p>
+                </div>
+                <div class="blog-list-meta">
+                    <span class="blog-list-date">2024</span>
+                    <span class="blog-list-read">5 min</span>
+                    <div class="blog-list-tags">
+                        <span class="tag-go">Go</span>
+                        <span class="tag-medium">Medium</span>
+                    </div>
+                </div>
+            </a>
+        </li>
 
-        <!-- Your Startup Doesn't Need Kafka -->
-        <a href="https://medium.com/@pskshksh/your-startup-doesnt-need-kafka-here-s-what-it-actually-needs-2b74fbe864c5" target="_blank" rel="noopener" class="blog-listing-card blog-fade-in" data-categories="golang">
-            <div class="card-meta">
-                <span class="card-date">2024 &middot; 5 min read</span>
-                <span class="card-type medium">Medium <svg class="card-external-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg></span>
-            </div>
-            <div class="card-title">Your Startup Doesn't Need Kafka — Here's What It Actually Needs</div>
-            <p class="card-excerpt">Why most startups are over-engineering their messaging infrastructure, and simpler alternatives that actually fit your scale.</p>
-            <div class="card-tags">
-                <span>Golang</span>
-                <span>Architecture</span>
-                <span>Kafka</span>
-            </div>
-        </a>
+        <!-- Feb 2023 -->
+        <li class="blog-list-item blog-fade-in" data-categories="kubernetes golang">
+            <a href="kubebuilder-best-practices.html" class="blog-list-link">
+                <div class="blog-list-main">
+                    <h2>Kubebuilder Best Practices — Building Production Operators</h2>
+                    <p>Finalizers, idempotency, conflict resolution, webhooks, RBAC, and a complete reconcile template.</p>
+                </div>
+                <div class="blog-list-meta">
+                    <span class="blog-list-date">Feb 2023</span>
+                    <span class="blog-list-read">35 min</span>
+                    <div class="blog-list-tags">
+                        <span class="tag-k8s">Kubernetes</span>
+                        <span class="tag-go">Go</span>
+                        <span class="tag-blog">Blog</span>
+                    </div>
+                </div>
+            </a>
+        </li>
 
-    </div>
-</div>
+    </ul>
+</main>
 
-<!-- ═══════════ FOOTER ═══════════ -->
+<!-- FOOTER -->
 <footer class="blog-footer-section">
-    <div class="blog-container">
-        <p>&copy; 2026 Ayoub Idel. All rights reserved.</p>
+    <div class="blog-list-container">
+        <p>&copy; 2026 Ayoub Idel</p>
         <a href="../index.html" class="footer-back">&larr; Back to Portfolio</a>
     </div>
 </footer>
 
-<!-- ═══════════ SCRIPTS ═══════════ -->
 <script>
     // Category filtering
     const filterBtns = document.querySelectorAll('.blog-filter-btn');
-    const cards = document.querySelectorAll('.blog-listing-card');
+    const items = document.querySelectorAll('.blog-list-item');
 
     filterBtns.forEach(btn => {
         btn.addEventListener('click', () => {
             filterBtns.forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-
             const filter = btn.dataset.filter;
 
-            cards.forEach(card => {
+            items.forEach(item => {
                 if (filter === 'all') {
-                    card.style.display = '';
+                    item.style.display = '';
                 } else {
-                    const categories = card.dataset.categories || '';
-                    card.style.display = categories.includes(filter) ? '' : 'none';
+                    const cats = item.dataset.categories || '';
+                    item.style.display = cats.includes(filter) ? '' : 'none';
                 }
             });
         });
     });
 
-    // Scroll-reveal with IntersectionObserver
+    // Scroll-reveal
     const fadeEls = document.querySelectorAll('.blog-fade-in');
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -187,7 +207,7 @@
     }, { threshold: 0.1 });
 
     fadeEls.forEach((el, i) => {
-        el.style.transitionDelay = `${i * 0.1}s`;
+        el.style.transitionDelay = `${i * 0.06}s`;
         observer.observe(el);
     });
 </script>

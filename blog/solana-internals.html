@@ -128,38 +128,16 @@
           padding:64px 0;
           background:var(--bg2);
       }
-      .toc-grid{
-          display:grid;
-          grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
-          gap:20px;
-          margin-top:32px;
-      }
-      .toc-card{
-          background:var(--surface);
-          border:1px solid var(--border);
-          border-radius:12px;
-          padding:24px;
-          text-decoration:none;
-          transition:all .25s;
-          cursor:pointer;
-          display:block;
-      }
-      .toc-card:hover{
-          border-color:var(--sol);
-          transform:translateY(-2px);
-          box-shadow:var(--glow-sol);
-      }
-      .toc-card .num{
-          font-family:'IBM Plex Mono',monospace;
-          font-size:11px;color:var(--green);
-          letter-spacing:2px;margin-bottom:8px;
-      }
-      .toc-card .title{
-          font-family:'Newsreader',serif;
-          font-size:18px;font-weight:600;
-          color:var(--text);margin-bottom:6px;
-      }
-      .toc-card .desc{font-size:13px;color:var(--text3);line-height:1.5}
+      .toc-list{list-style:none;margin-top:32px;max-width:640px}
+      .toc-list li{border-top:1px solid var(--border)}
+      .toc-list li:last-child{border-bottom:1px solid var(--border)}
+      .toc-list a{display:flex;align-items:baseline;gap:16px;padding:18px 0;text-decoration:none;transition:padding .15s ease}
+      .toc-list a:hover{padding-left:10px}
+      .toc-list .num{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text3);letter-spacing:2px;flex-shrink:0;min-width:24px}
+      .toc-list .toc-content{flex:1;min-width:0}
+      .toc-list .title{font-family:'Newsreader',serif;font-size:17px;font-weight:600;color:var(--text);line-height:1.35;transition:color .15s}
+      .toc-list a:hover .title{color:var(--green)}
+      .toc-list .desc{font-size:13px;color:var(--text3);line-height:1.5;margin-top:4px}
 
       /* ═══════════ SECTIONS ═══════════ */
       .chapter{padding:100px 0 40px;position:relative}
@@ -415,58 +393,18 @@
     <div class="wide">
       <div class="chapter-num">Guide Structure</div>
       <h2>What We Will Cover</h2>
-      <div class="toc-grid">
-        <a class="toc-card" href="#mental-model">
-          <div class="num">01</div>
-          <div class="title">The Mental Model</div>
-          <div class="desc">Everything is an account. Programs are stateless. This changes everything.</div>
-        </a>
-        <a class="toc-card" href="#accounts">
-          <div class="num">02</div>
-          <div class="title">Accounts Deep Dive</div>
-          <div class="desc">Data layout, ownership, rent, account types, and the rules that govern them.</div>
-        </a>
-        <a class="toc-card" href="#programs">
-          <div class="num">03</div>
-          <div class="title">Programs &amp; Execution</div>
-          <div class="desc">How programs process instructions, BPF runtime, native programs, Anchor.</div>
-        </a>
-        <a class="toc-card" href="#transactions">
-          <div class="num">04</div>
-          <div class="title">Transactions</div>
-          <div class="desc">Anatomy, lifecycle, versioned TXs, ALTs, blockhash, and compute budget.</div>
-        </a>
-        <a class="toc-card" href="#consensus">
-          <div class="num">05</div>
-          <div class="title">Consensus &amp; PoH</div>
-          <div class="desc">Proof of History, Tower BFT, leader schedule, Turbine, Gulf Stream.</div>
-        </a>
-        <a class="toc-card" href="#pdas">
-          <div class="num">06</div>
-          <div class="title">PDAs &amp; CPIs</div>
-          <div class="desc">Program Derived Addresses, Cross-Program Invocation, composability.</div>
-        </a>
-        <a class="toc-card" href="#tokens">
-          <div class="num">07</div>
-          <div class="title">SPL Tokens &amp; NFTs</div>
-          <div class="desc">Mint, token accounts, ATAs, Token-2022, Metaplex, compressed NFTs.</div>
-        </a>
-        <a class="toc-card" href="#security">
-          <div class="num">08</div>
-          <div class="title">Security</div>
-          <div class="desc">Vulnerability patterns, exploits, validation, and how to write safe programs.</div>
-        </a>
-        <a class="toc-card" href="#optimization">
-          <div class="num">09</div>
-          <div class="title">Optimization</div>
-          <div class="desc">Compute units, data packing, zero-copy, stack vs heap, CU reduction.</div>
-        </a>
-        <a class="toc-card" href="#building">
-          <div class="num">10</div>
-          <div class="title">Building Real Programs</div>
-          <div class="desc">Complete vault example, testing, client integration, deployment.</div>
-        </a>
-      </div>
+      <ul class="toc-list">
+        <li><a href="#mental-model"><span class="num">01</span><div class="toc-content"><div class="title">The Mental Model</div><div class="desc">Everything is an account. Programs are stateless. This changes everything.</div></div></a></li>
+        <li><a href="#accounts"><span class="num">02</span><div class="toc-content"><div class="title">Accounts Deep Dive</div><div class="desc">Data layout, ownership, rent, account types, and the rules that govern them.</div></div></a></li>
+        <li><a href="#programs"><span class="num">03</span><div class="toc-content"><div class="title">Programs &amp; Execution</div><div class="desc">How programs process instructions, BPF runtime, native programs, Anchor.</div></div></a></li>
+        <li><a href="#transactions"><span class="num">04</span><div class="toc-content"><div class="title">Transactions</div><div class="desc">Anatomy, lifecycle, versioned TXs, ALTs, blockhash, and compute budget.</div></div></a></li>
+        <li><a href="#consensus"><span class="num">05</span><div class="toc-content"><div class="title">Consensus &amp; PoH</div><div class="desc">Proof of History, Tower BFT, leader schedule, Turbine, Gulf Stream.</div></div></a></li>
+        <li><a href="#pdas"><span class="num">06</span><div class="toc-content"><div class="title">PDAs &amp; CPIs</div><div class="desc">Program Derived Addresses, Cross-Program Invocation, composability.</div></div></a></li>
+        <li><a href="#tokens"><span class="num">07</span><div class="toc-content"><div class="title">SPL Tokens &amp; NFTs</div><div class="desc">Mint, token accounts, ATAs, Token-2022, Metaplex, compressed NFTs.</div></div></a></li>
+        <li><a href="#security"><span class="num">08</span><div class="toc-content"><div class="title">Security</div><div class="desc">Vulnerability patterns, exploits, validation, and how to write safe programs.</div></div></a></li>
+        <li><a href="#optimization"><span class="num">09</span><div class="toc-content"><div class="title">Optimization</div><div class="desc">Compute units, data packing, zero-copy, stack vs heap, CU reduction.</div></div></a></li>
+        <li><a href="#building"><span class="num">10</span><div class="toc-content"><div class="title">Building Real Programs</div><div class="desc">Complete vault example, testing, client integration, deployment.</div></div></a></li>
+      </ul>
     </div>
   </section>
 
@@ -1651,10 +1589,10 @@ console.log(<span class="str">`Balance: ${vault.balance.toNumber() / 1e9} SOL`</
   });
 
   // Smooth scroll for TOC
-  document.querySelectorAll('.toc-card').forEach(card => {
-    card.addEventListener('click', (e) => {
+  document.querySelectorAll('.toc-list a').forEach(link => {
+    link.addEventListener('click', (e) => {
       e.preventDefault();
-      const target = document.querySelector(card.getAttribute('href'));
+      const target = document.querySelector(link.getAttribute('href'));
       if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   });

@@ -98,15 +98,16 @@
 
       /* TOC */
       .toc-section{border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:64px 0;background:var(--bg2)}
-      .toc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;margin-top:32px}
-      .toc-card{
-          background:var(--surface);border:1px solid var(--border);border-radius:12px;
-          padding:24px;text-decoration:none;transition:all .25s;cursor:pointer;display:block;
-      }
-      .toc-card:hover{border-color:var(--sol);transform:translateY(-2px);box-shadow:var(--glow-sol)}
-      .toc-card .num{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--green);letter-spacing:2px;margin-bottom:8px}
-      .toc-card .title{font-family:'Newsreader',serif;font-size:18px;font-weight:600;color:var(--text);margin-bottom:6px}
-      .toc-card .desc{font-size:13px;color:var(--text3);line-height:1.5}
+      .toc-list{list-style:none;margin-top:32px;max-width:640px}
+      .toc-list li{border-top:1px solid var(--border)}
+      .toc-list li:last-child{border-bottom:1px solid var(--border)}
+      .toc-list a{display:flex;align-items:baseline;gap:16px;padding:18px 0;text-decoration:none;transition:padding .15s ease}
+      .toc-list a:hover{padding-left:10px}
+      .toc-list .num{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text3);letter-spacing:2px;flex-shrink:0;min-width:24px}
+      .toc-list .toc-content{flex:1;min-width:0}
+      .toc-list .title{font-family:'Newsreader',serif;font-size:17px;font-weight:600;color:var(--text);line-height:1.35;transition:color .15s}
+      .toc-list a:hover .title{color:var(--green)}
+      .toc-list .desc{font-size:13px;color:var(--text3);line-height:1.5;margin-top:4px}
 
       /* SECTIONS */
       .chapter{padding:100px 0 40px;position:relative}
@@ -260,58 +261,18 @@
     <div class="wide">
       <div class="chapter-num">Guide Structure</div>
       <h2>What We Will Cover</h2>
-      <div class="toc-grid">
-        <a class="toc-card" href="#finalizer">
-          <div class="num">01</div>
-          <div class="title">Finalizer Pattern</div>
-          <div class="desc">The before-delete hook for cleaning up external resources safely.</div>
-        </a>
-        <a class="toc-card" href="#idempotency">
-          <div class="num">02</div>
-          <div class="title">Idempotency</div>
-          <div class="desc">Making every reconcile safe to run 10 times without side effects.</div>
-        </a>
-        <a class="toc-card" href="#ctrl-result">
-          <div class="num">03</div>
-          <div class="title">ctrl.Result &amp; Requeue</div>
-          <div class="desc">Controlling when and how the controller retries your reconcile function.</div>
-        </a>
-        <a class="toc-card" href="#watches">
-          <div class="num">04</div>
-          <div class="title">Watches</div>
-          <div class="desc">Reacting to changes in related resources like Secrets and ConfigMaps.</div>
-        </a>
-        <a class="toc-card" href="#status-conditions">
-          <div class="num">05</div>
-          <div class="title">Status Conditions</div>
-          <div class="desc">The Kubernetes-native way to report multi-dimensional health state.</div>
-        </a>
-        <a class="toc-card" href="#conflicts">
-          <div class="num">06</div>
-          <div class="title">Conflict Errors</div>
-          <div class="desc">Handling 409 conflicts with re-fetch and retry patterns.</div>
-        </a>
-        <a class="toc-card" href="#never-modify-spec">
-          <div class="num">07</div>
-          <div class="title">Never Modify Spec</div>
-          <div class="desc">Ownership boundaries between user intent and controller state.</div>
-        </a>
-        <a class="toc-card" href="#webhooks">
-          <div class="num">08</div>
-          <div class="title">Validation Webhooks</div>
-          <div class="desc">Rejecting bad input at apply time with clear, instant error messages.</div>
-        </a>
-        <a class="toc-card" href="#rbac">
-          <div class="num">09</div>
-          <div class="title">RBAC Markers</div>
-          <div class="desc">Every resource your controller touches needs an explicit permission.</div>
-        </a>
-        <a class="toc-card" href="#full-template">
-          <div class="num">10</div>
-          <div class="title">Full Reconcile Template</div>
-          <div class="desc">A complete, annotated copy-paste starting point for any controller.</div>
-        </a>
-      </div>
+      <ul class="toc-list">
+        <li><a href="#finalizer"><span class="num">01</span><div class="toc-content"><div class="title">Finalizer Pattern</div><div class="desc">The before-delete hook for cleaning up external resources safely.</div></div></a></li>
+        <li><a href="#idempotency"><span class="num">02</span><div class="toc-content"><div class="title">Idempotency</div><div class="desc">Making every reconcile safe to run 10 times without side effects.</div></div></a></li>
+        <li><a href="#ctrl-result"><span class="num">03</span><div class="toc-content"><div class="title">ctrl.Result &amp; Requeue</div><div class="desc">Controlling when and how the controller retries your reconcile function.</div></div></a></li>
+        <li><a href="#watches"><span class="num">04</span><div class="toc-content"><div class="title">Watches</div><div class="desc">Reacting to changes in related resources like Secrets and ConfigMaps.</div></div></a></li>
+        <li><a href="#status-conditions"><span class="num">05</span><div class="toc-content"><div class="title">Status Conditions</div><div class="desc">The Kubernetes-native way to report multi-dimensional health state.</div></div></a></li>
+        <li><a href="#conflicts"><span class="num">06</span><div class="toc-content"><div class="title">Conflict Errors</div><div class="desc">Handling 409 conflicts with re-fetch and retry patterns.</div></div></a></li>
+        <li><a href="#never-modify-spec"><span class="num">07</span><div class="toc-content"><div class="title">Never Modify Spec</div><div class="desc">Ownership boundaries between user intent and controller state.</div></div></a></li>
+        <li><a href="#webhooks"><span class="num">08</span><div class="toc-content"><div class="title">Validation Webhooks</div><div class="desc">Rejecting bad input at apply time with clear, instant error messages.</div></div></a></li>
+        <li><a href="#rbac"><span class="num">09</span><div class="toc-content"><div class="title">RBAC Markers</div><div class="desc">Every resource your controller touches needs an explicit permission.</div></div></a></li>
+        <li><a href="#full-template"><span class="num">10</span><div class="toc-content"><div class="title">Full Reconcile Template</div><div class="desc">A complete, annotated copy-paste starting point for any controller.</div></div></a></li>
+      </ul>
     </div>
   </section>
 
