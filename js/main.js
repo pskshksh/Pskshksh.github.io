@@ -981,6 +981,17 @@ function initSnakeTimeline() {
 
     wrapperObserver.observe(wrapper);
 
+    // Keep the connecting line width in sync with the full scrollable content
+    function updateTimelineLineWidth() {
+        timeline.style.setProperty('--timeline-line-width', (timeline.scrollWidth - 80) + 'px');
+    }
+    updateTimelineLineWidth();
+
+    const timelineResizeObserver = new ResizeObserver(() => {
+        updateTimelineLineWidth();
+    });
+    timelineResizeObserver.observe(timeline);
+
     // Drag-to-scroll for horizontal timeline
     let isDown = false;
     let startX;

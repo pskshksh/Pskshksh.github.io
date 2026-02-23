@@ -99,15 +99,16 @@
 
       /* ═══════════ TOC ═══════════ */
       .toc-section{border-top:1px solid var(--border);border-bottom:1px solid var(--border);padding:64px 0;background:var(--bg2)}
-      .toc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;margin-top:32px}
-      .toc-card{
-          background:var(--surface);border:1px solid var(--border);border-radius:12px;
-          padding:24px;text-decoration:none;transition:all .25s;cursor:pointer;display:block;
-      }
-      .toc-card:hover{border-color:var(--sol);transform:translateY(-2px);box-shadow:var(--glow-sol)}
-      .toc-card .num{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--green);letter-spacing:2px;margin-bottom:8px}
-      .toc-card .title{font-family:'Newsreader',serif;font-size:18px;font-weight:600;color:var(--text);margin-bottom:6px}
-      .toc-card .desc{font-size:13px;color:var(--text3);line-height:1.5}
+      .toc-list{list-style:none;margin-top:32px;max-width:640px}
+      .toc-list li{border-top:1px solid var(--border)}
+      .toc-list li:last-child{border-bottom:1px solid var(--border)}
+      .toc-list a{display:flex;align-items:baseline;gap:16px;padding:18px 0;text-decoration:none;transition:padding .15s ease}
+      .toc-list a:hover{padding-left:10px}
+      .toc-list .num{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text3);letter-spacing:2px;flex-shrink:0;min-width:24px}
+      .toc-list .toc-content{flex:1;min-width:0}
+      .toc-list .title{font-family:'Newsreader',serif;font-size:17px;font-weight:600;color:var(--text);line-height:1.35;transition:color .15s}
+      .toc-list a:hover .title{color:var(--green)}
+      .toc-list .desc{font-size:13px;color:var(--text3);line-height:1.5;margin-top:4px}
 
       /* ═══════════ SECTIONS ═══════════ */
       .chapter{padding:100px 0 40px;position:relative}
@@ -275,63 +276,19 @@
     <div class="wide">
       <div class="chapter-num">Guide Structure</div>
       <h2>What We Will Cover</h2>
-      <div class="toc-grid">
-        <a class="toc-card" href="#api-processing">
-          <div class="num">01</div>
-          <div class="title">API Processing</div>
-          <div class="desc">Validation, authentication, RBAC, admission controllers, and etcd persistence.</div>
-        </a>
-        <a class="toc-card" href="#scheduling">
-          <div class="num">02</div>
-          <div class="title">Scheduling</div>
-          <div class="desc">Filter phase, score phase, and the binding decision that assigns pods to nodes.</div>
-        </a>
-        <a class="toc-card" href="#kubelet">
-          <div class="num">03</div>
-          <div class="title">Kubelet Processing</div>
-          <div class="desc">Pod spec validation, resource checks, and status updates on the assigned node.</div>
-        </a>
-        <a class="toc-card" href="#images">
-          <div class="num">04</div>
-          <div class="title">Image Management</div>
-          <div class="desc">Registry auth, layer pulling, content-addressable storage, and pull policies.</div>
-        </a>
-        <a class="toc-card" href="#runtime">
-          <div class="num">05</div>
-          <div class="title">Container Runtime</div>
-          <div class="desc">CRI, namespace creation, cgroup hierarchy, and security context setup.</div>
-        </a>
-        <a class="toc-card" href="#networking">
-          <div class="num">06</div>
-          <div class="title">Networking &amp; CNI</div>
-          <div class="desc">Network namespace, veth pairs, IP allocation, routes, and DNS configuration.</div>
-        </a>
-        <a class="toc-card" href="#volumes">
-          <div class="num">07</div>
-          <div class="title">Volumes &amp; Mounts</div>
-          <div class="desc">PV/PVC, CSI drivers, ConfigMaps, Secrets, and mount namespace setup.</div>
-        </a>
-        <a class="toc-card" href="#container-start">
-          <div class="num">08</div>
-          <div class="title">Container Start</div>
-          <div class="desc">runc/kata execution, namespace joining, init process, and the Running phase.</div>
-        </a>
-        <a class="toc-card" href="#health">
-          <div class="num">09</div>
-          <div class="title">Health Probes</div>
-          <div class="desc">Startup, liveness, readiness probes — execution, thresholds, and restart logic.</div>
-        </a>
-        <a class="toc-card" href="#status">
-          <div class="num">10</div>
-          <div class="title">Pod Status Lifecycle</div>
-          <div class="desc">Pending, Running, Succeeded, Failed, Unknown — conditions and transitions.</div>
-        </a>
-        <a class="toc-card" href="#failures">
-          <div class="num">11</div>
-          <div class="title">Failure Scenarios</div>
-          <div class="desc">Image pull errors, OOM kills, probe failures, restart policies, and backoff.</div>
-        </a>
-      </div>
+      <ul class="toc-list">
+        <li><a href="#api-processing"><span class="num">01</span><div class="toc-content"><div class="title">API Processing</div><div class="desc">Validation, authentication, RBAC, admission controllers, and etcd persistence.</div></div></a></li>
+        <li><a href="#scheduling"><span class="num">02</span><div class="toc-content"><div class="title">Scheduling</div><div class="desc">Filter phase, score phase, and the binding decision that assigns pods to nodes.</div></div></a></li>
+        <li><a href="#kubelet"><span class="num">03</span><div class="toc-content"><div class="title">Kubelet Processing</div><div class="desc">Pod spec validation, resource checks, and status updates on the assigned node.</div></div></a></li>
+        <li><a href="#images"><span class="num">04</span><div class="toc-content"><div class="title">Image Management</div><div class="desc">Registry auth, layer pulling, content-addressable storage, and pull policies.</div></div></a></li>
+        <li><a href="#runtime"><span class="num">05</span><div class="toc-content"><div class="title">Container Runtime</div><div class="desc">CRI, namespace creation, cgroup hierarchy, and security context setup.</div></div></a></li>
+        <li><a href="#networking"><span class="num">06</span><div class="toc-content"><div class="title">Networking &amp; CNI</div><div class="desc">Network namespace, veth pairs, IP allocation, routes, and DNS configuration.</div></div></a></li>
+        <li><a href="#volumes"><span class="num">07</span><div class="toc-content"><div class="title">Volumes &amp; Mounts</div><div class="desc">PV/PVC, CSI drivers, ConfigMaps, Secrets, and mount namespace setup.</div></div></a></li>
+        <li><a href="#container-start"><span class="num">08</span><div class="toc-content"><div class="title">Container Start</div><div class="desc">runc/kata execution, namespace joining, init process, and the Running phase.</div></div></a></li>
+        <li><a href="#health"><span class="num">09</span><div class="toc-content"><div class="title">Health Probes</div><div class="desc">Startup, liveness, readiness probes — execution, thresholds, and restart logic.</div></div></a></li>
+        <li><a href="#status"><span class="num">10</span><div class="toc-content"><div class="title">Pod Status Lifecycle</div><div class="desc">Pending, Running, Succeeded, Failed, Unknown — conditions and transitions.</div></div></a></li>
+        <li><a href="#failures"><span class="num">11</span><div class="toc-content"><div class="title">Failure Scenarios</div><div class="desc">Image pull errors, OOM kills, probe failures, restart policies, and backoff.</div></div></a></li>
+      </ul>
     </div>
   </section>
 

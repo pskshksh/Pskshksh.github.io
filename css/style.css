@@ -1758,7 +1758,8 @@ input, textarea {
     position: absolute;
     top: 50%;
     left: 40px;
-    right: 40px;
+    right: auto;
+    width: var(--timeline-line-width, calc(100% - 80px));
     height: 3px;
     background: linear-gradient(90deg, #10b981 0%, #9945FF 50%, #14F195 100%);
     border-radius: 3px;
