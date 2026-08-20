@@ -1,1597 +1,368 @@
-/**
- * Portfolio Main JavaScript
- * Handles interactivity, animations, and dynamic content
- */
+/* =========================================================================
+   Ayoub Idel — Portfolio
+   i18n (EN/FR) · nav · scroll reveals · role rotator · counters · GitHub feed
+   ========================================================================= */
 
-// ============================================
-// DOM Content Loaded
-// ============================================
-document.addEventListener('DOMContentLoaded', () => {
-    initLanguage();
-    initTheme();
-    initNavigation();
-    initTypingEffect();
-    initScrollAnimations();
-    initCounterAnimation();
-    initCursorFollower();
-    initSmoothScroll();
-    initFormHandler();
-    setCurrentYear();
-    initSkillIcons();
-    initScrollProgress();
-    initTiltEffect();
-    initParallax();
-    initMagneticButtons();
-    initTextAnimations();
-    initSnakeTimeline();
-    initSnakeExpand();
-    initEasterEggs();
-    initConsoleMessage();
-    initSectionEffects();
-});
+(function () {
+  'use strict';
 
-// ============================================
-// Language / i18n System
-// ============================================
-const translations = {
+  /* ------------------------------------------------------------------ i18n */
+  const I18N = {
     en: {
-        // Navigation
-        nav_home: "Home",
-        nav_about: "About",
-        nav_journey: "Journey",
-        nav_skills: "Skills",
-        nav_projects: "Projects",
-        nav_blog: "Blog",
-        nav_contact: "Contact",
-        download_cv: "Download CV",
+      nav_story: 'Story', nav_experience: 'Experience', nav_skills: 'Skills',
+      nav_projects: 'Projects', nav_blog: 'Blog', nav_contact: 'Contact',
+      download_cv: 'Resume',
 
-        // Hero
-        hero_title: "Backend Engineer & Cloud Architect",
-        hero_description: "Building high-performance distributed systems with Golang and Rust. Designing scalable cloud architectures on AWS and Kubernetes. Passionate about blockchain technology and system optimization.",
-        get_in_touch: "Get in Touch",
-        view_projects: "View Projects",
-        scroll_explore: "Scroll to explore",
+      hero_status: 'Open to senior engineering & architecture roles',
+      hero_name: 'Ayoub Idel',
+      hero_prefix: 'I build',
+      hero_lead: 'Senior software engineer with <strong>7+ years</strong> owning enterprise backend platforms end to end — from <strong>Golang microservices on Kubernetes</strong> and <strong>AWS cloud architecture</strong> to shipping <strong>Generative AI</strong> features into production.',
+      hero_cta_work: 'See my work', hero_cta_talk: 'Get in touch',
 
-        // About
-        about_title: "About Me",
-        about_headline: "Backend Engineer & Cloud Architect",
-        about_location: "based in Paris, France.",
-        about_p1: "I specialize in designing scalable cloud architectures and building high-performance backend services. With strong expertise in Golang, AWS, and Kubernetes, I focus on delivering robust systems that handle real-world challenges at scale. I love Rust and enjoy developing with it for systems programming and blockchain projects.",
-        about_p2: "Educated at CPGE in Le Havre and graduated from an engineering school in Tours. I'm passionate about blockchain technology and always exploring new ways to build efficient distributed systems. Outside of coding, I love playing football and padel, and I'm an avid traveler having explored 37 countries across Europe, Africa, and Asia.",
-        years_exp: "Years Experience",
-        countries_visited: "Countries Visited",
-        lets_work: "Let's Work Together",
-        download_resume: "Download Resume",
+      stat_years: 'Years shipping to production',
+      stat_events: 'Events / second sustained',
+      stat_countries: 'Countries explored',
+      stat_learning: 'Things left to learn',
 
-        // Section titles
-        journey_title: "My Journey",
-        skills_title: "Technical Skills",
-        projects_title: "Featured Projects",
-        projects_subtitle: "Building scalable solutions that make an impact",
-        blog_title: "Blog",
-        contact_title: "Get In Touch",
+      eyebrow_story: '// the story',
+      story_pull_1: 'I fell for engineering because it never lets you stop learning —',
+      story_pull_2: 'and mastering new things is the part I love most.',
+      story_tag_1: 'curiosity-driven', story_tag_2: 'end-to-end ownership',
+      story_tag_3: 'systems thinking', story_tag_4: 'GenAI',
+      story_p1: 'It started with a fascination for how large systems hold together under pressure. From the classes préparatoires in Le Havre to an engineering degree in Tours, I kept chasing the same question: <strong>how do you make software fast, resilient, and simple to operate at scale?</strong>',
+      story_p2: "Seven years later I've built and operated backend platforms end to end — designing <strong>Golang microservices on Kubernetes</strong>, architecting <strong>serverless AWS systems</strong>, and re-architecting a real-time event pipeline to sustain <strong>50,000 events per second</strong>. I care about the whole path: architecture, code, delivery, and the on-call reality of production.",
+      story_p3: 'Then Generative AI arrived, and my instinct to learn kicked in again. I now ship <strong>LLM-powered features in production</strong> — Claude integrations, <strong>MCP servers</strong>, and <strong>RAG systems</strong> — with the same engineering rigor: structured outputs, guardrails, evaluation, and cost tracking.',
+      story_p4: "Outside the terminal you'll find me on a football pitch or a padel court, or somewhere new — I've explored <strong>37 countries</strong> across Europe, Africa and Asia. Same drive, different maps.",
+      funfact_label: '// fun fact',
+      funfact_quote: 'On one project, I shipped a milestone by deleting more code than I added.',
+      funfact_sub: 'Rebuilding that engine, the best change I made was mostly the delete key — a simpler stack, fewer moving parts, and something far more resilient at scale. Less code, more system.',
 
-        // Skills categories
-        skills_backend: "Backend & Systems",
-        skills_cloud: "Cloud & DevOps",
-        skills_blockchain: "Blockchain & Web3",
-        skills_databases: "Databases & Storage",
+      eyebrow_experience: "// where I've built",
+      experience_title: 'A track record of shipping',
+      experience_sub: 'From gRPC migrations to real-time pipelines and production GenAI — end-to-end ownership, from architecture to on-call.',
+      present: 'Present',
+      xp_imagino_kind: 'CDP / CEP platform',
+      xp_imagino_tag: 'Backend + AI for a real-time customer data platform',
+      xp_imagino_1: 'Re-architected the real-time event pipeline from multi-tenant to <b>single-tenant, stateless Golang microservices</b> with per-client isolation, backpressure, idempotency and retry/dead-letter — raising sustained capacity to <b>50,000 events/second</b>.',
+      xp_imagino_2: 'Integrated <b>Claude</b> and built <b>MCP servers</b> exposing CDP data to AI agents, with JSON-Schema structured outputs and guardrails for controlled access.',
+      xp_imagino_3: 'Built a <b>RAG system</b> over internal docs — multi-query & HyDE query translation, routing, and an optimized indexing pipeline for better retrieval relevance.',
+      xp_imagino_4: 'Rebuilt the real-time tagging/segmentation engine, improved CI/CD and Helm deployments, mentored developers and ran technical interviews.',
+      xp_addict_kind: 'Performance marketing',
+      xp_addict_role: 'Cloud Architect & Fullstack Developer',
+      xp_addict_tag: 'Serverless-first AWS at scale, then the code beneath it',
+      xp_addict_1: 'Built a real-time <b>ad-creative generation engine</b> in Golang: multi-source ingestion and a config-driven merge engine, orchestrated serverless (Step Functions, Lambda, DynamoDB, Glue) with heavy jobs on ECS.',
+      xp_addict_2: 'Designed scalable, highly-available <b>serverless AWS architectures</b> with <b>Infrastructure as Code in Go (AWS CDK)</b> for reproducible, faster deployments.',
+      xp_addict_3: 'Led the <b>Elasticsearch → OpenSearch migration</b>, improving performance while cutting cost; owned a cloud cost-review process that significantly reduced AWS spend.',
+      xp_addict_4: 'Earlier as fullstack dev: backend in Golang, Python and Java (Spring Boot), and responsive front-ends in React and Angular on clean REST APIs.',
+      xp_astek_role: 'Backend Developer',
+      xp_astek_tag: 'Making internal services faster',
+      xp_astek_1: 'Drove the migration of internal microservices from <b>REST to gRPC</b> to improve performance, scalability and reliability.',
+      xp_astek_2: 'Implemented the gRPC communication layer in <b>Golang</b>.',
 
-        // Projects
-        visit_website: "Visit Website",
-        project_twize_label: "B2B SaaS Platform",
-        project_twize_desc: "Enterprise-grade B2B SaaS platform revolutionizing trip management for travel agencies. Features AI-powered itinerary generation and automated multi-currency billing.",
-        project_poneglyph_label: "Enterprise Solution",
-        project_poneglyph_desc: "Comprehensive enterprise fleet management platform built for scale. Unified cross-platform experience with real-time GPS tracking, intelligent route optimization, and advanced operational analytics dashboard.",
-        project_rust_label: "Open Source Library",
-        project_rust_desc: "Generic Rust library providing essential building blocks for backend services. Includes data types, OAuth2/authentication, authorization, push notifications, email handling, and HTTP server utilities.",
+      eyebrow_skills: '// the toolkit',
+      skills_title: "What I've learned to master",
+      skills_sub: 'Depth where it counts, breadth to connect the dots — and a habit of picking up whatever the problem needs next.',
+      skill_genai: 'Generative AI / LLM', skill_llmops: 'LLM Ops', skill_infra: 'Infrastructure',
+      skill_backend: 'Backend', skill_cloud: 'Cloud & Data', skill_secops: 'Security & Observability',
 
-        // Blog
-        read_article: "Read Article",
-        min_read: "min read",
+      eyebrow_projects: "// things I've built",
+      projects_title: 'Selected projects',
+      projects_sub: "A few I'm proud of — plus a live feed of my public GitHub, so new work shows up here the moment I push it.",
+      proj1_kind: 'Platform · Kubernetes',
+      proj1_desc: 'A factory that programmatically generates production-grade Helm charts from typed config — teams ship consistent, secure deployments without hand-writing YAML. Security baked in by default; a deterministic rendering engine with a full end-to-end test suite.',
+      proj2_kind: 'Agent · CI/CD', proj2_title: 'AI Documentation Agent',
+      proj2_desc: 'An autonomous Python agent that runs post-merge in GitLab CI: reads code diffs, updates a separate docs repo, and opens a review-ready MR. Safe by design — JSON-Schema output with per-claim file:line citations and a least-privilege boundary.',
+      proj3_kind: 'Agent · Security', proj3_title: 'Security Audit Agent',
+      proj3_desc: 'Runs pluggable scanners over a repo, merges their findings into one ranked backlog, and routes every issue to the person who owns the code. Deterministic policy ranking; the model writes the "why it matters" with tool + file:line citations.',
+      repos_title: 'Latest on GitHub', repos_all: 'All repositories',
+      repos_loading: 'Fetching latest repositories…',
+      repos_empty: 'Repositories are on GitHub — take a look.',
 
-        // Contact
-        contact_subtitle: "Let's build something amazing together",
-        contact_email: "Email",
-        contact_location: "Location",
-        contact_social: "Social",
-        contact_cta_title: "Ready to Start a Project?",
-        contact_cta_desc: "I'm always open to discussing new opportunities, interesting projects, or just having a chat about technology.",
-        lets_talk: "Let's Talk",
-        available: "Available for new projects",
+      eyebrow_writing: '// writing',
+      blog_title: 'I write about the things I learn',
+      blog_desc: 'Deep dives on Kubernetes operators, Go internals, Solana, and the architecture decisions behind real systems — notes to myself, shared openly.',
+      blog_cta: 'Read the blog',
 
-        // Footer
-        rights_reserved: "All rights reserved.",
-        built_with: "Built with HTML, CSS & JavaScript",
-        footer_role: "Backend Engineer & Cloud Architect",
-        footer_navigation: "Navigation",
-        footer_connect: "Connect",
-
-        // Blog
-        blog_subtitle: "Deep dives into Solana, Golang, and software engineering",
-        read_on_medium: "Read on Medium",
-        view_all_articles: "Visit my Blog Posts",
-
-        // Contact extended
-        contact_headline: "Let's discuss your next big idea",
-        contact_description: "Whether you need a scalable backend system, cloud architecture expertise, or blockchain solutions — I'm here to help turn your vision into reality. Let's connect and explore the possibilities!",
-        connect_with_me: "Connect with me",
-
-        // Skills categories
-        skills_languages: "Languages",
-        skills_cloud: "Cloud & Infrastructure",
-        skills_containers: "Containers & Orchestration",
-        skills_databases: "Databases & Messaging",
-        skills_apis: "APIs & Protocols",
-        skills_monitoring: "Monitoring & Observability",
-        skills_blockchain: "Blockchain & Web3",
-
-        // Values
-        values_title: "Values I Care About",
-        value_ownership: "Ownership",
-        value_ownership_desc: "Taking full responsibility for projects and delivering quality results",
-        value_growth: "Mutual Growth",
-        value_growth_desc: "Growing together with teammates through knowledge sharing and collaboration",
-        value_learning: "Continuous Learning",
-        value_learning_desc: "Always curious, always learning new technologies and best practices",
-        value_reliability: "Reliability",
-        value_reliability_desc: "Being dependable and consistent in delivering commitments on time",
-
-        // Certification
-        certification_title: "Certification (In Progress)",
-        preparing: "Preparing",
-
-        // Projects
-        view_github: "View GitHub Profile"
+      eyebrow_contact: "// let's talk",
+      contact_title_1: 'Building something', contact_title_2: 'that needs to scale?',
+      contact_desc: "I'm always up for a good engineering conversation — backend platforms, cloud architecture, or getting Generative AI safely into production.",
+      contact_linkedin: 'Connect on LinkedIn',
+      footer_built: 'Built from scratch in Paris'
     },
+
     fr: {
-        // Navigation
-        nav_home: "Accueil",
-        nav_about: "À propos",
-        nav_journey: "Parcours",
-        nav_skills: "Compétences",
-        nav_projects: "Projets",
-        nav_blog: "Blog",
-        nav_contact: "Contact",
-        download_cv: "Télécharger CV",
+      nav_story: 'Histoire', nav_experience: 'Expérience', nav_skills: 'Compétences',
+      nav_projects: 'Projets', nav_blog: 'Blog', nav_contact: 'Contact',
+      download_cv: 'CV',
 
-        // Hero
-        hero_title: "Ingénieur Backend & Architecte Cloud",
-        hero_description: "Création de systèmes distribués haute performance avec Golang et Rust. Conception d'architectures cloud évolutives sur AWS et Kubernetes. Passionné par la blockchain et l'optimisation des systèmes.",
-        get_in_touch: "Me Contacter",
-        view_projects: "Voir les Projets",
-        scroll_explore: "Défiler pour explorer",
+      hero_status: 'Ouvert aux postes senior en ingénierie & architecture',
+      hero_name: 'Ayoub Idel',
+      hero_prefix: 'Je construis',
+      hero_lead: "Ingénieur logiciel senior, <strong>7+ ans</strong> à concevoir et opérer des plateformes backend d'entreprise de bout en bout — des <strong>microservices Golang sur Kubernetes</strong> à l'<strong>architecture cloud AWS</strong>, jusqu'à la mise en production de fonctionnalités d'<strong>IA générative</strong>.",
+      hero_cta_work: 'Voir mon travail', hero_cta_talk: 'Me contacter',
 
-        // About
-        about_title: "À Propos",
-        about_headline: "Ingénieur Backend & Architecte Cloud",
-        about_location: "basé à Paris, France.",
-        about_p1: "Je me spécialise dans la conception d'architectures cloud évolutives et la création de services backend haute performance. Avec une forte expertise en Golang, AWS et Kubernetes, je me concentre sur la livraison de systèmes robustes capables de gérer des défis réels à grande échelle. J'adore Rust et j'aime développer avec pour la programmation système et les projets blockchain.",
-        about_p2: "Formé en CPGE au Havre et diplômé d'une école d'ingénieurs à Tours. Je suis passionné par la technologie blockchain et j'explore toujours de nouvelles façons de construire des systèmes distribués efficaces. En dehors du code, j'aime jouer au football et au padel, et je suis un grand voyageur ayant exploré 37 pays en Europe, Afrique et Asie.",
-        years_exp: "Années d'Expérience",
-        countries_visited: "Pays Visités",
-        lets_work: "Travaillons Ensemble",
-        download_resume: "Télécharger CV",
+      stat_years: 'Ans en production',
+      stat_events: 'Événements / seconde soutenus',
+      stat_countries: 'Pays explorés',
+      stat_learning: 'Choses à apprendre',
 
-        // Section titles
-        journey_title: "Mon Parcours",
-        skills_title: "Compétences Techniques",
-        projects_title: "Projets Phares",
-        projects_subtitle: "Construire des solutions évolutives qui font la différence",
-        blog_title: "Blog",
-        contact_title: "Me Contacter",
+      eyebrow_story: "// l'histoire",
+      story_pull_1: "J'ai choisi l'ingénierie parce qu'elle ne cesse jamais de nous apprendre —",
+      story_pull_2: "et maîtriser de nouvelles choses est ce que je préfère.",
+      story_tag_1: 'curiosité', story_tag_2: 'ownership complet',
+      story_tag_3: 'pensée systèmes', story_tag_4: 'IA générative',
+      story_p1: "Tout a commencé par une fascination pour la manière dont les grands systèmes tiennent sous la pression. De la classe préparatoire au Havre au diplôme d'ingénieur à Tours, j'ai poursuivi la même question : <strong>comment rendre un logiciel rapide, résilient et simple à opérer à grande échelle ?</strong>",
+      story_p2: "Sept ans plus tard, j'ai conçu et opéré des plateformes backend de bout en bout — des <strong>microservices Golang sur Kubernetes</strong>, des <strong>architectures serverless sur AWS</strong>, et la ré-architecture d'un pipeline d'événements temps réel pour soutenir <strong>50 000 événements par seconde</strong>. Je m'intéresse à toute la chaîne : architecture, code, livraison et la réalité de l'astreinte.",
+      story_p3: "Puis l'IA générative est arrivée, et mon envie d'apprendre est repartie de plus belle. Je livre désormais des <strong>fonctionnalités LLM en production</strong> — intégrations Claude, <strong>serveurs MCP</strong> et <strong>systèmes RAG</strong> — avec la même rigueur : sorties structurées, garde-fous, évaluation et suivi des coûts.",
+      story_p4: "Loin du terminal, on me trouve sur un terrain de foot ou de padel, ou quelque part de nouveau — j'ai exploré <strong>37 pays</strong> en Europe, Afrique et Asie. Même énergie, cartes différentes.",
+      funfact_label: '// anecdote',
+      funfact_quote: "Sur un projet, j'ai livré une étape clé en supprimant plus de code que je n'en ai ajouté.",
+      funfact_sub: "En refaisant ce moteur, ma meilleure contribution tenait surtout de la touche Suppr — une stack plus simple, moins de pièces mobiles, et bien plus de résilience à l'échelle. Moins de code, plus de système.",
 
-        // Skills categories
-        skills_backend: "Backend & Systèmes",
-        skills_cloud: "Cloud & DevOps",
-        skills_blockchain: "Blockchain & Web3",
-        skills_databases: "Bases de Données & Stockage",
+      eyebrow_experience: "// là où j'ai construit",
+      experience_title: 'Un parcours qui livre',
+      experience_sub: "Des migrations gRPC aux pipelines temps réel et à l'IA en production — un ownership complet, de l'architecture à l'astreinte.",
+      present: "Aujourd'hui",
+      xp_imagino_kind: 'Plateforme CDP / CEP',
+      xp_imagino_tag: 'Backend + IA pour une plateforme de données client temps réel',
+      xp_imagino_1: "Ré-architecture du pipeline d'événements temps réel, du multi-tenant vers des <b>microservices Golang stateless single-tenant</b> avec isolation par client, backpressure, idempotence et retry/dead-letter — capacité soutenue portée à <b>50 000 événements/seconde</b>.",
+      xp_imagino_2: "Intégration de <b>Claude</b> et création de <b>serveurs MCP</b> exposant les données CDP aux agents IA, avec sorties structurées JSON-Schema et garde-fous pour un accès contrôlé.",
+      xp_imagino_3: "Construction d'un <b>système RAG</b> sur la documentation interne — traduction de requêtes multi-query & HyDE, routage, et pipeline d'indexation optimisé pour une meilleure pertinence.",
+      xp_imagino_4: "Refonte du moteur de tagging/segmentation temps réel, amélioration du CI/CD et des déploiements Helm, mentorat de développeurs et entretiens techniques.",
+      xp_addict_kind: 'Marketing à la performance',
+      xp_addict_role: 'Architecte Cloud & Développeur Fullstack',
+      xp_addict_tag: "Serverless AWS à grande échelle, puis le code en dessous",
+      xp_addict_1: "Construction d'un <b>moteur de génération de créatives publicitaires</b> temps réel en Golang : ingestion multi-sources et moteur de fusion piloté par configuration, orchestré en serverless (Step Functions, Lambda, DynamoDB, Glue) avec les gros traitements sur ECS.",
+      xp_addict_2: "Conception d'<b>architectures AWS serverless</b> scalables et hautement disponibles, avec <b>Infrastructure as Code en Go (AWS CDK)</b> pour des déploiements reproductibles et plus rapides.",
+      xp_addict_3: "Pilotage de la <b>migration Elasticsearch → OpenSearch</b>, améliorant les performances tout en réduisant les coûts ; responsable d'un processus de revue des coûts cloud ayant réduit significativement la facture AWS.",
+      xp_addict_4: "Auparavant fullstack : backend en Golang, Python et Java (Spring Boot), et interfaces responsives en React et Angular sur des APIs REST propres.",
+      xp_astek_role: 'Développeur Backend',
+      xp_astek_tag: 'Rendre les services internes plus rapides',
+      xp_astek_1: "Pilotage de la migration des microservices internes de <b>REST vers gRPC</b> pour améliorer performance, scalabilité et fiabilité.",
+      xp_astek_2: "Implémentation de la couche de communication gRPC en <b>Golang</b>.",
 
-        // Projects
-        visit_website: "Visiter le Site",
-        project_twize_label: "Plateforme B2B SaaS",
-        project_twize_desc: "Plateforme B2B SaaS de niveau entreprise révolutionnant la gestion des voyages pour les agences. Génération d'itinéraires par IA et facturation multi-devises automatisée.",
-        project_poneglyph_label: "Solution Entreprise",
-        project_poneglyph_desc: "Plateforme complète de gestion de flotte d'entreprise conçue pour l'échelle. Expérience multiplateforme unifiée avec suivi GPS en temps réel, optimisation intelligente des itinéraires et tableau de bord analytique avancé.",
-        project_rust_label: "Bibliothèque Open Source",
-        project_rust_desc: "Bibliothèque Rust générique fournissant des blocs de construction essentiels pour les services backend. Inclut types de données, OAuth2/authentification, autorisation, notifications push, gestion d'emails et utilitaires serveur HTTP.",
+      eyebrow_skills: '// la boîte à outils',
+      skills_title: "Ce que j'ai appris à maîtriser",
+      skills_sub: "De la profondeur là où ça compte, de la largeur pour relier les points — et l'habitude d'apprendre ce que le problème réclame ensuite.",
+      skill_genai: 'IA générative / LLM', skill_llmops: 'LLM Ops', skill_infra: 'Infrastructure',
+      skill_backend: 'Backend', skill_cloud: 'Cloud & Data', skill_secops: 'Sécurité & Observabilité',
 
-        // Blog
-        read_article: "Lire l'Article",
-        min_read: "min de lecture",
+      eyebrow_projects: "// ce que j'ai construit",
+      projects_title: 'Projets sélectionnés',
+      projects_sub: "Quelques-uns dont je suis fier — plus un flux en direct de mon GitHub public, pour que mes nouveaux projets apparaissent ici dès que je les pousse.",
+      proj1_kind: 'Plateforme · Kubernetes',
+      proj1_desc: "Une factory qui génère programmatiquement des charts Helm de qualité production à partir d'une config typée — les équipes déploient de façon cohérente et sécurisée sans écrire de YAML à la main. Sécurité par défaut ; moteur de rendu déterministe avec une suite de tests end-to-end complète.",
+      proj2_kind: 'Agent · CI/CD', proj2_title: 'AI Documentation Agent',
+      proj2_desc: "Un agent Python autonome exécuté après le merge dans GitLab CI : il lit les diffs, met à jour un dépôt de docs séparé et ouvre une MR prête à relire. Sûr par conception — sortie JSON-Schema avec citations file:line et périmètre à moindre privilège.",
+      proj3_kind: 'Agent · Sécurité', proj3_title: 'Security Audit Agent',
+      proj3_desc: "Exécute des scanners pluggables sur un dépôt, fusionne leurs résultats en un backlog unique et priorisé, et route chaque problème vers la personne qui possède le code. Priorisation déterministe ; le modèle rédige le « pourquoi ça compte » avec citations outil + file:line.",
+      repos_title: 'Derniers projets GitHub', repos_all: 'Tous les dépôts',
+      repos_loading: 'Chargement des derniers dépôts…',
+      repos_empty: 'Les dépôts sont sur GitHub — jetez un œil.',
 
-        // Contact
-        contact_subtitle: "Construisons quelque chose d'incroyable ensemble",
-        contact_email: "Email",
-        contact_location: "Localisation",
-        contact_social: "Réseaux",
-        contact_cta_title: "Prêt à Démarrer un Projet ?",
-        contact_cta_desc: "Je suis toujours ouvert à discuter de nouvelles opportunités, de projets intéressants, ou simplement à parler de technologie.",
-        lets_talk: "Discutons",
-        available: "Disponible pour de nouveaux projets",
+      eyebrow_writing: '// écriture',
+      blog_title: "J'écris sur ce que j'apprends",
+      blog_desc: "Des plongées sur les opérateurs Kubernetes, les internals de Go, Solana, et les décisions d'architecture derrière des systèmes réels — des notes à moi-même, partagées ouvertement.",
+      blog_cta: 'Lire le blog',
 
-        // Footer
-        rights_reserved: "Tous droits réservés.",
-        built_with: "Créé avec HTML, CSS & JavaScript",
-        footer_role: "Ingénieur Backend & Architecte Cloud",
-        footer_navigation: "Navigation",
-        footer_connect: "Réseaux",
-
-        // Blog
-        blog_subtitle: "Plongées approfondies dans Solana, Golang et le génie logiciel",
-        read_on_medium: "Lire sur Medium",
-        view_all_articles: "Visiter mes articles",
-
-        // Contact extended
-        contact_headline: "Discutons de votre prochaine grande idée",
-        contact_description: "Que vous ayez besoin d'un système backend évolutif, d'une expertise en architecture cloud ou de solutions blockchain — je suis là pour transformer votre vision en réalité. Connectons-nous et explorons les possibilités !",
-        connect_with_me: "Me contacter",
-
-        // Skills categories
-        skills_languages: "Langages",
-        skills_cloud: "Cloud & Infrastructure",
-        skills_containers: "Conteneurs & Orchestration",
-        skills_databases: "Bases de Données & Messaging",
-        skills_apis: "APIs & Protocoles",
-        skills_monitoring: "Monitoring & Observabilité",
-        skills_blockchain: "Blockchain & Web3",
-
-        // Values
-        values_title: "Valeurs qui me tiennent à cœur",
-        value_ownership: "Responsabilité",
-        value_ownership_desc: "Prendre la pleine responsabilité des projets et livrer des résultats de qualité",
-        value_growth: "Croissance Mutuelle",
-        value_growth_desc: "Grandir ensemble avec les coéquipiers grâce au partage des connaissances et à la collaboration",
-        value_learning: "Apprentissage Continu",
-        value_learning_desc: "Toujours curieux, toujours apprendre de nouvelles technologies et meilleures pratiques",
-        value_reliability: "Fiabilité",
-        value_reliability_desc: "Être fiable et constant dans la livraison des engagements à temps",
-
-        // Certification
-        certification_title: "Certification (En Cours)",
-        preparing: "En préparation",
-
-        // Projects
-        view_github: "Voir le Profil GitHub"
+      eyebrow_contact: '// discutons',
+      contact_title_1: 'Un projet', contact_title_2: 'qui doit passer à l’échelle ?',
+      contact_desc: "Toujours partant pour une bonne discussion d'ingénierie — plateformes backend, architecture cloud, ou mise en production sûre de l'IA générative.",
+      contact_linkedin: 'Me contacter sur LinkedIn',
+      footer_built: 'Conçu de zéro à Paris'
     }
-};
+  };
 
-let currentLanguage = localStorage.getItem('language') || 'en';
+  const ROLES = {
+    en: ['real-time backends', 'Kubernetes platforms', 'cloud architecture', 'GenAI features', 'things worth shipping'],
+    fr: ['des backends temps réel', 'des plateformes Kubernetes', "de l'architecture cloud", "des fonctionnalités d'IA", 'des choses qui comptent']
+  };
 
-function initLanguage() {
-    const langSelector = document.querySelector('.language-selector');
-    const langToggle = document.getElementById('langToggle');
-    const langOptions = document.querySelectorAll('.lang-option');
+  let lang = 'en';
 
-    if (!langSelector || !langToggle) return;
-
-    // Apply saved language
-    applyLanguage(currentLanguage);
-    updateLangButton(currentLanguage);
-
-    // Toggle dropdown
-    langToggle.addEventListener('click', (e) => {
-        e.stopPropagation();
-        langSelector.classList.toggle('open');
-    });
-
-    // Close dropdown when clicking outside
-    document.addEventListener('click', () => {
-        langSelector.classList.remove('open');
-    });
-
-    // Language option click
-    langOptions.forEach(option => {
-        option.addEventListener('click', () => {
-            const lang = option.dataset.lang;
-            currentLanguage = lang;
-            localStorage.setItem('language', lang);
-
-            applyLanguage(lang);
-            updateLangButton(lang);
-
-            // Update active state
-            langOptions.forEach(opt => opt.classList.remove('active'));
-            option.classList.add('active');
-
-            langSelector.classList.remove('open');
-        });
-    });
-}
-
-function applyLanguage(lang) {
-    const t = translations[lang];
-    if (!t) return;
-
-    // Update all elements with data-i18n attribute
-    document.querySelectorAll('[data-i18n]').forEach(el => {
-        const key = el.dataset.i18n;
-        if (t[key]) {
-            el.textContent = t[key];
-        }
-    });
-
-    // Update HTML lang attribute
+  function applyLang(next) {
+    lang = I18N[next] ? next : 'en';
     document.documentElement.lang = lang;
-}
+    const dict = I18N[lang];
+    document.querySelectorAll('[data-i18n]').forEach(function (el) {
+      const val = dict[el.getAttribute('data-i18n')];
+      if (val != null) el.innerHTML = val;
+    });
+    document.querySelectorAll('[data-lang-key]').forEach(function (el) {
+      el.setAttribute('data-lang-active', String(el.getAttribute('data-lang-key') === lang));
+    });
+    try { localStorage.setItem('lang', lang); } catch (e) {}
+    resetRotator();
+  }
 
-function updateLangButton(lang) {
-    const langFlag = document.querySelector('.lang-btn .lang-flag');
-    const langCode = document.querySelector('.lang-btn .lang-code');
-
-    if (lang === 'fr') {
-        langFlag.textContent = '🇫🇷';
-        langCode.textContent = 'FR';
+  /* -------------------------------------------------------------- rotator */
+  let rotTimer, rotState;
+  function resetRotator() {
+    const el = document.getElementById('roleRotator');
+    if (!el) return;
+    clearTimeout(rotTimer);
+    const words = ROLES[lang];
+    rotState = { i: 0, txt: '', del: false };
+    el.textContent = '';
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      el.textContent = words[0];
+      return;
+    }
+    tick(el, words);
+  }
+  function tick(el, words) {
+    const full = words[rotState.i % words.length];
+    if (rotState.del) {
+      rotState.txt = full.substring(0, rotState.txt.length - 1);
     } else {
-        langFlag.textContent = '🇬🇧';
-        langCode.textContent = 'EN';
+      rotState.txt = full.substring(0, rotState.txt.length + 1);
     }
+    el.textContent = rotState.txt;
+    let delay = rotState.del ? 45 : 85;
+    if (!rotState.del && rotState.txt === full) { delay = 1800; rotState.del = true; }
+    else if (rotState.del && rotState.txt === '') { rotState.del = false; rotState.i++; delay = 350; }
+    rotTimer = setTimeout(function () { tick(el, words); }, delay);
+  }
 
-    // Update active option
-    document.querySelectorAll('.lang-option').forEach(opt => {
-        opt.classList.toggle('active', opt.dataset.lang === lang);
-    });
-}
+  /* ------------------------------------------------------------------ nav */
+  function initNav() {
+    const nav = document.getElementById('nav');
+    const toggle = document.getElementById('navToggle');
+    const menu = document.getElementById('navMenu');
 
-// ============================================
-// Skill Icons Fallback
-// ============================================
-function initSkillIcons() {
-    const skillIcons = document.querySelectorAll('.skill-icon img');
-    skillIcons.forEach(img => {
-        img.onerror = function() {
-            // Replace broken image with a simple icon placeholder
-            this.style.display = 'none';
-            const parent = this.parentElement;
-            if (!parent.querySelector('svg')) {
-                parent.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 24px; height: 24px; color: var(--accent-primary);">
-                    <circle cx="12" cy="12" r="10"></circle>
-                    <path d="M12 6v6l4 2"></path>
-                </svg>`;
-            }
-        };
-        // Trigger error check for already loaded/failed images
-        if (img.complete && img.naturalHeight === 0) {
-            img.onerror();
-        }
-    });
-}
+    const onScroll = function () { nav.classList.toggle('scrolled', window.scrollY > 20); };
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
 
-// ============================================
-// Theme Toggle
-// ============================================
-function initTheme() {
-    const themeToggle = document.querySelector('.theme-toggle');
-    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
-
-    // Get saved theme or system preference
-    const savedTheme = localStorage.getItem('theme');
-    if (savedTheme) {
-        document.documentElement.setAttribute('data-theme', savedTheme);
-    } else if (!prefersDark.matches) {
-        document.documentElement.setAttribute('data-theme', 'light');
-    }
-
-    themeToggle?.addEventListener('click', () => {
-        const currentTheme = document.documentElement.getAttribute('data-theme');
-        const newTheme = currentTheme === 'light' ? 'dark' : 'light';
-
-        document.documentElement.setAttribute('data-theme', newTheme);
-        localStorage.setItem('theme', newTheme);
+    if (toggle) toggle.addEventListener('click', function () { nav.classList.toggle('open'); });
+    if (menu) menu.addEventListener('click', function (e) {
+      if (e.target.closest('.nav-link')) nav.classList.remove('open');
     });
 
-    // Listen for system theme changes
-    prefersDark.addEventListener('change', (e) => {
-        if (!localStorage.getItem('theme')) {
-            document.documentElement.setAttribute('data-theme', e.matches ? 'dark' : 'light');
-        }
-    });
-}
+    // scroll-spy
+    const links = Array.from(document.querySelectorAll('.nav-link[href^="#"]'));
+    const map = links.map(function (l) {
+      const id = l.getAttribute('href').slice(1);
+      return { link: l, sec: document.getElementById(id) };
+    }).filter(function (m) { return m.sec; });
 
-// ============================================
-// Navigation
-// ============================================
-function initNavigation() {
-    const navbar = document.querySelector('.navbar');
-    const navToggle = document.querySelector('.nav-toggle');
-    const navMenu = document.querySelector('.nav-menu');
-    const navLinks = document.querySelectorAll('.nav-link');
-
-    // Scroll behavior
-    let lastScroll = 0;
-
-    window.addEventListener('scroll', () => {
-        const currentScroll = window.pageYOffset;
-
-        // Add scrolled class
-        if (currentScroll > 50) {
-            navbar?.classList.add('scrolled');
-        } else {
-            navbar?.classList.remove('scrolled');
-        }
-
-        // Update active nav link
-        updateActiveNavLink();
-
-        lastScroll = currentScroll;
-    });
-
-    // Mobile menu toggle
-    navToggle?.addEventListener('click', () => {
-        navToggle.classList.toggle('active');
-        navMenu?.classList.toggle('active');
-        document.body.classList.toggle('menu-open');
-    });
-
-    // Close menu on link click
-    navLinks.forEach(link => {
-        link.addEventListener('click', () => {
-            navToggle?.classList.remove('active');
-            navMenu?.classList.remove('active');
-            document.body.classList.remove('menu-open');
+    if ('IntersectionObserver' in window && map.length) {
+      const spy = new IntersectionObserver(function (entries) {
+        entries.forEach(function (en) {
+          if (en.isIntersecting) {
+            links.forEach(function (l) { l.classList.remove('active'); });
+            const hit = map.find(function (m) { return m.sec === en.target; });
+            if (hit) hit.link.classList.add('active');
+          }
         });
-    });
+      }, { rootMargin: '-45% 0px -50% 0px' });
+      map.forEach(function (m) { spy.observe(m.sec); });
+    }
+  }
 
-    // Close menu on outside click
-    document.addEventListener('click', (e) => {
-        if (navMenu?.classList.contains('active') &&
-            !navMenu.contains(e.target) &&
-            !navToggle?.contains(e.target)) {
-            navToggle?.classList.remove('active');
-            navMenu?.classList.remove('active');
-            document.body.classList.remove('menu-open');
-        }
-    });
-}
+  /* -------------------------------------------------------------- reveals */
+  function initReveals() {
+    const els = document.querySelectorAll('.reveal');
+    if (!('IntersectionObserver' in window)) {
+      els.forEach(function (el) { el.classList.add('in'); });
+      return;
+    }
+    const io = new IntersectionObserver(function (entries, obs) {
+      entries.forEach(function (en) {
+        if (en.isIntersecting) { en.target.classList.add('in'); obs.unobserve(en.target); }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -8% 0px' });
+    els.forEach(function (el) { io.observe(el); });
+  }
 
-function updateActiveNavLink() {
-    const sections = document.querySelectorAll('section[id]');
-    const navLinks = document.querySelectorAll('.nav-link');
+  /* ------------------------------------------------------------- counters */
+  function initCounters() {
+    const nums = document.querySelectorAll('[data-count]');
+    if (!('IntersectionObserver' in window)) return;
+    const io = new IntersectionObserver(function (entries, obs) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        obs.unobserve(en.target);
+        const target = parseInt(en.target.getAttribute('data-count'), 10) || 0;
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { en.target.textContent = target; return; }
+        const dur = 1300, start = performance.now();
+        (function step(now) {
+          const p = Math.min((now - start) / dur, 1);
+          const eased = 1 - Math.pow(1 - p, 3);
+          en.target.textContent = Math.round(target * eased);
+          if (p < 1) requestAnimationFrame(step);
+        })(start);
+      });
+    }, { threshold: 0.6 });
+    nums.forEach(function (n) { io.observe(n); });
+  }
 
-    let current = '';
-
-    sections.forEach(section => {
-        const sectionTop = section.offsetTop - 100;
-        const sectionHeight = section.offsetHeight;
-
-        if (window.pageYOffset >= sectionTop &&
-            window.pageYOffset < sectionTop + sectionHeight) {
-            current = section.getAttribute('id');
-        }
-    });
-
-    navLinks.forEach(link => {
-        link.classList.remove('active');
-        if (link.getAttribute('href') === `#${current}`) {
-            link.classList.add('active');
-        }
-    });
-}
-
-// ============================================
-// Typing Effect (disabled for cleaner design)
-// ============================================
-function initTypingEffect() {
-    // Typing effect disabled for a cleaner, more professional look
-    return;
-}
-
-// ============================================
-// Scroll Animations (Intersection Observer)
-// ============================================
-function initScrollAnimations() {
-    const observerOptions = {
-        root: null,
-        rootMargin: '0px',
-        threshold: 0.1
+  /* ----------------------------------------------------------- GitHub feed */
+  function initRepos() {
+    const box = document.getElementById('repos');
+    if (!box) return;
+    const langColors = {
+      Go: '#00ADD8', Rust: '#DEA584', Python: '#3572A5', TypeScript: '#3178C6',
+      JavaScript: '#F1E05A', Java: '#B07219', HTML: '#E34C26', Shell: '#89E051',
+      C: '#555555', 'C++': '#F34B7D', Solidity: '#AA6746', HCL: '#844FBA'
     };
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('visible');
-
-                // Stagger children if applicable
-                if (entry.target.classList.contains('stagger-children')) {
-                    const children = entry.target.children;
-                    Array.from(children).forEach((child, index) => {
-                        child.style.transitionDelay = `${index * 0.1}s`;
-                    });
-                }
-            }
-        });
-    }, observerOptions);
-
-    // Add animation classes to elements
-    const animateElements = [
-        { selector: '.section-header', class: 'fade-in' },
-        { selector: '.about-image', class: 'fade-in-left' },
-        { selector: '.about-text', class: 'fade-in-right' },
-        { selector: '.snake-item', class: 'fade-in' },
-        { selector: '.skill-category', class: 'scale-in' },
-        { selector: '.project-card', class: 'fade-in' },
-        { selector: '.blog-card', class: 'fade-in' },
-        { selector: '.contact-info', class: 'fade-in-left' },
-        { selector: '.contact-form', class: 'fade-in-right' },
-        { selector: '.snake-card', class: 'fade-in' }
-    ];
-
-    animateElements.forEach(({ selector, class: className }) => {
-        document.querySelectorAll(selector).forEach(el => {
-            el.classList.add(className);
-            observer.observe(el);
-        });
-    });
-
-    // Skills grid stagger
-    const skillsGrids = document.querySelectorAll('.skill-items');
-    skillsGrids.forEach(grid => {
-        grid.classList.add('stagger-children');
-        observer.observe(grid);
-    });
-}
-
-// ============================================
-// Counter Animation
-// ============================================
-function initCounterAnimation() {
-    const counters = document.querySelectorAll('.stat-number[data-count]');
-
-    const observerOptions = {
-        threshold: 0.5
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                animateCounter(entry.target);
-                observer.unobserve(entry.target);
-            }
-        });
-    }, observerOptions);
-
-    counters.forEach(counter => observer.observe(counter));
-}
-
-function animateCounter(element) {
-    const target = parseInt(element.getAttribute('data-count'));
-    const duration = 2000;
-    const step = target / (duration / 16);
-
-    let current = 0;
-
-    const updateCounter = () => {
-        current += step;
-        if (current < target) {
-            element.textContent = Math.floor(current);
-            requestAnimationFrame(updateCounter);
-        } else {
-            element.textContent = target;
+    fetch('https://api.github.com/users/pskshksh/repos?sort=pushed&per_page=100')
+      .then(function (r) { if (!r.ok) throw new Error('gh ' + r.status); return r.json(); })
+      .then(function (data) {
+        const repos = (data || [])
+          .filter(function (r) { return !r.fork && !r.archived; })
+          .sort(function (a, b) { return new Date(b.pushed_at) - new Date(a.pushed_at); })
+          .slice(0, 3);
+        if (!repos.length) {
+          box.innerHTML = '<div class="repos-empty">' + I18N[lang].repos_empty + '</div>';
+          return;
         }
-    };
+        box.innerHTML = repos.map(function (r) {
+          const desc = r.description ? escapeHtml(r.description) : '';
+          const langDot = r.language
+            ? '<span class="lang-dot"><i style="background:' + (langColors[r.language] || 'var(--teal)') + '"></i>' + escapeHtml(r.language) + '</span>'
+            : '';
+          const stars = r.stargazers_count
+            ? '<span>★ ' + r.stargazers_count + '</span>' : '';
+          return '' +
+            '<a class="repo" href="' + r.html_url + '" target="_blank" rel="noopener">' +
+              '<span class="repo-name">' +
+                '<svg viewBox="0 0 16 16" fill="currentColor"><path d="M2 2.5A2.5 2.5 0 0 1 4.5 0h8.75a.75.75 0 0 1 .75.75v12.5a.75.75 0 0 1-.75.75h-2.5a.75.75 0 0 1 0-1.5h1.75v-2h-8a1 1 0 0 0-.714 1.7.75.75 0 1 1-1.072 1.05A2.5 2.5 0 0 1 2 11.5Zm10.5-1h-8a1 1 0 0 0-1 1v6.708A2.5 2.5 0 0 1 4.5 9h8ZM5 12.25a.25.25 0 0 1 .25-.25h3.5a.25.25 0 0 1 .25.25v3.25a.25.25 0 0 1-.4.2l-1.45-1.087a.25.25 0 0 0-.3 0L5.4 15.7a.25.25 0 0 1-.4-.2Z"/></svg>' +
+                escapeHtml(r.name) +
+              '</span>' +
+              '<span class="repo-desc">' + desc + '</span>' +
+              '<span class="repo-foot">' + langDot + stars + '</span>' +
+            '</a>';
+        }).join('');
+      })
+      .catch(function () {
+        box.innerHTML = '<div class="repos-empty">' + I18N[lang].repos_empty +
+          ' <a href="https://github.com/pskshksh?tab=repositories" target="_blank" rel="noopener" style="color:var(--teal)">github.com/pskshksh</a></div>';
+      });
+  }
 
-    updateCounter();
-}
-
-// ============================================
-// Custom Cursor
-// ============================================
-function initCursorFollower() {
-    const cursor = document.querySelector('.cursor-follower');
-    if (!cursor || window.matchMedia('(max-width: 768px)').matches) return;
-
-    let mouseX = 0;
-    let mouseY = 0;
-    let cursorX = 0;
-    let cursorY = 0;
-
-    document.addEventListener('mousemove', (e) => {
-        mouseX = e.clientX;
-        mouseY = e.clientY;
-        cursor.classList.add('visible');
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
     });
-
-    document.addEventListener('mouseleave', () => {
-        cursor.classList.remove('visible');
-    });
-
-    // Interactive elements
-    const interactiveElements = document.querySelectorAll('a, button, .skill-item, .project-card, .blog-card');
-
-    interactiveElements.forEach(el => {
-        el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
-        el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
-    });
-
-    // Smooth cursor animation
-    function animateCursor() {
-        const ease = 0.15;
-
-        cursorX += (mouseX - cursorX) * ease;
-        cursorY += (mouseY - cursorY) * ease;
-
-        cursor.style.left = `${cursorX}px`;
-        cursor.style.top = `${cursorY}px`;
-
-        requestAnimationFrame(animateCursor);
-    }
-
-    animateCursor();
-}
-
-// ============================================
-// Smooth Scroll
-// ============================================
-function initSmoothScroll() {
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.addEventListener('click', function (e) {
-            e.preventDefault();
-
-            const targetId = this.getAttribute('href');
-            if (targetId === '#') return;
-
-            const targetElement = document.querySelector(targetId);
-            if (targetElement) {
-                const headerOffset = 80;
-                const elementPosition = targetElement.getBoundingClientRect().top;
-                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-
-                window.scrollTo({
-                    top: offsetPosition,
-                    behavior: 'smooth'
-                });
-            }
-        });
-    });
-}
-
-// ============================================
-// Form Handler
-// ============================================
-function initFormHandler() {
-    const form = document.querySelector('.contact-form');
-    if (!form) return;
-
-    form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-
-        const submitBtn = form.querySelector('.btn-submit');
-        const originalText = submitBtn.innerHTML;
-
-        // Show loading state
-        submitBtn.innerHTML = `
-            <span class="dots-loader">
-                <span></span>
-                <span></span>
-                <span></span>
-            </span>
-            Sending...
-        `;
-        submitBtn.disabled = true;
-
-        try {
-            const formData = new FormData(form);
-            const response = await fetch(form.action, {
-                method: 'POST',
-                body: formData,
-                headers: {
-                    'Accept': 'application/json'
-                }
-            });
-
-            if (response.ok) {
-                // Success
-                submitBtn.innerHTML = `
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <polyline points="20 6 9 17 4 12"></polyline>
-                    </svg>
-                    Message Sent!
-                `;
-                submitBtn.classList.add('success');
-                form.reset();
-
-                // Reset button after 3 seconds
-                setTimeout(() => {
-                    submitBtn.innerHTML = originalText;
-                    submitBtn.classList.remove('success');
-                    submitBtn.disabled = false;
-                }, 3000);
-            } else {
-                throw new Error('Form submission failed');
-            }
-        } catch (error) {
-            // Error
-            submitBtn.innerHTML = `
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                    <line x1="18" y1="6" x2="6" y2="18"></line>
-                    <line x1="6" y1="6" x2="18" y2="18"></line>
-                </svg>
-                Error. Try Again
-            `;
-            submitBtn.classList.add('error');
-
-            // Reset button after 3 seconds
-            setTimeout(() => {
-                submitBtn.innerHTML = originalText;
-                submitBtn.classList.remove('error');
-                submitBtn.disabled = false;
-            }, 3000);
-        }
-    });
-}
-
-// ============================================
-// Set Current Year
-// ============================================
-function setCurrentYear() {
-    const yearElement = document.getElementById('current-year');
-    if (yearElement) {
-        yearElement.textContent = new Date().getFullYear();
-    }
-}
-
-// ============================================
-// Utility Functions
-// ============================================
-
-// Debounce function
-function debounce(func, wait = 20) {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-    };
-}
-
-// Throttle function
-function throttle(func, limit) {
-    let inThrottle;
-    return function executedFunction(...args) {
-        if (!inThrottle) {
-            func(...args);
-            inThrottle = true;
-            setTimeout(() => inThrottle = false, limit);
-        }
-    };
-}
-
-// ============================================
-// Optional: Skill icon fallback
-// ============================================
-document.querySelectorAll('.skill-icon img').forEach(img => {
-    img.addEventListener('error', function() {
-        // Replace with a generic icon if image fails to load
-        this.parentElement.innerHTML = `
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width: 24px; height: 24px; color: var(--text-muted);">
-                <polyline points="16 18 22 12 16 6"></polyline>
-                <polyline points="8 6 2 12 8 18"></polyline>
-            </svg>
-        `;
-    });
-});
-
-// ============================================
-// Scroll Progress Indicator
-// ============================================
-function initScrollProgress() {
-    const progressBar = document.createElement('div');
-    progressBar.className = 'scroll-progress';
-    document.body.appendChild(progressBar);
-
-    window.addEventListener('scroll', () => {
-        const scrollTop = window.pageYOffset;
-        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-        const scrollPercent = (scrollTop / docHeight) * 100;
-        progressBar.style.width = `${scrollPercent}%`;
-    });
-}
-
-// ============================================
-// 3D Tilt Effect on Cards
-// ============================================
-function initTiltEffect() {
-    const cards = document.querySelectorAll('.project-card, .skill-category, .value-card');
-
-    cards.forEach(card => {
-        card.addEventListener('mousemove', (e) => {
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-
-            const rotateX = (y - centerY) / 20;
-            const rotateY = (centerX - x) / 20;
-
-            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-5px)`;
-        });
-
-        card.addEventListener('mouseleave', () => {
-            card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0)';
-        });
-    });
-}
-
-// ============================================
-// Parallax Effect
-// ============================================
-function initParallax() {
-    const parallaxElements = document.querySelectorAll('.gradient-orb, .hero-bg');
-
-    window.addEventListener('scroll', () => {
-        const scrollY = window.pageYOffset;
-
-        parallaxElements.forEach(el => {
-            const speed = el.dataset.speed || 0.5;
-            el.style.transform = `translateY(${scrollY * speed}px)`;
-        });
-    });
-
-    // Mouse parallax for hero
-    const hero = document.querySelector('.hero');
-    const heroContent = document.querySelector('.hero-content');
-
-    if (hero && heroContent) {
-        hero.addEventListener('mousemove', (e) => {
-            const rect = hero.getBoundingClientRect();
-            const x = (e.clientX - rect.left) / rect.width - 0.5;
-            const y = (e.clientY - rect.top) / rect.height - 0.5;
-
-            const orbs = document.querySelectorAll('.gradient-orb');
-            orbs.forEach((orb, index) => {
-                const depth = (index + 1) * 20;
-                orb.style.transform = `translate(${x * depth}px, ${y * depth}px)`;
-            });
-        });
-    }
-}
-
-// ============================================
-// Magnetic Button Effect
-// ============================================
-function initMagneticButtons() {
-    const buttons = document.querySelectorAll('.btn-primary, .btn-secondary, .social-link');
-
-    buttons.forEach(btn => {
-        btn.addEventListener('mousemove', (e) => {
-            const rect = btn.getBoundingClientRect();
-            const x = e.clientX - rect.left - rect.width / 2;
-            const y = e.clientY - rect.top - rect.height / 2;
-
-            btn.style.transform = `translate(${x * 0.2}px, ${y * 0.2}px)`;
-        });
-
-        btn.addEventListener('mouseleave', () => {
-            btn.style.transform = 'translate(0, 0)';
-        });
-    });
-}
-
-// ============================================
-// Text Reveal Animations
-// ============================================
-function initTextAnimations() {
-    // Add staggered animation to skill items
-    const skillItems = document.querySelectorAll('.skill-item');
-    skillItems.forEach((item, index) => {
-        item.style.transitionDelay = `${index * 0.05}s`;
-    });
-
-    // Animate section titles on scroll
-    const titles = document.querySelectorAll('.section-title');
-    const titleObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('title-animated');
-            }
-        });
-    }, { threshold: 0.5 });
-
-    titles.forEach(title => titleObserver.observe(title));
-}
-
-// ============================================
-// Enhanced Typing Effect
-// ============================================
-function typeWriter(element, texts, speed = 100, pause = 2000) {
-    let textIndex = 0;
-    let charIndex = 0;
-    let isDeleting = false;
-
-    function type() {
-        const currentText = texts[textIndex];
-
-        if (isDeleting) {
-            element.textContent = currentText.substring(0, charIndex - 1);
-            charIndex--;
-        } else {
-            element.textContent = currentText.substring(0, charIndex + 1);
-            charIndex++;
-        }
-
-        let typeSpeed = speed;
-
-        if (isDeleting) {
-            typeSpeed /= 2;
-        }
-
-        if (!isDeleting && charIndex === currentText.length) {
-            typeSpeed = pause;
-            isDeleting = true;
-        } else if (isDeleting && charIndex === 0) {
-            isDeleting = false;
-            textIndex = (textIndex + 1) % texts.length;
-            typeSpeed = 500;
-        }
-
-        setTimeout(type, typeSpeed);
-    }
-
-    type();
-}
-
-// ============================================
-// Spotlight Effect on Cards
-// ============================================
-document.querySelectorAll('.project-card, .skill-category, .blog-card').forEach(card => {
-    card.addEventListener('mousemove', (e) => {
-        const rect = card.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-
-        card.style.setProperty('--spotlight-x', `${x}px`);
-        card.style.setProperty('--spotlight-y', `${y}px`);
-    });
-});
-
-// ============================================
-// Snake Timeline - Grid Layout & SVG Path
-// ============================================
-function initSnakeTimeline() {
-    const wrapper = document.querySelector('.snake-timeline-wrapper');
-    const timeline = document.querySelector('.snake-timeline');
-    const items = document.querySelectorAll('.snake-item');
-
-    if (!wrapper || !timeline || items.length === 0) return;
-
-    // Observe wrapper for scroll-triggered animation
-    const wrapperObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                requestAnimationFrame(() => {
-                    wrapper.classList.add('snake-animated');
-                });
-
-                // Stagger item reveals
-                items.forEach((item, i) => {
-                    setTimeout(() => {
-                        item.classList.add('snake-visible');
-                    }, 200 * i);
-                });
-
-                wrapperObserver.unobserve(entry.target);
-            }
-        });
-    }, { threshold: 0.1 });
-
-    wrapperObserver.observe(wrapper);
-
-    // Keep the connecting line width in sync with the full scrollable content
-    function updateTimelineLineWidth() {
-        timeline.style.setProperty('--timeline-line-width', (timeline.scrollWidth - 80) + 'px');
-    }
-    updateTimelineLineWidth();
-
-    const timelineResizeObserver = new ResizeObserver(() => {
-        updateTimelineLineWidth();
-    });
-    timelineResizeObserver.observe(timeline);
-
-    // Drag-to-scroll for horizontal timeline
-    let isDown = false;
-    let startX;
-    let scrollLeft;
-
-    timeline.addEventListener('mousedown', (e) => {
-        if (e.target.closest('.snake-card')) return;
-        isDown = true;
-        startX = e.pageX - timeline.offsetLeft;
-        scrollLeft = timeline.scrollLeft;
-    });
-
-    timeline.addEventListener('mouseleave', () => {
-        isDown = false;
-    });
-
-    timeline.addEventListener('mouseup', () => {
-        isDown = false;
-    });
-
-    timeline.addEventListener('mousemove', (e) => {
-        if (!isDown) return;
-        e.preventDefault();
-        const x = e.pageX - timeline.offsetLeft;
-        const walk = (x - startX) * 1.5;
-        timeline.scrollLeft = scrollLeft - walk;
-    });
-}
-
-// ============================================
-// Snake Timeline - Card interactions
-// ============================================
-function initSnakeExpand() {
-    // Cards are always fully visible in horizontal layout
-    // No expand/collapse needed
-}
-
-// ============================================
-// Add ripple effect to buttons
-// ============================================
-document.querySelectorAll('.btn').forEach(btn => {
-    btn.addEventListener('click', function(e) {
-        const rect = this.getBoundingClientRect();
-        const x = e.clientX - rect.left;
-        const y = e.clientY - rect.top;
-
-        const ripple = document.createElement('span');
-        ripple.className = 'btn-ripple-effect';
-        ripple.style.left = `${x}px`;
-        ripple.style.top = `${y}px`;
-
-        this.appendChild(ripple);
-
-        setTimeout(() => ripple.remove(), 600);
-    });
-});
-
-
-function playClickSound() {
-    // Create a subtle click sound using Web Audio API
-    try {
-        const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-        const oscillator = audioContext.createOscillator();
-        const gainNode = audioContext.createGain();
-
-        oscillator.connect(gainNode);
-        gainNode.connect(audioContext.destination);
-
-        oscillator.frequency.value = 600;
-        oscillator.type = 'sine';
-        gainNode.gain.value = 0.1;
-        gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.1);
-
-        oscillator.start(audioContext.currentTime);
-        oscillator.stop(audioContext.currentTime + 0.1);
-    } catch (e) {
-        // Audio not supported, silently fail
-    }
-}
-
-// ============================================
-// Easter Eggs & Hidden Messages
-// ============================================
-function initEasterEggs() {
-    // Konami Code: ↑ ↑ ↓ ↓ ← → ← → B A
-    const konamiCode = ['ArrowUp', 'ArrowUp', 'ArrowDown', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'ArrowLeft', 'ArrowRight', 'KeyB', 'KeyA'];
-    let konamiIndex = 0;
-
-    // Track achievements
-    const achievements = {
-        konami: false,
-        explorer: false,
-        reader: false,
-        clicker: false,
-        scroller: false
-    };
-
-    // Konami code listener
-    document.addEventListener('keydown', (e) => {
-        if (e.code === konamiCode[konamiIndex]) {
-            konamiIndex++;
-            if (konamiIndex === konamiCode.length) {
-                triggerMatrixRain();
-                achievements.konami = true;
-                konamiIndex = 0;
-            }
-        } else {
-            konamiIndex = 0;
-        }
-    });
-
-    // Triple click on logo triggers secret
-    const logo = document.querySelector('.nav-logo');
-    let clickCount = 0;
-    let clickTimer = null;
-
-    logo?.addEventListener('click', (e) => {
-        e.preventDefault();
-        clickCount++;
-        clearTimeout(clickTimer);
-
-        if (clickCount >= 3) {
-            showSecretMessage();
-            achievements.explorer = true;
-            clickCount = 0;
-        } else {
-            clickTimer = setTimeout(() => clickCount = 0, 500);
-        }
-    });
-
-    // Hidden corner trigger (bottom right)
-    const hiddenTrigger = document.getElementById('hiddenTrigger');
-    let cornerClicks = 0;
-
-    hiddenTrigger?.addEventListener('click', () => {
-        cornerClicks++;
-        if (cornerClicks >= 5) {
-            document.body.classList.add('rainbow-mode');
-            setTimeout(() => document.body.classList.remove('rainbow-mode'), 5000);
-            cornerClicks = 0;
-        }
-    });
-
-    // Scroll to bottom achievement
-    let scrolledToBottom = false;
-    window.addEventListener('scroll', () => {
-        if (!scrolledToBottom && (window.innerHeight + window.scrollY) >= document.body.offsetHeight - 100) {
-            scrolledToBottom = true;
-            if (!achievements.scroller) {
-                achievements.scroller = true;
-            }
-        }
-    });
-
-    // Type "hello" anywhere
-    let typedKeys = '';
-    document.addEventListener('keypress', (e) => {
-        typedKeys += e.key.toLowerCase();
-        if (typedKeys.includes('hello')) {
-            typedKeys = '';
-        }
-        if (typedKeys.includes('hire')) {
-            document.querySelector('.hero-name')?.classList.add('rainbow-border');
-            typedKeys = '';
-        }
-        if (typedKeys.length > 20) typedKeys = typedKeys.slice(-10);
-    });
-
-    // Click on specific skill 10 times
-    const golangSkill = document.querySelector('.skill-item:first-child');
-    let skillClicks = 0;
-
-    document.querySelectorAll('.skill-item').forEach(skill => {
-        skill.addEventListener('click', () => {
-            skillClicks++;
-            if (skillClicks === 10 && !achievements.clicker) {
-                achievements.clicker = true;
-            }
-        });
-    });
-
-    // Secret: Hold 'A' key + click on profile image to switch photo
-    const profilePhoto = document.querySelector('.profile-photo');
-    let isAKeyPressed = false;
-    let isHat2 = false;
-
-    // Track 'A' key press
-    document.addEventListener('keydown', (e) => {
-        if (e.key.toLowerCase() === 'a') {
-            isAKeyPressed = true;
-        }
-    });
-
-    document.addEventListener('keyup', (e) => {
-        if (e.key.toLowerCase() === 'a') {
-            isAKeyPressed = false;
-        }
-    });
-
-    // Click on profile photo while holding 'A'
-    if (profilePhoto) {
-        profilePhoto.style.cursor = 'pointer';
-        profilePhoto.addEventListener('click', () => {
-            if (isAKeyPressed) {
-                isHat2 = !isHat2;
-                profilePhoto.style.transition = 'transform 0.5s ease, opacity 0.3s ease';
-                profilePhoto.style.transform = 'scale(0.8) rotate(10deg)';
-                profilePhoto.style.opacity = '0';
-
-                setTimeout(() => {
-                    profilePhoto.src = isHat2 ? 'assets/profile/me_hat2.png' : 'assets/profile/me_hat1.png';
-                    profilePhoto.style.transform = 'scale(1) rotate(0deg)';
-                    profilePhoto.style.opacity = '1';
-                }, 300);
-
-                // Show fireworks and message
-                if (isHat2) {
-                    showUnlimitedEffect();
-                }
-            }
-        });
-    }
-}
-
-// Unlimited fireworks effect
-function showUnlimitedEffect() {
-    // Create overlay
-    const overlay = document.createElement('div');
-    overlay.className = 'unlimited-overlay';
-    overlay.innerHTML = `
-        <div class="unlimited-message">✨ You are UNLIMITED! ✨</div>
-        <div class="fireworks-container"></div>
-    `;
-    document.body.appendChild(overlay);
-
-    // Create fireworks
-    const container = overlay.querySelector('.fireworks-container');
-    const colors = ['#ff6b35', '#f7931e', '#ffb347', '#60a5fa', '#a78bfa', '#f472b6', '#34d399'];
-
-    function createFirework() {
-        const firework = document.createElement('div');
-        firework.className = 'firework';
-        firework.style.left = Math.random() * 100 + '%';
-        firework.style.top = Math.random() * 100 + '%';
-
-        // Create particles
-        for (let i = 0; i < 12; i++) {
-            const particle = document.createElement('div');
-            particle.className = 'particle';
-            particle.style.background = colors[Math.floor(Math.random() * colors.length)];
-            particle.style.setProperty('--angle', (i * 30) + 'deg');
-            firework.appendChild(particle);
-        }
-
-        container.appendChild(firework);
-
-        setTimeout(() => firework.remove(), 1000);
-    }
-
-    // Launch fireworks repeatedly
-    const fireworkInterval = setInterval(createFirework, 200);
-
-    // Remove after 6 seconds
-    setTimeout(() => {
-        clearInterval(fireworkInterval);
-        overlay.classList.add('fade-out');
-        setTimeout(() => overlay.remove(), 500);
-    }, 6000);
-}
-
-function triggerMatrixRain() {
-    const container = document.getElementById('matrixRain');
-    if (!container) return;
-
-    container.classList.add('active');
-
-    // Create matrix columns
-    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*()アイウエオカキクケコ';
-    const columns = Math.floor(window.innerWidth / 20);
-
-    for (let i = 0; i < columns; i++) {
-        const column = document.createElement('div');
-        column.className = 'matrix-column';
-        column.style.left = `${i * 20}px`;
-        column.style.animationDelay = `${Math.random() * 2}s`;
-        column.style.animationDuration = `${3 + Math.random() * 4}s`;
-
-        // Generate random string
-        let text = '';
-        for (let j = 0; j < 30; j++) {
-            text += chars[Math.floor(Math.random() * chars.length)] + '<br>';
-        }
-        column.innerHTML = text;
-
-        container.appendChild(column);
-    }
-
-    // Remove after animation
-    setTimeout(() => {
-        container.classList.remove('active');
-        container.innerHTML = '';
-    }, 5000);
-}
-
-function showSecretMessage() {
-    const message = document.getElementById('secretMessage');
-    if (message) {
-        message.classList.add('active');
-    }
-}
-
-function closeSecret() {
-    const message = document.getElementById('secretMessage');
-    if (message) {
-        message.classList.remove('active');
-    }
-}
-
-// Make closeSecret globally accessible
-window.closeSecret = closeSecret;
-
-
-// ============================================
-// Console Easter Egg Message
-// ============================================
-function initConsoleMessage() {
-    const styles = [
-        'color: #60a5fa',
-        'font-size: 24px',
-        'font-weight: bold',
-        'text-shadow: 2px 2px 4px rgba(0,0,0,0.3)'
-    ].join(';');
-
-    const subtitleStyles = [
-        'color: #94a3b8',
-        'font-size: 14px'
-    ].join(';');
-
-    const hintStyles = [
-        'color: #4ade80',
-        'font-size: 12px',
-        'font-style: italic'
-    ].join(';');
-
-    console.log('%c👋 Hey there, curious developer!', styles);
-    console.log('%cYou found the console. Nice debugging skills!', subtitleStyles);
-    console.log('%c');
-    console.log('%c💡 Hints:', 'color: #fbbf24; font-size: 14px; font-weight: bold');
-    console.log('%c• Try the Konami Code (↑↑↓↓←→←→BA)', hintStyles);
-    console.log('%c• Triple-click the logo', hintStyles);
-    console.log('%c• Type "hello" or "hire" on your keyboard', hintStyles);
-    console.log('%c• Scroll all the way down', hintStyles);
-    console.log('%c• Click the bottom-right corner 5 times', hintStyles);
-    console.log('%c');
-    console.log('%c🚀 Built with passion by Ayoub Idel', 'color: #60a5fa; font-size: 12px');
-
-    // Hidden console command
-    window.unlockAll = () => {
-        triggerMatrixRain();
-        console.log('%c🎉 All secrets unlocked!', 'color: #4ade80; font-size: 16px; font-weight: bold');
-    };
-}
-
-// ============================================
-// Section Effects
-// ============================================
-function initSectionEffects() {
-    // Add reveal animation to sections
-    const sections = document.querySelectorAll('.section');
-
-    const sectionObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.classList.add('section-visible');
-
-                // Add stagger animation to children
-                const children = entry.target.querySelectorAll('.skill-category, .project-card, .blog-card, .value-card');
-                children.forEach((child, index) => {
-                    child.style.transitionDelay = `${index * 0.1}s`;
-                    child.classList.add('card-visible');
-                });
-            }
-        });
-    }, { threshold: 0.1 });
-
-    sections.forEach(section => sectionObserver.observe(section));
-
-    // Floating animation for hero elements
-    const heroVisual = document.querySelector('.hero-visual');
-    if (heroVisual) {
-        let mouseX = 0;
-        let mouseY = 0;
-
-        document.addEventListener('mousemove', (e) => {
-            mouseX = (e.clientX / window.innerWidth - 0.5) * 20;
-            mouseY = (e.clientY / window.innerHeight - 0.5) * 20;
-        });
-
-        function animateHero() {
-            if (heroVisual) {
-                heroVisual.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
-            }
-            requestAnimationFrame(animateHero);
-        }
-        animateHero();
-    }
-
-    // Add glow effect on scroll for skills
-    const skillsSection = document.querySelector('.skills');
-    if (skillsSection) {
-        window.addEventListener('scroll', () => {
-            const rect = skillsSection.getBoundingClientRect();
-            if (rect.top < window.innerHeight && rect.bottom > 0) {
-                const progress = 1 - (rect.top / window.innerHeight);
-                skillsSection.style.setProperty('--scroll-progress', progress);
-            }
-        });
-    }
-
-    // About section image parallax
-    const aboutImage = document.querySelector('.profile-photo');
-    if (aboutImage) {
-        window.addEventListener('scroll', () => {
-            const rect = aboutImage.getBoundingClientRect();
-            if (rect.top < window.innerHeight && rect.bottom > 0) {
-                const progress = (window.innerHeight - rect.top) / (window.innerHeight + rect.height);
-                aboutImage.style.transform = `scale(${1 + progress * 0.05})`;
-            }
-        });
-    }
-
-    // Blog cards hover sound
-    document.querySelectorAll('.blog-card').forEach(card => {
-        card.addEventListener('mouseenter', () => {
-            try {
-                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                const oscillator = audioContext.createOscillator();
-                const gainNode = audioContext.createGain();
-
-                oscillator.connect(gainNode);
-                gainNode.connect(audioContext.destination);
-
-                oscillator.frequency.value = 440;
-                oscillator.type = 'sine';
-                gainNode.gain.value = 0.05;
-                gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.05);
-
-                oscillator.start(audioContext.currentTime);
-                oscillator.stop(audioContext.currentTime + 0.05);
-            } catch (e) {}
-        });
-    });
-}
-
-// ============================================
-// Rainbow Mode CSS
-// ============================================
-const rainbowStyle = document.createElement('style');
-rainbowStyle.textContent = `
-    .rainbow-mode {
-        animation: rainbow-bg 3s ease infinite;
-    }
-    @keyframes rainbow-bg {
-        0% { filter: hue-rotate(0deg); }
-        100% { filter: hue-rotate(360deg); }
-    }
-    .rainbow-mode .hero-name,
-    .rainbow-mode .section-title,
-    .rainbow-mode .nav-logo {
-        animation: rainbow-text 2s ease infinite;
-    }
-    @keyframes rainbow-text {
-        0% { filter: hue-rotate(0deg); }
-        100% { filter: hue-rotate(360deg); }
-    }
-`;
-document.head.appendChild(rainbowStyle);
-
-// ============================================
-// Contact Modal
-// ============================================
-function openContactModal() {
-    const modal = document.getElementById('contactModal');
-    if (modal) {
-        modal.classList.add('active');
-        document.body.style.overflow = 'hidden';
-        // Track contact modal open
-        if (typeof gtag !== 'undefined') {
-            gtag('event', 'contact_open', {
-                'event_category': 'engagement',
-                'event_label': 'Contact Modal Opened'
-            });
-        }
-    }
-}
-
-function closeContactModal() {
-    const modal = document.getElementById('contactModal');
-    if (modal) {
-        modal.classList.remove('active');
-        document.body.style.overflow = '';
-    }
-}
-
-// Close modal on Escape key
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-        closeContactModal();
-    }
-});
-
-// ============================================
-// Analytics Event Tracking
-// ============================================
-document.addEventListener('DOMContentLoaded', () => {
-    // Helper function to track events
-    function trackEvent(category, action, label) {
-        if (typeof gtag !== 'undefined') {
-            gtag('event', action, {
-                'event_category': category,
-                'event_label': label
-            });
-        }
-    }
-
-    // Track GitHub link clicks
-    document.querySelectorAll('a[href*="github.com/pskshksh"]').forEach(link => {
-        link.addEventListener('click', () => {
-            trackEvent('social', 'github_click', 'GitHub Profile');
-        });
-    });
-
-    // Track LinkedIn link clicks
-    document.querySelectorAll('a[href*="linkedin.com/in/ayoubidel"]').forEach(link => {
-        link.addEventListener('click', () => {
-            trackEvent('social', 'linkedin_click', 'LinkedIn Profile');
-        });
-    });
-
-    // Track Medium/Article clicks
-    document.querySelectorAll('a[href*="medium.com/@pskshksh"]').forEach(link => {
-        link.addEventListener('click', (e) => {
-            const articleTitle = link.closest('.article-card')?.querySelector('.article-title')?.textContent || 'Medium Article';
-            trackEvent('content', 'article_click', articleTitle);
-        });
-    });
-
-    // Track email clicks
-    document.querySelectorAll('a[href^="mailto:"]').forEach(link => {
-        link.addEventListener('click', () => {
-            trackEvent('contact', 'email_click', 'Email Contact');
-        });
-    });
-
-    // Track project link clicks
-    document.querySelectorAll('.project-link, .project-card a').forEach(link => {
-        link.addEventListener('click', () => {
-            const projectTitle = link.closest('.project-card')?.querySelector('.project-title')?.textContent || 'Project';
-            trackEvent('projects', 'project_click', projectTitle);
-        });
-    });
-
-    // Track "View All Projects" button
-    document.querySelectorAll('a[href*="github.com/pskshksh"].btn').forEach(link => {
-        link.addEventListener('click', () => {
-            trackEvent('projects', 'view_all_projects', 'View All Projects Button');
-        });
-    });
-
-    // Track "View All Articles" button
-    document.querySelectorAll('.btn-rust-secondary').forEach(link => {
-        if (link.href && link.href.includes('medium.com')) {
-            link.addEventListener('click', () => {
-                trackEvent('content', 'view_all_articles', 'View All Articles Button');
-            });
-        }
-    });
-
-    // Track navigation clicks
-    document.querySelectorAll('.nav-link').forEach(link => {
-        link.addEventListener('click', () => {
-            const section = link.getAttribute('data-i18n') || link.textContent;
-            trackEvent('navigation', 'nav_click', section);
-        });
-    });
-
-    // Track scroll depth
-    let scrollDepths = [25, 50, 75, 100];
-    let trackedDepths = [];
-
-    window.addEventListener('scroll', () => {
-        const scrollPercent = Math.round((window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100);
-
-        scrollDepths.forEach(depth => {
-            if (scrollPercent >= depth && !trackedDepths.includes(depth)) {
-                trackedDepths.push(depth);
-                trackEvent('engagement', 'scroll_depth', `${depth}% scrolled`);
-            }
-        });
-    });
-
-    console.log('📊 Analytics tracking initialized');
-});
+  }
+
+  /* ------------------------------------------------------------------ init */
+  document.addEventListener('DOMContentLoaded', function () {
+    let saved = null;
+    try { saved = localStorage.getItem('lang'); } catch (e) {}
+    if (!saved) saved = (navigator.language || '').toLowerCase().startsWith('fr') ? 'fr' : 'en';
+    applyLang(saved);
+
+    const langBtn = document.getElementById('langToggle');
+    if (langBtn) langBtn.addEventListener('click', function () { applyLang(lang === 'en' ? 'fr' : 'en'); });
+
+    const yr = document.getElementById('year');
+    if (yr) yr.textContent = new Date().getFullYear();
+
+    initNav();
+    initReveals();
+    initCounters();
+    initRepos();
+  });
+})();
