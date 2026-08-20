@@ -360,7 +360,7 @@ button { font: inherit; cursor: pointer; color: inherit; background: none; borde
   position: relative; z-index: 1;
   margin-top: clamp(2.5rem, 6vw, 4.5rem);
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 1px;
   background: var(--line);
   border: 1px solid var(--line);
@@ -579,7 +579,7 @@ button { font: inherit; cursor: pointer; color: inherit; background: none; borde
     padding: 0.8rem var(--gutter) 1.2rem;
   }
   .nav.open .nav-link { padding: 0.7rem 0.8rem; }
-  .hero-stats { grid-template-columns: repeat(2, 1fr); }
+  .hero-stats { grid-template-columns: 1fr; }
   .xp { grid-template-columns: 1fr; }
   .xp-meta { flex-direction: row; align-items: center; gap: 0.9rem; }
   .skills-grid, .featured, .repos { grid-template-columns: 1fr; }

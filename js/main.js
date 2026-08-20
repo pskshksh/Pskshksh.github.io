@@ -13,7 +13,7 @@
       nav_projects: 'Projects', nav_blog: 'Blog', nav_contact: 'Contact',
       download_cv: 'Resume',
 
-      hero_status: 'Open to senior engineering & architecture roles',
+      hero_status: 'Open to Senior Engineer · DevOps · Generative AI roles',
       hero_name: 'Ayoub Idel',
       hero_prefix: 'I build',
       hero_lead: 'Senior software engineer with <strong>7+ years</strong> owning enterprise backend platforms end to end — from <strong>Golang microservices on Kubernetes</strong> and <strong>AWS cloud architecture</strong> to shipping <strong>Generative AI</strong> features into production.',
@@ -35,7 +35,7 @@
       story_p4: "Outside the terminal you'll find me on a football pitch or a padel court, or somewhere new — I've explored <strong>37 countries</strong> across Europe, Africa and Asia. Same drive, different maps.",
       funfact_label: '// fun fact',
       funfact_quote: 'On one project, I shipped a milestone by deleting more code than I added.',
-      funfact_sub: 'Rebuilding that engine, the best change I made was mostly the delete key — a simpler stack, fewer moving parts, and something far more resilient at scale. Less code, more system.',
+      funfact_sub: 'Turns out my sharpest tool that quarter was the Backspace key. Simpler stack, half the moving parts, quieter nights on-call — and the proudest diff of my career was gloriously, mostly red. Less code, more system.',
 
       eyebrow_experience: "// where I've built",
       experience_title: 'A track record of shipping',
@@ -95,7 +95,7 @@
       nav_projects: 'Projets', nav_blog: 'Blog', nav_contact: 'Contact',
       download_cv: 'CV',
 
-      hero_status: 'Ouvert aux postes senior en ingénierie & architecture',
+      hero_status: 'Ouvert aux postes Senior Engineer · DevOps · IA générative',
       hero_name: 'Ayoub Idel',
       hero_prefix: 'Je construis',
       hero_lead: "Ingénieur logiciel senior, <strong>7+ ans</strong> à concevoir et opérer des plateformes backend d'entreprise de bout en bout — des <strong>microservices Golang sur Kubernetes</strong> à l'<strong>architecture cloud AWS</strong>, jusqu'à la mise en production de fonctionnalités d'<strong>IA générative</strong>.",
@@ -117,7 +117,7 @@
       story_p4: "Loin du terminal, on me trouve sur un terrain de foot ou de padel, ou quelque part de nouveau — j'ai exploré <strong>37 pays</strong> en Europe, Afrique et Asie. Même énergie, cartes différentes.",
       funfact_label: '// anecdote',
       funfact_quote: "Sur un projet, j'ai livré une étape clé en supprimant plus de code que je n'en ai ajouté.",
-      funfact_sub: "En refaisant ce moteur, ma meilleure contribution tenait surtout de la touche Suppr — une stack plus simple, moins de pièces mobiles, et bien plus de résilience à l'échelle. Moins de code, plus de système.",
+      funfact_sub: "Mon outil le plus affûté ce trimestre-là ? La touche Retour arrière. Stack plus simple, moitié moins de pièces mobiles, des astreintes bien plus tranquilles — et le diff dont je suis le plus fier était magnifiquement… tout rouge. Moins de code, plus de système.",
 
       eyebrow_experience: "// là où j'ai construit",
       experience_title: 'Un parcours qui livre',
